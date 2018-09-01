@@ -67,9 +67,30 @@ client.on("message", async message => {
 				+ "GRUMBO HELP: COMMANDS\n"
 				+ "!grumbo battle level <integer> | Battle a level <integer> Grumbo. The higher the level compared to yours, the lower the chance of winning (but higher chance of more experience!)\n"
 				+ "!grumbo stats | See your grumbo stats (Level, exp, wins, losses, win rate) and how many battles you have left\n"
-				+ "!grumbo leaderboards | See the stats of everyone on the server who has interacted with GrumboBattleBot, sorted by level"); 
+				+ "!grumbo leaderboards | See the stats of everyone on the server who has interacted with GrumboBattleBot, sorted by level\n"
+				+ "!grumbo help | Show this help menu"); 
 		}
 		else if(args.length == 2 && args[1] == 'stats'){
+			
+			//Determine how many battles they should have left
+			var date = new Date();
+			var currentTime = date.getTime();
+			var timeSinceLastBattle = character.battletime - currentTime;
+			var setNewBattletime = false;
+			var addBattles = Math.floor(timeSinceLastBattle/3600000);
+			if(addBattles > 0){
+				
+				setNewBattletime = true;
+				character.battlesLeft += addBattles;
+				if(character.battlesLeft <= 3){
+					
+					character.battletime = character.battletime + (addBattles * 3600000);
+				}
+				if(character.battlesLeft > 3){
+					
+					character.battlesLeft = 3;
+				}
+			}
 			
 			var statsString = username + " Lv" + character.level + " with " + character.experience + " EXP  |  Wins " + character.wins 
 							+ "  |  Losses " + character.losses + "  |  Win% " + character.winrate 
@@ -81,7 +102,13 @@ client.on("message", async message => {
 				var timeUntilNextBattleInMinutes = Math.floor((character.battletime + 3600000 - currentTime)/60000);
 				statsString = statsString + "\nYou will gain another battle chance in " + timeUntilNextBattleInMinutes + " minutes";
 			}
-			message.channel.send(statsString); 
+			message.channel.send(statsString);
+
+			//Save battle results
+			fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
+				
+				if (err) console.error(err)
+			});
 		}
 		//Returns leaderboards of server
 		else if(args.length == 2 && args[1] == 'leaderboards'){
