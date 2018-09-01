@@ -156,7 +156,7 @@ client.on("message", async message => {
 			var timeSinceLastBattle = currentTime - character.battletime;
 			var setNewBattletime = false;
 			var addBattles = Math.floor(timeSinceLastBattle/3600000);
-			if(addBattles > 0){
+			if(addBattles > 0){ //Set new time if new player as well
 				
 				setNewBattletime = true;
 				character.battlesLeft += addBattles;
@@ -167,6 +167,13 @@ client.on("message", async message => {
 				if(character.battlesLeft > 3){
 					
 					character.battlesLeft = 3;
+				}
+			}
+			if(setNewBattletime || character.battletime >= 9999999999999){
+							
+				if(currentTime < character.battletime){
+					
+					character.battletime = currentTime;
 				}
 			}
 			
@@ -279,14 +286,6 @@ client.on("message", async message => {
 					}
 					//If loss
 					else{
-						
-						if(setNewBattletime){
-							
-							if(currentTime < character.battletime){
-								
-								character.battletime = currentTime;
-							}
-						}
 						
 						character.battlesLeft -= 1;
 						character.losses += 1;
