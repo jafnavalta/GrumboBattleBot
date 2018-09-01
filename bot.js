@@ -75,7 +75,7 @@ client.on("message", async message => {
 			//Determine how many battles they should have left
 			var date = new Date();
 			var currentTime = date.getTime();
-			var timeSinceLastBattle = character.battletime - currentTime;
+			var timeSinceLastBattle = currentTime - character.battletime;
 			var setNewBattletime = false;
 			var addBattles = Math.floor(timeSinceLastBattle/3600000);
 			if(addBattles > 0){
@@ -153,7 +153,7 @@ client.on("message", async message => {
 			//Determine how many battles they should have left
 			var date = new Date();
 			var currentTime = date.getTime();
-			var timeSinceLastBattle = character.battletime - currentTime;
+			var timeSinceLastBattle = currentTime - character.battletime;
 			var setNewBattletime = false;
 			var addBattles = Math.floor(timeSinceLastBattle/3600000);
 			if(addBattles > 0){
