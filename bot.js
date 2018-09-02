@@ -64,6 +64,7 @@ client.on("message", async message => {
 				+ "!grumbo stats  |  See your grumbo stats (Level, exp, wins, losses, win rate) and how many battles you have left\n"
 				+ "!grumbo leaderboards  |  See the stats of everyone on the server who has interacted with GrumboBattleBot, sorted by level\n"
 				+ "!grumbo patchnotes  |  Show the recent patch notes\n"
+				+ "!grumbo guide  |  Show guide about game mechanics like battles, experience and gold scaling\n"
 				+ "!grumbo help  |  Show this help menu"); 
 		}
 		//Display patch notes
@@ -71,12 +72,30 @@ client.on("message", async message => {
 			
 			message.channel.send("GRUMBO PATCH NOTES\n\n"
 			
-				+ "- Decreased exp gained in won battles by your current level.\n\n"
+				+ "- Added gold. Gold challenges to be added in next udpate. Item shop probably follows that.\n"
+				+ "- Maximum victory chance changed from 99% to 95%\n"
+				+ "- Added guide command for further help.\n\n"
 			
 				+ "OLDER NOTES\n"
+				+ "- Decreased exp gained in won battles by your current level.\n"
 				+ "- Added PvP with the challenge command. Wager experience.\n"
 				+ "- Changed xp scaling for higher level Grumbos\n"
 				+ "- Minimum victory chance changed from 10% to 5%");
+		}
+		//Display guide
+		else if(args.length == 2 && args[1] == 'guide'){
+			
+			message.channel.send("GRUMBO BATTLE BOT GUIDE\n\n"
+			
+				+ "BATTLES\n"
+				+ "You can battle any Grumbo whose level is up to 20 levels higher than you. The experience, gold and chance of victory are based on the level difference between "
+				+ "your current level and the Grumbo level. As the level of the Grumbo increases, experience increases, but gold and chance of victory decrease. The min victory "
+				+ "chance if 5% and the max is 95%. Experience is also decreased independently based on how high your level is. While you get more gold the lower the level of the Grumbo, " 
+				+ "you will only get 1 gold if you fight a Grumbo who is over 20 levels lower than you. Battle attempts recover 1 stock every hour up to a maximum of 3.\n\n"
+				
+				+ "CHALLENGES\n"
+				+ "Challenge users to a wager. The loser will always lose the wager they bet, but the winner will win a wager based on the chance of victory. This can be less than what "
+				+ "was wagered but can also be more. Challenge attempts recover 1 stock every hour up to a maximum of 3.");
 		}
 		//Display users stats
 		else if(args.length == 2 && args[1] == 'stats'){
@@ -246,35 +265,6 @@ client.on("message", async message => {
 });
 
 /**
-* Create a new character and save it.
-*/
-function createNewCharacter(message){
-	
-	levels[message.author.id] = {
-				
-		level: 1,
-		experience: 0,
-		id: message.author.id,
-		wins: 0,
-		losses: 0,
-		winrate: 0,
-		battlesLeft: 3,
-		battletime: 9999999999999,
-		challengeWins: 0,
-		challengeLosses: 0,
-		challengeWinrate: 0,
-		challengesLeft: 3,
-		challengetime: 9999999999999
-	};
-
-	//Save new character
-	fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
-				
-		if (err) console.error(err)
-	});
-}
-
-/**
 * Display stats. Also calculate how many battles you currently have.
 */
 function displayStats(character, message){
@@ -314,7 +304,7 @@ function displayStats(character, message){
 	}
 	
 	var username = message.member.displayName;
-	var statsString = username + " Lv" + character.level + " with " + character.experience + " EXP"
+	var statsString = username + " Lv" + character.level + " with " + character.experience + " EXP  |  " + character.gold + " Gold"
 					+ "\nBattle          Wins " + character.wins + "  |  Losses " + character.losses + "  |  Win% " + character.winrate
 					+ "\nChallenge  Wins " + character.challengeWins + "  |  Losses " + character.challengeLosses + "  |  Win% " + character.challengeWinrate
 					+ "\nYou have " + character.battlesLeft + "/3 battles left"
@@ -330,9 +320,6 @@ function displayStats(character, message){
 		statsString = statsString + "\nYou will gain another challenge in " + timeUntilNextChallengeInMinutes + " minutes";
 	}
 	message.channel.send(statsString);
-	console.log(currentTime);
-	console.log(character.battletime);
-	console.log(character.challengetime);
 
 	//Save battle results
 	fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
@@ -374,7 +361,8 @@ function displayLeaderboards(message){
 		//Only show people in the server
 		if(message.guild.members.get(sortedCharacter.id) != undefined){
 			
-			leaderboards = leaderboards + "[" + count + "] " + message.guild.members.get(sortedCharacter.id).displayName + " Lv" + sortedCharacter.level + "  |  " + sortedCharacter.experience + " EXP" 
+			leaderboards = leaderboards + "[" + count + "] " + message.guild.members.get(sortedCharacter.id).displayName + "   Lv" + sortedCharacter.level + "  |  " 
+				+ sortedCharacter.experience + " EXP  |  " + sortedCharacter.gold + " Gold"
 				+ "\n      Battle          Wins " + sortedCharacter.wins + "  |  Losses " + sortedCharacter.losses + "  |  Win% " + sortedCharacter.winrate
 				+ "\n      Challenge  Wins " + sortedCharacter.challengeWins + "  |  Losses " + sortedCharacter.challengeLosses + "  |  Win% " + sortedCharacter.challengeWinrate + "\n";
 			count += 1;
@@ -399,9 +387,9 @@ function doBattle(message, args, character, currentTime){
 		
 		chance - (Math.floor(Math.random() * 6) + 1);
 	}
-	if(chance > 99){
+	if(chance > 95){
 		
-		chance = 99;
+		chance = 95;
 	}
 	else if(chance < 5){
 		
@@ -428,18 +416,8 @@ function doBattle(message, args, character, currentTime){
 		if(result <= chance){
 			
 			//Calculate experience gained
-			var exp = 100;
-			//Low level Grumbo
-			if(levelDiff > 0){
-					
-				exp = calculateLowLevelExp(exp, levelDiff);
-			}
-			//High level Grumbo
-			else if(levelDiff < 0){
-				
-				exp = calculateHighLevelExp(exp, levelDiff);
-			}
-			exp = exp + Math.floor(Math.random() * 10) - 5 - character.level;
+			var exp = calculateBattleExp(character, levelDiff);
+			var gold = calculateBattleGold(character, levelDiff);
 			var leftover = (exp + character.experience) % 100;
 			var gains = Math.floor(((exp + character.experience)/100));
 			var newLevel = character.level + gains;
@@ -449,9 +427,10 @@ function doBattle(message, args, character, currentTime){
 			character.wins += 1;
 			character.level = newLevel;
 			character.experience = leftover;
+			character.gold += gold;
 			character.winrate = Math.floor(((character.wins / (character.wins + character.losses)) * 100));
-			message.channel.send(username + " won! You gained " + exp + " experience which resulted in " + gains + " level(s)! Here are your current stats:"
-				+ "\n" + username + " Lv" + character.level + "  |  " + character.experience + " EXP  |  Wins " + character.wins 
+			message.channel.send(username + " won! You gained " + exp + " experience for " + gains + " level(s)! You also gained " + gold + " gold! Here are your current stats:"
+				+ "\n" + username + " Lv" + character.level + "  |  " + character.experience + " EXP  |  " + character.gold + " Gold  |  Wins " + character.wins 
 				+ "  |  Losses " + character.losses + "   |   Win% " + character.winrate 
 				+ "\nYou have " + character.battlesLeft + "/3 battles left");
 		}
@@ -641,6 +620,30 @@ function calculateChallengeResults(message, victor, loser, chance, victorName, l
 }
 
 /**
+* Calculate battle experience gained.
+*/
+function calculateBattleExp(character, levelDiff){
+	
+	var exp = 100;
+	//Low level Grumbo
+	if(levelDiff > 0){
+			
+		exp = calculateLowLevelExp(exp, levelDiff);
+	}
+	//High level Grumbo
+	else if(levelDiff < 0){
+		
+		exp = calculateHighLevelExp(exp, levelDiff);
+	}
+	exp = exp + Math.floor(Math.random() * 10) - 5 - character.level + 1;
+	if(exp < 3){
+		
+		exp = 3;
+	}
+	return exp;
+}
+
+/**
 * Calculate experience gain against a Grumbo who is a lower level than you.
 */
 function calculateLowLevelExp(exp, levelDiff){
@@ -661,10 +664,6 @@ function calculateLowLevelExp(exp, levelDiff){
 	if(levelDiff > 17){
 		
 		exp = exp - (Math.floor(Math.random() * 10) + 6);
-	}
-	if(exp < 1){
-		
-		exp = 1;
 	}
 	return exp;
 }
@@ -696,6 +695,41 @@ function calculateHighLevelExp(exp, levelDiff){
 		exp = exp + Math.floor(Math.random() * 45) + 25;
 	}
 	return exp;
+}
+
+/**
+* Calculate battle gold gained.
+*/
+function calculateBattleGold(character, levelDiff){
+	
+	var gold = 135 + Math.floor(Math.random() * 30) + levelDiff;
+	if(levelDiff > 20){
+		
+		//Only get 1 gold if you fight a Grumbo who is less than 20 levels under you
+		gold = 1;
+	}
+	else if(levelDiff < 15 && levelDiff >= 10){
+		
+		gold = gold - (Math.random() * 15) - 15;
+	}
+	else if(levelDiff < 10 && levelDiff >= 5){
+		
+		gold = gold - (Math.random() * 30) - 30;
+	}
+	else if(levelDiff < 5 && levelDiff >= 0){
+		
+		gold = gold - (Math.random() * 40) - 60 - ((5 - levelDiff) * 2);
+	}
+	//Grumbo is higher level than you, lower gold amount significantlys
+	else if(levelDiff < 0){
+		
+		gold = gold - (Math.random() * 40) - 75 + (levelDiff * 1.5);
+	}
+	if(gold < 10){
+		
+		gold = 10;
+	}
+	return Math.ceil(gold);
 }
 
 /**
@@ -734,11 +768,45 @@ function updateCharacters(){
 			
 			character.challengetime = 9999999999999;
 		}
+		if(character.gold == null){
+			
+			character.gold = 0;
+		}
 	}
 	
 	//Save updated characters
 	fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
 		
+		if (err) console.error(err)
+	});
+}
+
+/**
+* Create a new character and save it.
+*/
+function createNewCharacter(message){
+	
+	levels[message.author.id] = {
+				
+		level: 1,
+		experience: 0,
+		id: message.author.id,
+		wins: 0,
+		losses: 0,
+		winrate: 0,
+		battlesLeft: 3,
+		battletime: 9999999999999,
+		challengeWins: 0,
+		challengeLosses: 0,
+		challengeWinrate: 0,
+		challengesLeft: 3,
+		challengetime: 9999999999999,
+		gold: 0
+	};
+
+	//Save new character
+	fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
+				
 		if (err) console.error(err)
 	});
 }
