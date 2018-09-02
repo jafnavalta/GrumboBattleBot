@@ -203,18 +203,6 @@ function displayStats(character, message){
 		if (err) console.error(err)
 	});
 }
-/**
-* How much time left until you get another battle.
-*/
-function getTimeLeftUntilNextBattle() {
-	var timeUntilNextBattleInSeconds =  Math.floor(character.battletime + 3600000 - currentTime)/1000);
-	var minutesUntilNextBattle = Math.floor(timeUntilNextBattleInSeconds / 60);
-	var secondsUntilNextMinute = timeUntilNextBattleInSeconds - (minutesUntilNextBattle * 60);
-	//Adds a 0 in front if `secondsUntilNextMinute` is in the single digits
-	secondsUntilNextMinute = ('0' + secondsUntilNextMinute).slice(-2);
-	
-	return minutesUntilNextBattle + "m " + secondsUntilNextMinute + "s";
-}
 
 /**
 * Display leaderboards. Sorts by level, then by experience.
@@ -399,6 +387,21 @@ function calculateHighLevelExp(exp, levelDiff){
 		exp = exp + Math.floor(Math.random() * 55) + 30;
 	}
 	return exp;
+}
+
+/**
+* How much time left until you get another battle.
+*/
+function getTimeLeftUntilNextBattle() {
+	
+	var timeUntilNextBattleInSeconds =  Math.floor(character.battletime + 3600000 - currentTime)/1000);
+	var minutesUntilNextBattle = Math.floor(timeUntilNextBattleInSeconds / 60);
+	var secondsUntilNextMinute = timeUntilNextBattleInSeconds - (minutesUntilNextBattle * 60);
+	
+	//Adds a 0 in front if `secondsUntilNextMinute` is in the single digits
+	secondsUntilNextMinute = ('0' + secondsUntilNextMinute).slice(-2);
+	
+	return minutesUntilNextBattle + "m " + secondsUntilNextMinute + "s";
 }
 
 /**
