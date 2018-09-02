@@ -682,7 +682,7 @@ function calculateChallengeResults(message, victor, loser, chance, victorName, l
 		+ victorName + " is the winner! They earned " + exp + " experience! Their stats:\n"
 		+ victorName + " Lv" + victor.level + "  |  " + victor.experience + " EXP\n\n"
 		+ loserName + " lost " + wager + " experience. Their stats:\n"
-		+ victorName + " Lv" + loser.level + "  |  " + loser.experience + " EXP");
+		+ loserName + " Lv" + loser.level + "  |  " + loser.experience + " EXP");
 }
 
 /**
