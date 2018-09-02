@@ -199,7 +199,11 @@ client.on("message", async message => {
 				else if(!onChallenge && !onChallengeAccept){
 					
 					var totalExp = ((character.level - 1) * 100) + character.experience;
-					if(args[3] <= totalExp){
+					if(args[3] > 100 || args[3] < 1){
+						
+						message.channel.send("The wager must be between 1 and 100");
+					}
+					else if(args[3] <= totalExp){
 						
 						issueChallenge(message, opponent, args);
 					}
@@ -557,7 +561,7 @@ function doChallenge(message, character, currentTime, setNewChallengetime){
 	
 	//Determine odds
 	var levelDiff = character.level - challenger.level;
-	var chance = 50 + (levelDiff * 5) + (Math.floor(Math.random() * 4) - 2);
+	var chance = 50 + (levelDiff * 3) + (Math.floor(Math.random() * 2) - 1);
 	if(chance > 95){
 		
 		chance = 95;
@@ -582,14 +586,14 @@ function doChallenge(message, character, currentTime, setNewChallengetime){
 		if(result <= chance){
 			
 			//Winner results
-			calculateChallengeResults(message, character, challenger, chance, 
+			calculateChallengeResults(message, character, challenger, 100 - chance, 
 				message.member.displayName, message.guild.members.get(challengerID).displayName, 
 				currentTime, setNewChallengetime, setNewChallengerChallengetime);
 		}
 		//Challenger wins
 		else{
 			
-			calculateChallengeResults(message, challenger, character, 100 - chance, 
+			calculateChallengeResults(message, challenger, character, chance, 
 				message.guild.members.get(challengerID).displayName, message.member.displayName, 
 				currentTime, setNewChallengerChallengetime, setNewChallengetime);
 		}
