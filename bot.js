@@ -15,15 +15,19 @@ var onChallenge = false;
 var onChallengeAccept = false;
 var challengerID = null;
 var opponentID = null;
+var wagerType = null;
 var wager = 0;
 
 client.on("ready", () => {
+	
   // This event will run if the bot starts, and logs in, successfully.
   console.log(`Bot has begun battle, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`); 
+  
   // Example of changing the bot's playing game to something useful. `client.user` is what the
   // docs refer to as the "ClientUser".
   client.user.setActivity(`Battling ${client.users.size} dudes in ${client.guilds.size} servers`);
   
+  //Update characters when bot is restarted in case of updates.
   updateCharacters();
 });
 
@@ -59,12 +63,10 @@ client.on("message", async message => {
 			message.channel.send("Try your chance in battle with me, gain experience, level up, and be the strongest on the server :^ )\n\n"
 				+ "GRUMBO HELP: COMMANDS\n"
 				+ "!grumbo battle level <number>  |  Battle a level <number> Grumbo. The higher the level compared to yours, the lower the chance of winning (but higher chance of more experience!)\n"
-				+ "!grumbo challenge @mention <number>  |  Challenge another user by mentionning them with @ and putting <number> experience on the line!\n"
-				+ "!grumbo challenge accept <number>  |  If you've been challenged, you can accept it with this command. <number> must match the challenger's wager.\n"
-				+ "!grumbo stats  |  See your grumbo stats (Level, exp, wins, losses, win rate) and how many battles you have left\n"
+				+ "!grumbo stats  |  See your grumbo stats (Level, exp, gold, wins, losses, win rate) and how many battles/challenges you have left\n"
 				+ "!grumbo leaderboards  |  See the stats of everyone on the server who has interacted with GrumboBattleBot, sorted by level\n"
 				+ "!grumbo patchnotes  |  Show the recent patch notes\n"
-				+ "!grumbo guide  |  Show guide about game mechanics like battles, experience and gold scaling\n"
+				+ "!grumbo guide  |  Show guide about game mechanics like battles, experience and gold scaling, etc.\n"
 				+ "!grumbo help  |  Show this help menu"); 
 		}
 		//Display patch notes
@@ -72,11 +74,12 @@ client.on("message", async message => {
 			
 			message.channel.send("GRUMBO PATCH NOTES\n\n"
 			
-				+ "- Added gold. Gold challenges to be added in next update. Item shop probably follows that.\n"
-				+ "- Maximum victory chance changed from 99% to 95%\n"
-				+ "- Added guide command for further help.\n\n"
+				+ "- Added gold challenges. Item shop is probably next on the roadmap.\n"
 			
 				+ "OLDER NOTES\n"
+				+ "- Added gold. Gold challenges to be added in next update. Item shop probably follows that.\n"
+				+ "- Maximum victory chance changed from 99% to 95%\n"
+				+ "- Added guide command for further help.\n"
 				+ "- Decreased exp gained in won battles by your current level.\n"
 				+ "- Added PvP with the challenge command. Wager experience.\n"
 				+ "- Changed xp scaling for higher level Grumbos\n"
@@ -91,11 +94,14 @@ client.on("message", async message => {
 				+ "You can battle any Grumbo whose level is up to 20 levels higher than you. The experience, gold and chance of victory are based on the level difference between "
 				+ "your current level and the Grumbo level. As the level of the Grumbo increases, experience increases, but gold and chance of victory decrease. The min victory "
 				+ "chance if 5% and the max is 95%. Experience is also decreased independently based on how high your level is. While you get more gold the lower the level of the Grumbo, " 
-				+ "you will only get 1 gold if you fight a Grumbo who is over 20 levels lower than you. Battle attempts recover 1 stock every hour up to a maximum of 3.\n\n"
+				+ "you will only get 1 gold if you fight a Grumbo who is over 20 levels lower than you.\n"
+				+ "Battle attempts recover 1 stock every hour up to a maximum of 3.\n\n"
 				
 				+ "CHALLENGES\n"
-				+ "Challenge users to a wager. The loser will always lose the wager they bet, but the winner will win a wager based on the chance of victory. This can be less than what "
-				+ "was wagered but can also be more. Challenge attempts recover 1 stock every hour up to a maximum of 3.");
+				+ "Challenge users to a wager.\n"
+				+ "Exp challenge: The loser will always lose the wager they bet, but the winner will win a wager based on the chance of victory. This can be less than what was wagered but can also be more.\n"
+				+ "Gold challenge: The chance of winning is always a 50/50. You always win/lose exactly what was bet.\n"
+				+ "Challenge attempts recover 1 stock every hour up to a maximum of 3.");
 		}
 		//Display users stats
 		else if(args.length == 2 && args[1] == 'stats'){
@@ -116,20 +122,7 @@ client.on("message", async message => {
 			//Determine how many battles they should have left
 			var date = new Date();
 			var currentTime = date.getTime();
-			var timeSinceLastBattle = currentTime - character.battletime;
-			var addBattles = Math.floor(timeSinceLastBattle/3600000);
-			if(addBattles > 0){ //Set new time if new player as well
-				
-				character.battlesLeft += addBattles;
-				if(character.battlesLeft < 3){
-					
-					character.battletime = character.battletime + (addBattles * 3600000);
-				}
-				if(character.battlesLeft >= 3){
-					
-					character.battlesLeft = 3;
-				}
-			}
+			restockBattles(currentTime, character);
 			
 			//User tried to fight a Grumbo who has a level lower than 1
 			if(args[3] < 1){
@@ -161,25 +154,12 @@ client.on("message", async message => {
 		/////////////////////
 		// !! CHALLENGE !! //
 		/////////////////////
-		else if(args.length == 4 && args[1] == 'challenge'){
+		else if(args.length == 5 && args[1] == 'challenge'){
 			
 			//Determine how many challenges they should have left
 			var date = new Date();
 			var currentTime = date.getTime();
-			var timeSinceLastChallenge = currentTime - character.challengetime;
-			var addChallenges = Math.floor(timeSinceLastChallenge/3600000);
-			if(addChallenges > 0){ //Set new time if new player as well
-				
-				character.challengesLeft += addChallenges;
-				if(character.challengesLeft < 3){
-					
-					character.challengetime = character.challengetime + (addChallenges * 3600000);
-				}
-				if(character.challengesLeft >= 3){
-					
-					character.challengesLeft = 3;
-				}
-			}
+			restockChallenges(currentTime, character);
 			
 			var opponent = message.mentions.members.first();
 			
@@ -199,18 +179,45 @@ client.on("message", async message => {
 				}
 				else if(!onChallenge && !onChallengeAccept){
 					
-					var totalExp = ((character.level - 1) * 100) + character.experience;
-					if(args[3] > 100 || args[3] < 1){
+					//Exp challenge
+					if(args[4] == 'exp'){
 						
-						message.channel.send("The wager must be between 1 and 100");
+						var totalExp = ((character.level - 1) * 100) + character.experience;
+						if(args[3] > 100 || args[3] < 1){
+							
+							message.channel.send("An experience wager must be between 1 and 100.");
+						}
+						else if(args[3] <= totalExp){
+							
+							wagerType = 'exp';
+							issueChallenge(message, opponent, args);
+						}
+						else{
+							
+							message.channel.send("You don't have enough experience for that wager.");
+						}
 					}
-					else if(args[3] <= totalExp){
+					//Gold challenge
+					else if(args[4] == 'gold'){
 						
-						issueChallenge(message, opponent, args);
+						if(args[3] > 500 || args[3] < 1){
+							
+							message.channel.send("A gold wager must be between 1 and 500.");
+						}
+						else if(args[3] <= character.gold){
+							
+							wagerType = 'gold';
+							issueChallenge(message, opponent, args);
+						}
+						else{
+							
+							message.channel.send("You don't have enough gold for that wager.");
+						}
 					}
 					else{
 						
-						message.channel.send("You don't have enough experience for that wager.");
+						message.channel.send("Please put either 'exp' or 'gold' as the type of wager.\n"
+							+ "Example: !grumbo challenge @GrumboBattleBot 100 gold");
 					}
 				}
 				else{
@@ -223,18 +230,41 @@ client.on("message", async message => {
 				
 				if(message.author.id == opponentID){
 					
-					var totalExp = ((character.level - 1) * 100) + character.experience;
-					if(args[3] != wager){
+					if(args[4] == 'exp' && wagerType == 'exp'){
 						
-						message.channel.send('The wager must match the challenger\'s wager of ' + wager);
+						var totalExp = ((character.level - 1) * 100) + character.experience;
+						if(args[3] != wager){
+							
+							message.channel.send('The wager must match the challenger\'s wager of ' + wager);
+						}
+						else if(args[3] > totalExp){
+							
+							message.channel.send("You don't have enough experience for that wager.");
+						}
+						else{
+							
+							doChallenge(message, character, currentTime);
+						}
 					}
-					else if(args[3] > totalExp){
+					else if(args[4] == 'gold' && wagerType == 'gold'){
 						
-						message.channel.send("You don't have enough experience for that wager.");
+						if(args[3] != wager){
+							
+							message.channel.send('The wager must match the challenger\'s wager of ' + wager);
+						}
+						else if(args[3] > character.gold){
+							
+							message.channel.send("You don't have enough gold for that wager.");
+						}
+						else{
+							
+							doChallenge(message, character, currentTime);
+						}
 					}
 					else{
 						
-						doChallenge(message, character, currentTime);
+						message.channel.send("Please put the matching wager type at the end of the command\n"
+							+ "Example: !grumbo challenge accept 100 gold");
 					}
 				}
 				else{
@@ -272,36 +302,10 @@ function displayStats(character, message){
 	//Determine how many battles they should have left
 	var date = new Date();
 	var currentTime = date.getTime();
-	var timeSinceLastBattle = currentTime - character.battletime;
-	var addBattles = Math.floor(timeSinceLastBattle/3600000);
-	if(addBattles > 0){
-		
-		character.battlesLeft += addBattles;
-		if(character.battlesLeft < 3){
-			
-			character.battletime = character.battletime + (addBattles * 3600000);
-		}
-		if(character.battlesLeft >= 3){
-			
-			character.battlesLeft = 3;
-		}
-	}
+	restockBattles(currentTime, character);
 	
 	//Determine how many challenges they should have left
-	var timeSinceLastChallenge = currentTime - character.challengetime;
-	var addChallenges = Math.floor(timeSinceLastChallenge/3600000);
-	if(addChallenges > 0){
-		
-		character.challengesLeft += addChallenges;
-		if(character.challengesLeft < 3){
-			
-			character.challengetime = character.challengetime + (addChallenges * 3600000);
-		}
-		if(character.challengesLeft >= 3){
-			
-			character.challengesLeft = 3;
-		}
-	}
+	restockChallenges(currentTime, character);
 	
 	var username = message.member.displayName;
 	var statsString = username + " Lv" + character.level + " with " + character.experience + " EXP  |  " + character.gold + " Gold"
@@ -465,8 +469,8 @@ function issueChallenge(message, opponent, args){
 	opponentID = opponent.id;
 	wager = args[3];
 	
-	message.channel.send(message.member.displayName + ' has challenged ' + opponent.displayName + ' to a wager of ' + wager + ' experience!\n'
-		+ opponent.displayName + ' has 20 seconds to accept the challenge!');
+	message.channel.send(message.member.displayName + ' has challenged ' + opponent.displayName + ' to a wager of ' + wager + ' ' + wagerType + '!\n'
+		+ opponent.displayName + ' has 25 seconds to accept the challenge!');
 	
 	setTimeout(function(){
 
@@ -476,6 +480,7 @@ function issueChallenge(message, opponent, args){
 			onChallenge = false;
 			challengerID = null;
 			opponentID = null;
+			wagerType = null;
 			wager = 0;
 			
 			message.channel.send(message.member.displayName + '\'s challenge was not accepted.');
@@ -484,7 +489,7 @@ function issueChallenge(message, opponent, args){
 			
 			onChallengeAccept = false;
 		}
-	}, 20000);
+	}, 25000);
 }
 
 /**
@@ -496,20 +501,22 @@ function doChallenge(message, character, currentTime){
 	var challenger = levels[challengerID];
 	
 	//Determine how many challenges they should have left
-	var timeSinceLastChallenge = currentTime - challenger.challengetime;
-	var addChallenges = Math.floor(timeSinceLastChallenge/3600000);
-	if(addChallenges > 0){ //Set new time if new player as well
+	restockChallenges(currentTime, challenger);
+	
+	if(wagerType == 'exp'){
 		
-		challenger.challengesLeft += addChallenges;
-		if(challenger.challengesLeft < 3){
-			
-			challenger.challengetime = challenger.challengetime + (addChallenges * 3600000);
-		}
-		if(challenger.challengesLeft >= 3){
-			
-			challenger.challengesLeft = 3;
-		}
+		doExpChallenge(message, character, challenger, currentTime);
 	}
+	else{
+		
+		doGoldChallenge(message, character, challenger, currentTime);
+	}
+}
+
+/**
+* Do an exp challenge.
+*/
+function doExpChallenge(message, character, challenger, currentTime){
 	
 	//Determine odds
 	var levelDiff = character.level - challenger.level;
@@ -538,14 +545,14 @@ function doChallenge(message, character, currentTime){
 		if(result <= chance){
 			
 			//Winner results
-			calculateChallengeResults(message, character, challenger, chance, 
+			calculateExpChallengeResults(message, character, challenger, chance, 
 				message.member.displayName, message.guild.members.get(challengerID).displayName, 
 				currentTime);
 		}
 		//Challenger wins
 		else{
 			
-			calculateChallengeResults(message, challenger, character, 100 - chance, 
+			calculateExpChallengeResults(message, challenger, character, 100 - chance, 
 				message.guild.members.get(challengerID).displayName, message.member.displayName, 
 				currentTime);
 		}
@@ -560,14 +567,62 @@ function doChallenge(message, character, currentTime){
 		onChallenge = false;
 		challengerID = null;
 		opponentID = null;
+		wagerType = null;
 		wager = 0;
 	}, 5000);
 }
 
 /**
-* Calculate PvP results.
+* Do an gold challenge.
 */
-function calculateChallengeResults(message, victor, loser, chance, victorName, loserName, currentTime){
+function doGoldChallenge(message, character, challenger, currentTime){
+	
+	message.channel.send(message.member.displayName + " is facing off against challenger " 
+		+ message.guild.members.get(challengerID).displayName + " for " + wager + " gold!\n"
+		+ "Gold challenges are 50/50 battles!\n"
+		+ "The challenge has begun...\n");
+	
+	//Wait 5 seconds for challenge results
+	setTimeout(function(){
+		
+		//Determine battle results
+		var result = Math.floor(Math.random() * 100) + 1;
+		
+		//If challenger loses
+		if(result <= 50){
+			
+			//Winner results
+			calculateGoldChallengeResults(message, character, challenger, 
+				message.member.displayName, message.guild.members.get(challengerID).displayName, 
+				currentTime);
+		}
+		//Challenger wins
+		else{
+			
+			calculateGoldChallengeResults(message, challenger, character, 
+				message.guild.members.get(challengerID).displayName, message.member.displayName, 
+				currentTime);
+		}
+		
+		//Save battle results
+		fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
+			
+			if (err) console.error(err)
+		});
+		
+		//Release challenge locks
+		onChallenge = false;
+		challengerID = null;
+		opponentID = null;
+		wagerType = null;
+		wager = 0;
+	}, 5000);
+}
+
+/**
+* Calculate exp challenge results.
+*/
+function calculateExpChallengeResults(message, victor, loser, chance, victorName, loserName, currentTime){
 	
 	if(victor.challengesLeft == 3){
 				
@@ -583,7 +638,18 @@ function calculateChallengeResults(message, victor, loser, chance, victorName, l
 	//Winner reaults
 	if(chance > 50){
 		
-		exp = Math.ceil(wager * (50/chance)) + 1;
+		if((victor.level - loser.level) >= 9 && chance >= 70){
+			
+			exp = Math.ceil(wager * (37/chance));
+		}
+		else if((victor.level - loser.level) >= 5 && chance >= 60){
+			
+			exp = Math.ceil(wager * (46/chance));
+		}
+		else{
+			
+			exp = Math.ceil(wager * (50/chance));
+		}
 	}
 	else{
 		
@@ -617,6 +683,40 @@ function calculateChallengeResults(message, victor, loser, chance, victorName, l
 		+ victorName + " Lv" + victor.level + "  |  " + victor.experience + " EXP\n\n"
 		+ loserName + " lost " + wager + " experience. Their stats:\n"
 		+ loserName + " Lv" + loser.level + "  |  " + loser.experience + " EXP");
+}
+
+/**
+* Calculate gold challenge results.
+*/
+function calculateGoldChallengeResults(message, victor, loser, victorName, loserName, currentTime){
+	
+	if(victor.challengesLeft == 3){
+				
+		victor.challengetime = currentTime;
+	}
+	if(loser.challengesLeft == 3){
+		
+		loser.challengetime = currentTime;
+	}
+	
+	//Winner results
+	victor.gold = victor.gold + (wager * 1);
+	
+	//Loser results
+	loser.gold = loser.gold - (wager * 1);
+	
+	victor.challengesLeft -= 1;
+	victor.challengeWins += 1;
+	victor.challengeWinrate = Math.floor(((victor.challengeWins / (victor.challengeWins + victor.challengeLosses)) * 100));
+	
+	loser.challengesLeft -= 1;
+	loser.challengeLosses += 1;
+	loser.challengeWinrate = Math.floor(((loser.challengeWins / (loser.challengeWins + loser.challengeLosses)) * 100));
+	
+	message.channel.send("The challenge is over!\n"
+		+ victorName + " is the winner! They earned " + wager + " gold!\n"
+		+ victorName + " now has " + victor.gold + " gold\n"
+		+ loserName + " now has "+ loser.gold + " gold");
 }
 
 /**
@@ -730,6 +830,48 @@ function calculateBattleGold(character, levelDiff){
 		gold = 10;
 	}
 	return Math.ceil(gold);
+}
+
+/**
+* Adds battle attempts to character if possible.
+*/
+function restockBattles(currentTime, character){
+	
+	var timeSinceLastBattle = currentTime - character.battletime;
+	var addBattles = Math.floor(timeSinceLastBattle/3600000);
+	if(addBattles > 0){
+		
+		character.battlesLeft += addBattles;
+		if(character.battlesLeft < 3){
+			
+			character.battletime = character.battletime + (addBattles * 3600000);
+		}
+		if(character.battlesLeft >= 3){
+			
+			character.battlesLeft = 3;
+		}
+	}
+}
+
+/**
+* Adds challenge attempts to character if possible.
+*/
+function restockChallenges(currentTime, character){
+	
+	var timeSinceLastChallenge = currentTime - character.challengetime;
+	var addChallenges = Math.floor(timeSinceLastChallenge/3600000);
+	if(addChallenges > 0){
+		
+		character.challengesLeft += addChallenges;
+		if(character.challengesLeft < 3){
+			
+			character.challengetime = character.challengetime + (addChallenges * 3600000);
+		}
+		if(character.challengesLeft >= 3){
+			
+			character.challengesLeft = 3;
+		}
+	}
 }
 
 /**
