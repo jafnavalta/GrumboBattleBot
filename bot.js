@@ -534,7 +534,7 @@ function doChallenge(message, character, currentTime){
 	
 	//Determine odds
 	var levelDiff = character.level - challenger.level;
-	var chance = 50 + (levelDiff * 3) + (Math.floor(Math.random() * 2) - 1);
+	var chance = 50 + Math.floor(levelDiff * 2.3) + (Math.floor(Math.random() * 2) - 1);
 	if(chance > 95){
 		
 		chance = 95;
@@ -600,30 +600,22 @@ function calculateChallengeResults(message, victor, loser, chance, victorName, l
 	}
 	
 	var exp = 0;
-	var leftover = 0;
-	var gains = 0;
-	var newLevel = 0;
 	
+	//Winner reaults
 	if(chance > 50){
 		
-		exp = Math.floor(wager * (chance/50)) + 1;
-		leftover = (exp + victor.experience) % 100;
-		gains = Math.floor(((exp + victor.experience)/100));
-		newLevel = victor.level + gains;
-		
-		victor.level = newLevel;
-		victor.experience = leftover;
+		exp = Math.ceil(wager * (50/chance)) + 1;
 	}
 	else{
 		
-		exp = Math.floor(wager * ((((50/chance) - 1) * 2.5) + 1)) + 1;
-		leftover = (exp + victor.experience) % 100;
-		gains = Math.floor(((exp + victor.experience)/100));
-		newLevel = victor.level + gains;
-		
-		victor.level = newLevel;
-		victor.experience = leftover;
+		exp = Math.floor(wager * (Math.pow(1.154, ((50 - chance) / 4))));
 	}
+	var leftover = (exp + victor.experience) % 100;
+	var gains = Math.floor(((exp + victor.experience)/100));
+	var newLevel = victor.level + gains;
+	
+	victor.level = newLevel;
+	victor.experience = leftover;
 	
 	//Loser results
 	var loserExp = ((loser.level - 1) * 100) + loser.experience - wager;
