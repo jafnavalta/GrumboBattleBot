@@ -98,26 +98,17 @@ client.on("message", async message => {
 			var date = new Date();
 			var currentTime = date.getTime();
 			var timeSinceLastBattle = currentTime - character.battletime;
-			var setNewBattletime = false;
 			var addBattles = Math.floor(timeSinceLastBattle/3600000);
 			if(addBattles > 0){ //Set new time if new player as well
 				
-				setNewBattletime = true;
 				character.battlesLeft += addBattles;
-				if(character.battlesLeft <= 3){
+				if(character.battlesLeft < 3){
 					
 					character.battletime = character.battletime + (addBattles * 3600000);
 				}
-				if(character.battlesLeft > 3){
+				if(character.battlesLeft >= 3){
 					
 					character.battlesLeft = 3;
-				}
-			}
-			if(setNewBattletime || character.battletime >= 9999999999999){
-							
-				if(currentTime < character.battletime){
-					
-					character.battletime = currentTime;
 				}
 			}
 			
@@ -144,7 +135,7 @@ client.on("message", async message => {
 			//BATTLE
 			else{
 				
-				doBattle(message, args, character, currentTime, setNewBattletime);
+				doBattle(message, args, character, currentTime);
 			}
 		}
 		
@@ -157,26 +148,17 @@ client.on("message", async message => {
 			var date = new Date();
 			var currentTime = date.getTime();
 			var timeSinceLastChallenge = currentTime - character.challengetime;
-			var setNewChallengetime = false;
 			var addChallenges = Math.floor(timeSinceLastChallenge/3600000);
 			if(addChallenges > 0){ //Set new time if new player as well
 				
-				setNewChallengetime = true;
 				character.challengesLeft += addChallenges;
-				if(character.challengesLeft <= 3){
+				if(character.challengesLeft < 3){
 					
 					character.challengetime = character.challengetime + (addChallenges * 3600000);
 				}
-				if(character.challengesLeft > 3){
+				if(character.challengesLeft >= 3){
 					
 					character.challengesLeft = 3;
-				}
-			}
-			if(setNewChallengetime || character.challengetime >= 9999999999999){
-							
-				if(currentTime < character.challengetime){
-					
-					character.challengetime = currentTime;
 				}
 			}
 			
@@ -233,7 +215,7 @@ client.on("message", async message => {
 					}
 					else{
 						
-						doChallenge(message, character, currentTime, setNewChallengetime);
+						doChallenge(message, character, currentTime);
 					}
 				}
 				else{
@@ -305,27 +287,27 @@ function displayStats(character, message){
 	if(addBattles > 0){
 		
 		character.battlesLeft += addBattles;
-		if(character.battlesLeft <= 3){
+		if(character.battlesLeft < 3){
 			
 			character.battletime = character.battletime + (addBattles * 3600000);
 		}
-		if(character.battlesLeft > 3){
+		if(character.battlesLeft >= 3){
 			
 			character.battlesLeft = 3;
 		}
 	}
 	
-	//Determine how many battles they should have left
+	//Determine how many challenges they should have left
 	var timeSinceLastChallenge = currentTime - character.challengetime;
 	var addChallenges = Math.floor(timeSinceLastChallenge/3600000);
 	if(addChallenges > 0){
 		
 		character.challengesLeft += addChallenges;
-		if(character.challengesLeft <= 3){
+		if(character.challengesLeft < 3){
 			
 			character.challengetime = character.challengetime + (addChallenges * 3600000);
 		}
-		if(character.challengesLeft > 3){
+		if(character.challengesLeft >= 3){
 			
 			character.challengesLeft = 3;
 		}
@@ -348,6 +330,9 @@ function displayStats(character, message){
 		statsString = statsString + "\nYou will gain another challenge in " + timeUntilNextChallengeInMinutes + " minutes";
 	}
 	message.channel.send(statsString);
+	console.log(currentTime);
+	console.log(character.battletime);
+	console.log(character.challengetime);
 
 	//Save battle results
 	fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
@@ -402,7 +387,7 @@ function displayLeaderboards(message){
 /**
 * Do battle 
 */
-function doBattle(message, args, character, currentTime, setNewBattletime){
+function doBattle(message, args, character, currentTime){
 
 	//Don't allow other battles while this one is going on
 	onHold = true;
@@ -421,6 +406,11 @@ function doBattle(message, args, character, currentTime, setNewBattletime){
 	else if(chance < 5){
 		
 		chance = 5;
+	}
+	
+	if(character.battlesLeft == 3){
+		
+		character.battletime = currentTime;
 	}
 	
 	var username = message.member.displayName;
@@ -453,14 +443,6 @@ function doBattle(message, args, character, currentTime, setNewBattletime){
 			var leftover = (exp + character.experience) % 100;
 			var gains = Math.floor(((exp + character.experience)/100));
 			var newLevel = character.level + gains;
-			
-			if(setNewBattletime){
-				
-				if(currentTime < character.battletime){
-					
-					character.battletime = currentTime;
-				}
-			}
 			
 			//Win message and results
 			character.battlesLeft -= 1;
@@ -529,33 +511,24 @@ function issueChallenge(message, opponent, args){
 /**
 * Do challenge.
 */
-function doChallenge(message, character, currentTime, setNewChallengetime){
+function doChallenge(message, character, currentTime){
 	
 	onChallengeAccept = true;
 	var challenger = levels[challengerID];
 	
 	//Determine how many challenges they should have left
 	var timeSinceLastChallenge = currentTime - challenger.challengetime;
-	var setNewChallengerChallengetime = false;
 	var addChallenges = Math.floor(timeSinceLastChallenge/3600000);
 	if(addChallenges > 0){ //Set new time if new player as well
 		
-		setNewChallengerChallengetime = true;
 		challenger.challengesLeft += addChallenges;
-		if(challenger.challengesLeft <= 3){
+		if(challenger.challengesLeft < 3){
 			
 			challenger.challengetime = challenger.challengetime + (addChallenges * 3600000);
 		}
-		if(challenger.challengesLeft > 3){
+		if(challenger.challengesLeft >= 3){
 			
 			challenger.challengesLeft = 3;
-		}
-	}
-	if(setNewChallengerChallengetime || challenger.challengetime >= 9999999999999){
-					
-		if(currentTime < challenger.challengetime){
-			
-			challenger.challengetime = currentTime;
 		}
 	}
 	
@@ -588,14 +561,14 @@ function doChallenge(message, character, currentTime, setNewChallengetime){
 			//Winner results
 			calculateChallengeResults(message, character, challenger, 100 - chance, 
 				message.member.displayName, message.guild.members.get(challengerID).displayName, 
-				currentTime, setNewChallengetime, setNewChallengerChallengetime);
+				currentTime);
 		}
 		//Challenger wins
 		else{
 			
 			calculateChallengeResults(message, challenger, character, chance, 
 				message.guild.members.get(challengerID).displayName, message.member.displayName, 
-				currentTime, setNewChallengerChallengetime, setNewChallengetime);
+				currentTime);
 		}
 		
 		//Save battle results
@@ -615,12 +588,17 @@ function doChallenge(message, character, currentTime, setNewChallengetime){
 /**
 * Calculate PvP results.
 */
-function calculateChallengeResults(message, victor, loser, chance, victorName, loserName, currentTime, setNewChallengetime, setNewLoserChallengetime){
+function calculateChallengeResults(message, victor, loser, chance, victorName, loserName, currentTime){
 	
-	//TODO Add PvP stats
-	//TODO Add challengesLeft and challengetime
+	if(victor.challengesLeft == 3){
+				
+		victor.challengetime = currentTime;
+	}
+	if(loser.challengesLeft == 3){
+		
+		loser.challengetime = currentTime;
+	}
 	
-	//Winner results
 	var exp = 0;
 	var leftover = 0;
 	var gains = 0;
@@ -654,21 +632,6 @@ function calculateChallengeResults(message, victor, loser, chance, victorName, l
 	
 	loser.level = loserLevel;
 	loser.experience = loserLeftover;
-	
-	if(setNewChallengetime){
-				
-		if(currentTime < victor.battletime){
-			
-			victor.battletime = currentTime;
-		}
-	}
-	if(setNewLoserChallengetime){
-				
-		if(currentTime < loser.battletime){
-			
-			loser.battletime = currentTime;
-		}
-	}
 	
 	victor.challengesLeft -= 1;
 	victor.challengeWins += 1;
