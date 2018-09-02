@@ -71,12 +71,12 @@ client.on("message", async message => {
 			
 			message.channel.send("GRUMBO PATCH NOTES\n\n"
 			
-				+ "- Added PvP with the challenge command. Wager experience.\n\n"
+				+ "- Decreased exp gained in won battles by your current level.\n\n"
 			
 				+ "OLDER NOTES\n"
+				+ "- Added PvP with the challenge command. Wager experience.\n"
 				+ "- Changed xp scaling for higher level Grumbos\n"
-				+ "- Minimum victory chance changed from 10% to 5%\n"
-				+ "- Added patch notes L U L");
+				+ "- Minimum victory chance changed from 10% to 5%");
 		}
 		//Display users stats
 		else if(args.length == 2 && args[1] == 'stats'){
