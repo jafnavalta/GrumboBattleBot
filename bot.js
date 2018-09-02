@@ -119,11 +119,8 @@ client.on("message", async message => {
 			else if(character.battlesLeft == 0){
 				
 				//No battles left
-				var timeUntilNextBattleInSeconds =  Math.floor(character.battletime + 3600000 - currentTime)/1000)
-				var minutesUntilNextBattle = Math.floor(timeUntilNextBattleInSeconds / 60)
-				var secondsUntilNextMinute = timeUntilNextBattleInSeconds - (minutesUntilNextBattle * 60)
 				message.channel.send("You don't have any battles left. You get a battle chance every 1 hour up to a maximum stock of 3 battles. You can battle again in "
-					+ timeUntilNextBattleInMinutes + " m " + secondsUntilNextMinute " s");
+					+ getTimeLeftUntilNextBattle();
 			}
 			else{
 				
@@ -196,8 +193,7 @@ function displayStats(character, message){
 					+ "\nYou have " + character.battlesLeft + "/3 battles left";
 	if(character.battlesLeft < 3){
 		
-		var timeUntilNextBattleInMinutes = Math.floor((character.battletime + 3600000 - currentTime)/60000);
-		statsString = statsString + "\nYou will gain another battle chance in " + timeUntilNextBattleInMinutes + " minutes";
+		statsString = statsString + "\nYou will gain another battle chance in " + getTimeLeftUntilNextBattle();
 	}
 	message.channel.send(statsString);
 
@@ -206,6 +202,18 @@ function displayStats(character, message){
 		
 		if (err) console.error(err)
 	});
+}
+/**
+* How much time left until you get another battle.
+*/
+function getTimeLeftUntilNextBattle() {
+	var timeUntilNextBattleInSeconds =  Math.floor(character.battletime + 3600000 - currentTime)/1000);
+	var minutesUntilNextBattle = Math.floor(timeUntilNextBattleInSeconds / 60);
+	var secondsUntilNextMinute = timeUntilNextBattleInSeconds - (minutesUntilNextBattle * 60);
+	//Adds a 0 in front if `secondsUntilNextMinute` is in the single digits
+	secondsUntilNextMinute = ('0' + secondsUntilNextMinute).slice(-2);
+	
+	return minutesUntilNextBattle + "m " + secondsUntilNextMinute + "s";
 }
 
 /**
