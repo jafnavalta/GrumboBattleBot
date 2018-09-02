@@ -654,13 +654,21 @@ function calculateChallengeResults(message, victor, loser, chance, victorName, l
 function calculateLowLevelExp(exp, levelDiff){
 	
 	exp = exp - Math.floor(levelDiff * Math.pow(1.057, levelDiff)) - (Math.floor(Math.random() * 10) + 3);
-	if(levelDiff > 4){
+	if(levelDiff > 3){
 		
 		exp = exp - (Math.floor(Math.random() * 10) + 4);
 	}
+	if(levelDiff > 7){
+		
+		exp = exp - (Math.floor(Math.random() * 10) + 5);
+	}
 	if(levelDiff > 12){
 		
-		exp = exp - (Math.floor(Math.random() * 12) + 5);
+		exp = exp - (Math.floor(Math.random() * 10) + 6);
+	}
+	if(levelDiff > 17){
+		
+		exp = exp - (Math.floor(Math.random() * 10) + 6);
 	}
 	if(exp < 1){
 		
