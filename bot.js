@@ -72,7 +72,7 @@ client.on("message", async message => {
 			
 			message.channel.send("GRUMBO PATCH NOTES\n\n"
 			
-				+ "- Added gold. Gold challenges to be added in next udpate. Item shop probably follows that.\n"
+				+ "- Added gold. Gold challenges to be added in next update. Item shop probably follows that.\n"
 				+ "- Maximum victory chance changed from 99% to 95%\n"
 				+ "- Added guide command for further help.\n\n"
 			
