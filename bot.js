@@ -641,7 +641,15 @@ function calculateExpChallengeResults(message, victor, loser, chance, victorName
 	//Winner reaults
 	if(chance > 50){
 		
-		if((victor.level - loser.level) >= 9 && chance >= 70){
+		if((victor.level - loser.level) >= 20){
+			
+			exp = Math.ceil(wager * (15/chance));
+		}
+		else if((victor.level - loser.level) >= 15){
+			
+			exp = Math.ceil(wager * (25/chance));
+		}
+		else if((victor.level - loser.level) >= 9 && chance >= 70){
 			
 			exp = Math.ceil(wager * (37/chance));
 		}
