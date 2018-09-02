@@ -63,6 +63,8 @@ client.on("message", async message => {
 			message.channel.send("Try your chance in battle with me, gain experience, level up, and be the strongest on the server :^ )\n\n"
 				+ "GRUMBO HELP: COMMANDS\n"
 				+ "!grumbo battle level <number>  |  Battle a level <number> Grumbo. The higher the level compared to yours, the lower the chance of winning (but higher chance of more experience!)\n"
+				+ "!grumbo challenge @mention <number> exp/gold  |  Challenge another user by mentionning them with @ and putting <number> experience/gold on the line!\n"
+				+ "!grumbo challenge accept <number> exp/gold  |  If you've been challenged, you can accept it with this command. <number> must match the challenger's wager.\n"
 				+ "!grumbo stats  |  See your grumbo stats (Level, exp, gold, wins, losses, win rate) and how many battles/challenges you have left\n"
 				+ "!grumbo leaderboards  |  See the stats of everyone on the server who has interacted with GrumboBattleBot, sorted by level\n"
 				+ "!grumbo patchnotes  |  Show the recent patch notes\n"
@@ -75,6 +77,7 @@ client.on("message", async message => {
 			message.channel.send("GRUMBO PATCH NOTES\n\n"
 			
 				+ "- Added gold challenges. Item shop is probably next on the roadmap.\n"
+				+ "- Changed challenge commands to accomodate gold challenges.\n\n"
 			
 				+ "OLDER NOTES\n"
 				+ "- Added gold. Gold challenges to be added in next update. Item shop probably follows that.\n"
