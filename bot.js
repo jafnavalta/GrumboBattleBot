@@ -257,7 +257,7 @@ function doBattle(message, args, character, currentTime, setNewBattletime){
 
 	//Calculate victory chance, max 99%, min 10%
 	var levelDiff = character.level - args[3];
-	var chance = 50 + (levelDiff * 2) + Math.floor(Math.random() * 10) - 5;
+	var chance = 50 + (levelDiff * 2) + Math.floor(Math.random() * 6) - 3;
 	if(levelDiff < -15){
 		
 		chance - (Math.floor(Math.random() * 6) + 1);
