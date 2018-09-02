@@ -693,7 +693,7 @@ function calculateHighLevelExp(exp, levelDiff){
 	}
 	if(levelDiff == -20){
 		
-		exp = exp + Math.floor(Math.random() * 55) + 30;
+		exp = exp + Math.floor(Math.random() * 45) + 25;
 	}
 	return exp;
 }
