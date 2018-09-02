@@ -24,7 +24,7 @@ client.on("message", async message => {
 	
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!grumbo`
-    if(message.content.substring(0, 9) == '!grumbo'){
+    if(message.content.substring(0, 7) == '!grumbo'){
 		
 		//If this is the first time the user has commanded Grumbo, initialize character
 		if (!levels[message.author.id]){ 
