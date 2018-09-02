@@ -119,9 +119,11 @@ client.on("message", async message => {
 			else if(character.battlesLeft == 0){
 				
 				//No battles left
-				var timeUntilNextBattleInMinutes = Math.floor((character.battletime + 3600000 - currentTime)/60000);
+				var timeUntilNextBattleInSeconds =  Math.floor(character.battletime + 3600000 - currentTime)/1000)
+				var minutesUntilNextBattle = Math.floor(timeUntilNextBattleInSeconds / 60)
+				var secondsUntilNextMinute = timeUntilNextBattleInSeconds - (minutesUntilNextBattle * 60)
 				message.channel.send("You don't have any battles left. You get a battle chance every 1 hour up to a maximum stock of 3 battles. You can battle again in "
-					+ timeUntilNextBattleInMinutes + " minutes");
+					+ timeUntilNextBattleInMinutes + " m " + secondsUntilNextMinute " s");
 			}
 			else{
 				
