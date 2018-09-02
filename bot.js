@@ -559,14 +559,14 @@ function doChallenge(message, character, currentTime){
 		if(result <= chance){
 			
 			//Winner results
-			calculateChallengeResults(message, character, challenger, 100 - chance, 
+			calculateChallengeResults(message, character, challenger, chance, 
 				message.member.displayName, message.guild.members.get(challengerID).displayName, 
 				currentTime);
 		}
 		//Challenger wins
 		else{
 			
-			calculateChallengeResults(message, challenger, character, chance, 
+			calculateChallengeResults(message, challenger, character, 100 - chance, 
 				message.guild.members.get(challengerID).displayName, message.member.displayName, 
 				currentTime);
 		}
