@@ -439,7 +439,7 @@ function doBattle(message, args, character, currentTime){
 				
 				exp = calculateHighLevelExp(exp, levelDiff);
 			}
-			exp = exp + Math.floor(Math.random() * 10) - 5;
+			exp = exp + Math.floor(Math.random() * 10) - 5 - character.level;
 			var leftover = (exp + character.experience) % 100;
 			var gains = Math.floor(((exp + character.experience)/100));
 			var newLevel = character.level + gains;
