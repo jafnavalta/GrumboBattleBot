@@ -76,6 +76,7 @@ client.on("message", async message => {
 			
 			message.channel.send("GRUMBO PATCH NOTES\n\n"
 			
+				+ "- Stats and leaderboards are now private messages.\n"
 				+ "- Added gold challenges. Item shop is probably next on the roadmap.\n"
 				+ "- Changed challenge commands to accomodate gold challenges.\n\n"
 			
@@ -326,7 +327,7 @@ function displayStats(character, message){
 		var timeUntilNextChallengeInMinutes = Math.floor((character.challengetime + 3600000 - currentTime)/60000);
 		statsString = statsString + "\nYou will gain another challenge in " + timeUntilNextChallengeInMinutes + " minutes";
 	}
-	message.channel.send(statsString);
+	message.author.send(statsString);
 
 	//Save battle results
 	fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
@@ -376,7 +377,7 @@ function displayLeaderboards(message){
 		}
 	});
 	leaderboards = leaderboards + "\n--------------------------------"
-	message.channel.send(leaderboards);
+	message.author.send(leaderboards);
 }
 
 /**
