@@ -140,7 +140,7 @@ client.on("message", async message => {
 			//No battles left
 			else if(character.battlesLeft == 0){
 				
-				var timeUntilNextBattleInMinutes = Math.floor((character.battletime + 3600000 - currentTime)/60000);
+				var timeUntilNextBattleInMinutes = Math.ceil((character.battletime + 3600000 - currentTime)/60000);
 				message.channel.send("You don't have any battles left. You get a battle chance every 1 hour up to a maximum stock of 3 battles. You can battle again in "
 					+ timeUntilNextBattleInMinutes + " minutes");
 			}
@@ -166,7 +166,7 @@ client.on("message", async message => {
 			//No challenges left
 			if(character.challengesLeft <= 0){
 				
-				var timeUntilNextChallengeInMinutes = Math.floor((character.challengetime + 3600000 - currentTime)/60000);
+				var timeUntilNextChallengeInMinutes = Math.ceil((character.challengetime + 3600000 - currentTime)/60000);
 				message.channel.send("You don't have any challenges left. You get a challenge every 1 hour up to a maximum stock of 3 challenges. You can challenge again in "
 					+ timeUntilNextChallengeInMinutes + " minutes");
 			}
@@ -315,18 +315,18 @@ function displayStats(character, message){
 					+ "\nYou have " + character.challengesLeft + "/3 challenges left";
 	if(character.battlesLeft < 3){
 		
-		var timeUntilNextBattleInMinutes = Math.floor((character.battletime + 3600000 - currentTime)/60000);
+		var timeUntilNextBattleInMinutes = Math.ceil((character.battletime + 3600000 - currentTime)/60000);
 		statsString = statsString + "\nYou will gain another battle chance in " + timeUntilNextBattleInMinutes + " minutes";
 	}
 	if(character.challengesLeft < 3){
 		
-		var timeUntilNextChallengeInMinutes = Math.floor((character.challengetime + 3600000 - currentTime)/60000);
+		var timeUntilNextChallengeInMinutes = Math.ceil((character.challengetime + 3600000 - currentTime)/60000);
 		statsString = statsString + "\nYou will gain another challenge in " + timeUntilNextChallengeInMinutes + " minutes";
 	}
 	message.author.send(statsString);
 
 	//Save battle results
-	fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
+	fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
 		
 		if (err) console.error(err)
 	});
@@ -451,7 +451,7 @@ function doBattle(message, args, character, currentTime){
 		character.battleLock = false;
 		
 		//Save battle results
-		fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
+		fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
 			
 			if (err) console.error(err)
 		});
@@ -558,7 +558,7 @@ function doExpChallenge(message, character, challenger, currentTime){
 		}
 		
 		//Save battle results
-		fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
+		fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
 			
 			if (err) console.error(err)
 		});
@@ -605,7 +605,7 @@ function doGoldChallenge(message, character, challenger, currentTime){
 		}
 		
 		//Save battle results
-		fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
+		fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
 			
 			if (err) console.error(err)
 		});
@@ -929,7 +929,7 @@ function updateCharacters(){
 	}
 	
 	//Save updated characters
-	fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
+	fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
 		
 		if (err) console.error(err)
 	});
@@ -960,7 +960,7 @@ function createNewCharacter(message){
 	};
 
 	//Save new character
-	fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
+	fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
 				
 		if (err) console.error(err)
 	});
