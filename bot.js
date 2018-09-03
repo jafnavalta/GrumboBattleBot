@@ -275,8 +275,8 @@ client.on("message", async message => {
 			//Bad challenge command
 			else{
 				
-				message.channel.send("If you are challenging someone, mention an opponent with @ after 'challenge' followed by your exp wager.\n"
-					+ "If you are being challenged, type '!grumbo challenge accept <number>'. <number> must match challenger's exp wager.\n"
+				message.channel.send("If you are challenging someone, mention an opponent with @ after 'challenge' followed by your exp/gold wager.\n"
+					+ "If you are being challenged, type '!grumbo challenge accept <number> exp/gold'. <number> must match challenger's exp/gold wager.\n"
 					+ "Type '!grumbo help' for more info.");
 			}
 		}
