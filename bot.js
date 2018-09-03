@@ -7,9 +7,6 @@ const client = new Discord.Client();
 const fs = require("fs");
 let levels = JSON.parse(fs.readFileSync("./levels.json", "utf8"));
 
-//Lock for Grumbo battles
-var onHold = false;
-
 //Locks for challenges (PvP)
 var onChallenge = false;
 var onChallengeAccept = false;
@@ -46,13 +43,6 @@ client.on("message", async message => {
 			createNewCharacter(message);
 		}
 		
-		//Can't do more than one battle at once.
-		if(onHold){
-			
-			message.channel.send("A battle is currently ongoing! Try again later.");
-			return;
-		}
-		
 		//Get character stats, parse command and get users name
 		var character = levels[message.author.id];
         var args = message.content.split(' ');
@@ -76,6 +66,7 @@ client.on("message", async message => {
 			
 			message.channel.send("GRUMBO PATCH NOTES\n\n"
 			
+				+ "- Users can now battle at the same time. Challenges are still one at a time.\n"
 				+ "- Stats and leaderboards are now private messages.\n"
 				+ "- Added gold challenges. Item shop is probably next on the roadmap.\n"
 				+ "- Changed challenge commands to accomodate gold challenges.\n\n"
@@ -128,8 +119,13 @@ client.on("message", async message => {
 			var currentTime = date.getTime();
 			restockBattles(currentTime, character);
 			
+			//Character is already in a battle
+			if(character.battleLock){
+				
+				message.channel.send("You are already in battle " + message.member.displayName + "!");
+			}
 			//User tried to fight a Grumbo who has a level lower than 1
-			if(args[3] < 1){
+			else if(args[3] < 1){
 				
 				//Can't fight negative or 0 level Grumbos
 				message.channel.send("Bruh, you can't choose a level less than 1 you scrub");
@@ -385,8 +381,8 @@ function displayLeaderboards(message){
 */
 function doBattle(message, args, character, currentTime){
 
-	//Don't allow other battles while this one is going on
-	onHold = true;
+	//Don't allow user to battle multiple times at once
+	character.battleLock = true;
 
 	//Calculate victory chance, max 99%, min 10%
 	var levelDiff = character.level - args[3];
@@ -452,13 +448,13 @@ function doBattle(message, args, character, currentTime){
 				+ "\nYou have " + character.battlesLeft + "/3 battles left");
 		}
 		
+		character.battleLock = false;
+		
 		//Save battle results
 		fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
 			
 			if (err) console.error(err)
 		});
-		
-		onHold = false;
 	}, 5000);
 }
 
@@ -926,6 +922,10 @@ function updateCharacters(){
 			
 			character.gold = 0;
 		}
+		if(character.battleLock == null){
+			
+			character.battleLock = false;
+		}
 	}
 	
 	//Save updated characters
@@ -950,6 +950,7 @@ function createNewCharacter(message){
 		winrate: 0,
 		battlesLeft: 3,
 		battletime: 9999999999999,
+		battleLock: false,
 		challengeWins: 0,
 		challengeLosses: 0,
 		challengeWinrate: 0,
