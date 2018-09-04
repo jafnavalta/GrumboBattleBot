@@ -321,7 +321,7 @@ function updateCharacters(){
 			
 			character.gold = 0;
 		}
-		if(character.battleLock == null || character.battleLock = true){
+		if(character.battleLock == null || character.battleLock == true){
 			
 			character.battleLock = false;
 		}
