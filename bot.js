@@ -45,7 +45,7 @@ client.on("message", async message => {
 		
 		//Get character stats, parse command and get users name
 		var character = levels[message.author.id];
-        var args = message.content.split(' ');
+		var args = message.content.split(' ');
 		
 		/////////////////////
 		// !! HELP MENU !! //
@@ -96,8 +96,8 @@ client.on("message", async message => {
 				+ "BATTLES\n"
 				+ "You can battle any Grumbo whose level is up to 20 levels higher than you. The experience, gold and chance of victory are based on the level difference between "
 				+ "your current level and the Grumbo level. As the level of the Grumbo increases, experience increases, but gold and chance of victory decrease. The min victory "
-				+ "chance if 5% and the max is 95%. Experience is also decreased independently based on how high your level is. While you get more gold the lower the level of the Grumbo, " 
-				+ "you will only get 1 gold if you fight a Grumbo who is over 20 levels lower than you.\n"
+				+ "chance is 5% and the max is 95%. Experience is also decreased independently based on how high your level is. While you get more gold the lower the level of the Grumbo, " 
+				+ "you will only get 10 gold if you fight a Grumbo who is over 20 levels lower than you.\n"
 				+ "Battle attempts recover 1 stock every hour up to a maximum of 3.\n\n"
 				
 				+ "CHALLENGES\n"
