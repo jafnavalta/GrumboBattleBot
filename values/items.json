@@ -1,0 +1,38 @@
+{
+	"battle_ticket": {
+		"id": 1000,
+		"name": "Battle Ticket",
+		"command": "!grumbo items use battle_ticket",
+		"type": "immediate",
+		"battleState": null,
+		"description": "Replenishes 1 battle stock. Consumed after use.",
+		"effect": "good",
+		"price": 500,
+		"value": 80,
+		"max": 5
+	},
+	"challenge_ticket": {
+		"id": 1001,
+		"name": "Challenge Ticket",
+		"command": "!grumbo items use challenge_ticket",
+		"type": "immediate",
+		"battleState": null,
+		"description": "Replenishes 1 challenge stock. Consumed after use.",
+		"effect": "good",
+		"price": 500,
+		"value": 80,
+		"max": 5
+	},
+	"battle_potion": {
+		"id": 1002,
+		"name": "Battle Potion",
+		"command": "!grumbo items use battle_potion",
+		"type": "consume",
+		"battleState": "pre-battle",
+		"description": "Increases chance of victory for the next battle. Scales depending on level difference from +1 for Grumbos who are 20 levels higher than you to +5 if the same level or lower. Can only have 1 active at a time. Unaffected by level difference modifiers. Consumed after use.",
+		"effect": "good",
+		"price": 150,
+		"value": 20,
+		"max": 10
+	}
+}
