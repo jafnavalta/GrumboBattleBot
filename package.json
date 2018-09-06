@@ -1,11 +1,10 @@
 {
-  "name": "GrumBattleBot",
+  "name": "GrumboBattleBot",
   "version": "1.0.0",
   "description": "Battle GRUMBO with !grumbo battle level <integer> to fight Grumbo and level up! Be the highest level in your server! Type '!grumbo help' for list of commands.",
   "main": "bot.js",
   "author": "James Navalta",
   "dependencies": {
-    "discord.js": "^11.4.2",
-    "winston": "^3.0.0"
+    "discord.js": "^11.4.2"
   }
 }

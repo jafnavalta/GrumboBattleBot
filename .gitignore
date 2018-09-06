@@ -1,1 +1,4 @@
 node_modules/
+levels.json
+auth.json
+package-lock.json
