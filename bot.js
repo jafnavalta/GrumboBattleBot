@@ -145,6 +145,30 @@ client.on("message", async message => {
 		//////////////////
 		else if(args[1] == 'battle'){
 			
+			//User tried to fight a Grumbo who has a level lower than 1
+			if(args[3] < 1){
+				
+				//Can't fight negative or 0 level Grumbos
+				message.channel.send("Bruh, you can't choose a level less than 1 you scrub");
+			}
+			//User tried to fight Grumbo that was over 20 levels higher than them
+			else if((character.level - args[3]) < -20){
+				
+				//Can't fight a Grumbo who is over 20 levels higher than you
+				var maxLevel = character.level + 20;
+				message.channel.send("Pick a fight up to 20 levels higher than your own level you fool\nYour current limit is Grumbo Lv" + maxLevel);
+			}
+			//No battles left
+			else if(character.battlesLeft == 0){
+				
+				message.channel.send("You don't have any battles left. You get a battle chance every 1 hour up to a maximum stock of 3 battles. You can battle again in "
+					+ getTimeLeftUntilNextEvent(character.battletime);
+			}
+			//BATTLE
+			else{
+				
+				doBattle(message, args, character, currentTime);
+			}
 			battlefunc.commandBattle(levels, message, args, character);
 		}
 		
@@ -184,7 +208,40 @@ function displayStats(character, message, args){
 			sender = message.channel;
 		}
 		
-		//Determine how many battles they should have left
+		character.challengesLeft += addChallenges;
+		if(character.challengesLeft < 3){
+			
+			character.challengetime = character.challengetime + (addChallenges * 3600000);
+		}
+		if(character.challengesLeft >= 3){
+			
+			character.challengesLeft = 3;
+		}
+	}
+	
+	var username = message.member.displayName;
+	var statsString = username + " Lv" + character.level + " with " + character.experience + " EXP"
+					+ "\nBattle          Wins " + character.wins + "  |  Losses " + character.losses + "  |  Win% " + character.winrate
+					+ "\nChallenge  Wins " + character.challengeWins + "  |  Losses " + character.challengeLosses + "  |  Win% " + character.challengeWinrate
+					+ "\nYou have " + character.battlesLeft + "/3 battles left"
+					+ "\nYou have " + character.challengesLeft + "/3 challenges left";
+	if(character.battlesLeft < 3){
+		
+		statsString = statsString + "\nYou will gain another battle chance in " + getTimeLeftUntilNextEvent(character.battletime);
+	}
+	if(character.challengesLeft < 3){
+		
+		statsString = statsString + "\nYou will gain another challenge in " + getTimeUntilNextEvent(character.challengetime);
+	}
+	message.channel.send(statsString);
+	console.log(currentTime);
+	console.log(character.battletime);
+	console.log(character.challengetime);
+
+	//Save battle results
+	fs.writeFile("./levels.json", JSON.stringify(levels), (err) => {
+
+    //Determine how many battles they should have left
 		var date = new Date();
 		var currentTime = date.getTime();
 		battlefunc.restockBattles(currentTime, character);
@@ -200,13 +257,11 @@ function displayStats(character, message, args){
 						+ "\nYou have " + character.challengesLeft + "/3 challenges left";
 		if(character.battlesLeft < 3){
 			
-			var timeUntilNextBattleInMinutes = Math.ceil((character.battletime + 3600000 - currentTime)/60000);
-			statsString = statsString + "\nYou will gain another battle chance in " + timeUntilNextBattleInMinutes + " minutes";
+			statsString = statsString + "\nYou will gain another battle chance in " + getTimeLeftUntilNextEvent(character.battletime);
 		}
 		if(character.challengesLeft < 3){
 			
-			var timeUntilNextChallengeInMinutes = Math.ceil((character.challengetime + 3600000 - currentTime)/60000);
-			statsString = statsString + "\nYou will gain another challenge in " + timeUntilNextChallengeInMinutes + " minutes";
+			statsString = statsString + "\nYou will gain another challenge in " + getTimeLeftUntilNextEvent(character.challengetime);
 		}
 		sender.send(statsString);
 
@@ -279,6 +334,21 @@ function displayLeaderboards(message, args){
 		
 		message.channel.send("Bad leaderboards command. Try '!grumbo help' for the correct command.");
 	}
+}
+
+/**
+* How much time left until you get another battle.
+*/
+function getTimeLeftUntilNextEvent(characterEventTime) {
+	
+	var timeUntilNextBattleInSeconds =  Math.floor(characterEventTime + 3600000 - currentTime)/1000);
+	var minutesUntilNextBattle = Math.floor(timeUntilNextBattleInSeconds / 60);
+	var secondsUntilNextMinute = timeUntilNextBattleInSeconds - (minutesUntilNextBattle * 60);
+	
+	//Adds a 0 in front if `secondsUntilNextMinute` is in the single digits
+	secondsUntilNextMinute = ('0' + secondsUntilNextMinute).slice(-2);
+	
+	return minutesUntilNextBattle + "minutes " + secondsUntilNextMinute + "s";
 }
 
 /**
