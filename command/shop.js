@@ -453,7 +453,7 @@ function buySpecialItem(message, character, special, amount){
 				
 				var uniqueItem = unique[x]
 				var countInSpecial = 0;
-				unique.forEach(function(uniqueItem2){
+				special.items.forEach(function(uniqueItem2){
 				
 					if(uniqueItem == uniqueItem2) countInSpecial++;
 				});
