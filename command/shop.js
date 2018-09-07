@@ -237,32 +237,36 @@ function displayShop(message, args, character){
 		}
 	});
 	
+	sender.send(shopString);
+	
 	var currentTime = new Date().getTime();
 	var timeUntilRotationInMillis = (INTERVAL * (LR.lastRotation + 1)) - currentTime;
 	var hours = Math.floor(timeUntilRotationInMillis/3600000);
 	var minutes = Math.ceil((timeUntilRotationInMillis % 3600000) / 60000);
 	
-	shopString += "[--- ROTATING ITEMS ---]\nThe next item/special rotation is in " + hours + " hours " + minutes + " minutes\n\n";
+	var shopString2 = "[--- ROTATING ITEMS ---]\nThe next item/special rotation is in " + hours + " hours " + minutes + " minutes\n\n";
 	shop.rotation.forEach(function(item){
 		
-		shopString += item.name + "  |  Buy:  " + item.id + "\n"
+		shopString2 += item.name + "  |  Buy:  " + item.id + "\n"
 			+ item.description + "\n";
-		shopString += "Price: " + item.price + " gold  |  ";
+		shopString2 += "Price: " + item.price + " gold  |  ";
 		if(item.max > 1){
 		
-			shopString += "Can hold up to " + item.max + "\n";
+			shopString2 += "Can hold up to " + item.max + "\n";
 		}
 		else{
 			
-			shopString += "Can only hold 1\n";
+			shopString2 += "Can only hold 1\n";
 		}
-		shopString += "Stock: " + item.stock + "\n\n";
+		shopString2 += "Stock: " + item.stock + "\n\n";
 	});
 	
-	shopString += "[--- SPECIALS ---]\nThe next item/special rotation is in " + hours + " hours " + minutes + " minutes\n\n";
+	sender.send(shopString2);
+	
+	var shopString3 = "[--- SPECIALS ---]\nThe next item/special rotation is in " + hours + " hours " + minutes + " minutes\n\n";
 	shop.special.forEach(function(special){
 		
-		shopString += special.name + "  |  Buy:  " + special.id + "\n"
+		shopString3 += special.name + "  |  Buy:  " + special.id + "\n"
 			+ special.description + "\n";
 		var itemsString = "Contains: [";
 		for(var i = 0; i < special.items.length; i++){
@@ -276,12 +280,12 @@ function displayShop(message, args, character){
 				itemsString += itemList[special.items[i]].name + ", ";
 			}
 		}
-		shopString += itemsString;
-		shopString += "Price: " + special.price + " gold\n"
+		shopString3 += itemsString;
+		shopString3 += "Price: " + special.price + " gold\n"
 			+ "Stock: " + special.stock + "\n\n";
 	});
 	
-	sender.send(shopString);
+	sender.send(shopString3);
 }
 
 /**
