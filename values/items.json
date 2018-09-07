@@ -58,8 +58,8 @@
 		"description": "Removes the 'Poison' active. Consumed after use.",
 		"effect": "good",
 		"duration": null,
-		"price": 400,
-		"value": 20,
+		"price": 300,
+		"value": 40,
 		"max": 10,
 		"stock": null,
 		"weight": null
