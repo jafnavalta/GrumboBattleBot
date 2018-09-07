@@ -1,0 +1,5 @@
+ITEMS
+Items have different kinds of effects when used, from doing an immediate action like replenishing a battle stock or making you slightly stronger in your next battle. Use the item commands to use and check the details of all your items. Every item has a carry limit, meaning you can only carry a certain amount of that item before you can't carry anymore. This limit can even be 1. Some items are not consumed even after use.
+
+ACTIVES
+Currently, active effects are effects that take place during battle. They might increase the chance of victory or decrease it. Active effects can be helpful or troublesome. An active effect will last as many battles as there are turns left but some can be removed in other ways. An active effect has a max turn limit of 10 turns. Grumbos can also have active effects that change the outcome of the battle.

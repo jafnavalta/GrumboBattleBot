@@ -1,0 +1,87 @@
+{
+	"fools_gold": {
+		"gameId": 10004,
+		"id": "fools_gold",
+		"name": "Fools Gold",
+		"command": "!grumbo items use fools_gold",
+		"type": "consume",
+		"battleStates": [
+			"preresults",
+			"postresults"
+		],
+		"description": "Only 1 time, if you were to lose gold in battle (not challenge), the Fools Gold will be lost instead. Consumed after use.",
+		"effect": "good",
+		"duration": null,
+		"price": 10,
+		"value": 1,
+		"max": 3,
+		"stock": 2,
+		"weight": 20
+	},
+	"grumbo_ticket": {
+		"gameId": 10005,
+		"id": "grumbo_ticket",
+		"name": "Grumbo Ticket",
+		"command": "!grumbo items use grumbo_ticket",
+		"type": "immediate",
+		"battleStates": null,
+		"description": "Completely replenishes all battle and challenge stocks.",
+		"effect": "good",
+		"duration": null,
+		"price": 1450,
+		"value": 225,
+		"max": 1,
+		"stock": 1,
+		"weight": 2
+	},
+	"duel_converter": {
+		"gameId": 10007,
+		"id": "duel_converter",
+		"name": "Duel Converter",
+		"command": "!grumbo items use duel_converter",
+		"type": "immediate",
+		"battleStates": null,
+		"description": "Converts a battle stock into a challenge stock.",
+		"effect": "good",
+		"duration": null,
+		"price": 300,
+		"value": 50,
+		"max": 10,
+		"stock": 3,
+		"weight": 20
+	},
+	"gamblers_coin": {
+		"gameId": 10008,
+		"id": "gamblers_coin",
+		"name": "Gambler's Coin",
+		"command": "!grumbo items use gambler_coin",
+		"type": "immediate",
+		"battleStates": null,
+		"description": "Can only use 1 at a time. Gain 80 exp... or maybe lose 80 exp... or maybe...",
+		"effect": "neutral",
+		"duration": null,
+		"price": 300,
+		"value": 50,
+		"max": 10,
+		"stock": 3,
+		"weight": 15
+	},
+	"berserk_potion": {
+		"gameId": 10010,
+		"id": "berserk_potion",
+		"name": "Berserk Potion",
+		"command": "!grumbo items use berserk_potion",
+		"type": "consume",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "Increases victory chance by 5%. Every battle, the victory chance increased goes down by 1%, all the way down to -5% in the last battle. Can only have 1 active at a time.",
+		"effect": "good",
+		"duration": 10,
+		"price": 375,
+		"value": 70,
+		"max": 1,
+		"stock": 1,
+		"weight": 10
+	}
+}

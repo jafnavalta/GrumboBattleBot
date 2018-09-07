@@ -1,0 +1,14 @@
+GRUMBO OLD PATCH NOTES
+Most recent from the top
+			
+- Users can now battle at the same time. Challenges are still one at a time.
+- Stats and leaderboards are now private messages.
+- Added gold challenges. Item shop is probably next on the roadmap.
+- Changed challenge commands to accomodate gold challenges.
+- Added gold. Gold challenges to be added in next update. Item shop probably follows that.
+- Maximum victory chance changed from 99% to 95%
+- Added guide command for further help.
+- Decreased exp gained in won battles by your current level.
+- Added PvP with the challenge command. Wager experience.
+- Changed xp scaling for higher level Grumbos
+- Minimum victory chance changed from 10% to 5%

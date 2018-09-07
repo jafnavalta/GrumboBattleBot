@@ -1,13 +1,37 @@
+//Initialize DB functions
+let dbfunc = require('../data/db.js');
+
 //Initialize fs
 const fs = require("fs");
 
 //Initialize state for state constants and functions
 let state = require('../state.js');
 
+//Initialize list of grumbos file
+let grumboList = JSON.parse(fs.readFileSync("./values/grumbos.json", "utf8"));
+
+//Weighted Arrays for randomly choosing Grumbos
+let weighedGrumbos = [];
+
+/**
+* Fill the weighted arrays.
+*/
+exports.initWeighedArrays = function(){
+	
+	for(var key in grumboList){
+		
+		var grumbo = grumboList[key];
+		for(var i = 0; i < grumbo.weight; i++){
+			
+			weighedGrumbos.push(grumbo.id);
+		}
+	};
+}
+
 /**
 * Battle command
 */
-exports.commandBattle = function(levels, message, args, character){
+exports.commandBattle = function(message, args, character){
 	
 	if(args.length == 4 && isInteger(args[3])){
 		
@@ -46,7 +70,11 @@ exports.commandBattle = function(levels, message, args, character){
 			//BATTLE
 			else{
 				
-				doBattle(levels, message, args, character, currentTime);
+				//Get all character active effects
+				dbfunc.getDB().collection("actives").find({"character": character._id}).toArray(function(err, actives){
+					
+					doBattle(message, args, character, currentTime, actives);
+				});
 			}
 		}
 		else{
@@ -79,88 +107,101 @@ exports.restockBattles = function(currentTime, character){
 			character.battlesLeft = 3;
 		}
 	}
+	
+	dbfunc.updateCharacter(character);
 }
 
 /**
 * Do battle 
 */
-function doBattle(levels, message, args, character, currentTime){
+function doBattle(message, args, character, currentTime, actives){
 
 	//Don't allow user to battle multiple times at once
 	character.battleLock = true;
+	dbfunc.getDB().collection("characters").updateOne(
+			{"_id": character._id}, 
+			{$set: {"battleLock": character.battleLock}},
+		function(error, result){
 
-	var battleState = {
+		//Prebattle determinations
+		var grumbo = getRandomGrumbo();
+		var battleState = {};
+		state.prebattle(message, args, character, battleState, actives, grumbo);
 		
-		levelDiffActual: 0,
-		levelDiff: 0, 
-		chance: 0
-	};
-	state.prebattle(levels, message, args, character, battleState);
-	
-	if(character.battlesLeft == 3){
-		
-		character.battletime = currentTime;
-	}
-	
-	var username = message.member.displayName;
-	message.channel.send(username + " Lv" + character.level + "   VS   Grumbo Lv" + args[3]
-		+ "\n" + username + " has a " + battleState.chance + "% chance of victory"
-		+ "\nBattle in progress, please wait a moment...\n");
-		
-	//Wait 5 seconds before determining/displaying battle results
-	setTimeout(function(){
-		
-		//Determine battle results
-		var result = Math.floor(Math.random() * 100) + 1;
-		
-		//If victory
-		if(result <= battleState.chance){
+		if(character.battlesLeft == 3){
 			
-			//Calculate experience gained
-			var exp = calculateBattleExp(character, battleState.levelDiff);
-			var gold = calculateBattleGold(character, battleState.levelDiff);
-			var leftover = (exp + character.experience) % 100;
-			var gains = Math.floor(((exp + character.experience)/100));
-			var newLevel = character.level + gains;
-			
-			//Win message and results
-			character.battlesLeft -= 1;
-			character.wins += 1;
-			character.level = newLevel;
-			character.experience = leftover;
-			character.gold += gold;
-			character.winrate = Math.floor(((character.wins / (character.wins + character.losses)) * 100));
-			message.channel.send(username + " won! You gained " + exp + " experience for " + gains + " level(s)! You also gained " + gold + " gold! Here are your current stats:"
-				+ "\n" + username + " Lv" + character.level + "  |  " + character.experience + " EXP  |  " + character.gold + " Gold  |  Wins " + character.wins 
-				+ "  |  Losses " + character.losses + "   |   Win% " + character.winrate 
-				+ "\nYou have " + character.battlesLeft + "/3 battles left");
-		}
-		//If loss
-		else{
-			
-			character.battlesLeft -= 1;
-			character.losses += 1;
-			character.winrate = Math.floor(((character.wins / (character.wins + character.losses)) * 100));
-			message.channel.send(username + " lost! Maybe you should try harder my dude. Here are your current stats:"
-				+ "\n" + username + " Lv" + character.level + "  |  " + character.experience + " EXP  |  " + character.gold + " Gold  |  Wins " + character.wins 
-				+ "  |  Losses " + character.losses + "   |   Win% " + character.winrate 
-				+ "\nYou have " + character.battlesLeft + "/3 battles left");
+			character.battletime = currentTime;
 		}
 		
-		character.battleLock = false;
-		
-		//Save battle results
-		fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
+		var username = message.member.displayName;
+		message.channel.send(username + " Lv" + character.level + "   VS   " + grumbo.name + " Lv" + args[3] + "\n"
+			+ username + " has a " + battleState.chance + "% chance of victory\n"
+			+ "Battle in progress, please wait a moment...\n");
 			
-			if (err) console.error(err)
-		});
-	}, 5000);
+		//Wait 5 seconds before determining/displaying battle results
+		setTimeout(function(){
+			
+			//Determine battle results
+			var result = Math.floor(Math.random() * (101));
+			
+			//If victory
+			if(result <= battleState.chance){
+				
+				//Preresults determinations
+				battleState.win = true;
+				state.preresults(message, character, battleState, actives, grumbo);
+				
+				//Postresults determinations
+				state.postresults(message, character, battleState, actives, grumbo);
+				
+				//TODO customize message
+				var endMessageString = grumbo.victory.replace('$name', username) + "\n";
+				endMessageString += "You gained " + battleState.exp + " experience for " + battleState.gains + " level(s)! You also gained " + battleState.gold + " gold!\n";
+				battleState.endMessages.forEach(function(endMessage){
+					
+					endMessageString += endMessage + "\n";
+				});
+				endMessageString += "Here are your current stats:\n" + username + " Lv" + character.level + "  |  " 
+					+ character.experience + " EXP  |  " + character.gold + " Gold  |  Wins " + character.wins 
+					+ "  |  Losses " + character.losses + "   |   Win% " + character.winrate + "\n"
+					+ "You have " + character.battlesLeft + "/3 battles left"
+				message.channel.send(endMessageString);
+			}
+			//If loss
+			else{
+				
+				//Preresults determinations
+				battleState.win = false;
+				state.preresults(message, character, battleState, actives, grumbo);
+				
+				//Postresults determinations
+				state.postresults(message, character, battleState, actives, grumbo);
+				
+				//customize message
+				var endMessageString = grumbo.loss.replace('$name', username) + "\n";
+				battleState.endMessages.forEach(function(endMessage){
+					
+					endMessageString += endMessage + "\n";
+				});
+				endMessageString += "Here are your current stats:\n" + username + " Lv" + character.level + "  |  " 
+					+ character.experience + " EXP  |  " + character.gold + " Gold  |  Wins " + character.wins 
+					+ "  |  Losses " + character.losses + "   |   Win% " + character.winrate + "\n"
+					+ "You have " + character.battlesLeft + "/3 battles left"
+				message.channel.send(endMessageString);
+			}
+			
+			character.battleLock = false;
+			
+			//Save battle results
+			dbfunc.updateCharacter(character);
+		}, 5000);
+	});
 }
 
 /**
 * Calculate battle experience gained.
 */
-function calculateBattleExp(character, levelDiff){
+exports.calculateBattleExp = function(character, levelDiff){
 	
 	var exp = 100;
 	//Low level Grumbo
@@ -238,7 +279,7 @@ function calculateHighLevelExp(exp, levelDiff){
 /**
 * Calculate battle gold gained.
 */
-function calculateBattleGold(character, levelDiff){
+exports.calculateBattleGold = function(character, levelDiff){
 	
 	var gold = 120 + Math.floor(Math.random() * 25) + levelDiff;
 	if(levelDiff > 20){
@@ -269,6 +310,17 @@ function calculateBattleGold(character, levelDiff){
 	}
 	return Math.ceil(gold);
 }
+
+/**
+* Randomize Grumbo.
+*/
+function getRandomGrumbo(){
+	
+	var random = Math.floor(Math.random() * (weighedGrumbos.length - 1));
+	var grumboId = weighedGrumbos[random];
+	return grumboList[grumboId];
+}
+
 
 /**
 * Determines if x is an integer.

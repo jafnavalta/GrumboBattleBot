@@ -1,6 +1,9 @@
 //Initialize fs
 const fs = require("fs");
 
+//Initialize DB functions
+let dbfunc = require('../data/db.js');
+
 //Locks for challenges (PvP)
 var onChallenge = false;
 var onChallengeAccept = false;
@@ -9,7 +12,7 @@ var opponentID = null;
 var wagerType = null;
 var wager = 0;
 
-exports.commandChallenge = function(levels, message, args, character){
+exports.commandChallenge = function(message, args, character){
 	
 	//Determine how many challenges they should have left
 	var date = new Date();
@@ -28,11 +31,7 @@ exports.commandChallenge = function(levels, message, args, character){
 	//User issued a challenge
 	else if(opponent != null && isInteger(args[3])){
 		
-		if(message.author.id == opponent.id){
-			
-			message.channel.send("You can't challenge yourself bud.");
-		}
-		else if(!onChallenge && !onChallengeAccept){
+		if(!onChallenge && !onChallengeAccept){
 			
 			//Exp challenge
 			if(args[4] == 'exp'){
@@ -83,7 +82,11 @@ exports.commandChallenge = function(levels, message, args, character){
 	//User accepted a challenge
 	else if(args[2] == 'accept' && isInteger(args[3])){
 		
-		if(message.author.id == opponentID){
+		if(message.author.id == opponent.id){
+			
+			message.channel.send("You can't challenge yourself bud.");
+		}
+		else if(message.author.id == opponentID){
 			
 			if(args[4] == 'exp' && wagerType == 'exp'){
 				
@@ -98,7 +101,7 @@ exports.commandChallenge = function(levels, message, args, character){
 				}
 				else{
 					
-					doChallenge(levels, message, character, currentTime);
+					doChallenge(message, character, currentTime);
 				}
 			}
 			else if(args[4] == 'gold' && wagerType == 'gold'){
@@ -113,7 +116,7 @@ exports.commandChallenge = function(levels, message, args, character){
 				}
 				else{
 					
-					doChallenge(levels, message, character, currentTime);
+					doChallenge(message, character, currentTime);
 				}
 			}
 			else{
@@ -155,6 +158,8 @@ exports.restockChallenges = function(currentTime, character){
 			character.challengesLeft = 3;
 		}
 	}
+	
+	dbfunc.updateCharacter(character);
 }
 
 /**
@@ -194,28 +199,29 @@ function issueChallenge(message, opponent, args){
 /**
 * Do challenge.
 */
-function doChallenge(levels, message, character, currentTime){
+function doChallenge(message, character, currentTime){
 	
 	onChallengeAccept = true;
-	var challenger = levels[challengerID];
-	
-	//Determine how many challenges they should have left
-	exports.restockChallenges(currentTime, challenger);
-	
-	if(wagerType == 'exp'){
+	dbfunc.getDB().collection("characters").findOne({"_id": challengerID}, function(err, challenger){
 		
-		doExpChallenge(levels, message, character, challenger, currentTime);
-	}
-	else{
+		//Determine how many challenges they should have left
+		exports.restockChallenges(currentTime, challenger);
 		
-		doGoldChallenge(levels, message, character, challenger, currentTime);
-	}
+		if(wagerType == 'exp'){
+			
+			doExpChallenge(message, character, challenger, currentTime);
+		}
+		else{
+			
+			doGoldChallenge(message, character, challenger, currentTime);
+		}
+	});
 }
 
 /**
 * Do an exp challenge.
 */
-function doExpChallenge(levels, message, character, challenger, currentTime){
+function doExpChallenge(message, character, challenger, currentTime){
 	
 	//Determine odds
 	var levelDiff = character.level - challenger.level;
@@ -257,10 +263,8 @@ function doExpChallenge(levels, message, character, challenger, currentTime){
 		}
 		
 		//Save battle results
-		fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
-			
-			if (err) console.error(err)
-		});
+		dbfunc.updateCharacter(character);
+		dbfunc.updateCharacter(challenger);
 		
 		//Release challenge locks
 		onChallenge = false;
@@ -274,7 +278,7 @@ function doExpChallenge(levels, message, character, challenger, currentTime){
 /**
 * Do an gold challenge.
 */
-function doGoldChallenge(levels, message, character, challenger, currentTime){
+function doGoldChallenge(message, character, challenger, currentTime){
 	
 	message.channel.send(message.member.displayName + " is facing off against challenger " 
 		+ message.guild.members.get(challengerID).displayName + " for " + wager + " gold!\n"
@@ -304,10 +308,8 @@ function doGoldChallenge(levels, message, character, challenger, currentTime){
 		}
 		
 		//Save battle results
-		fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
-			
-			if (err) console.error(err)
-		});
+		dbfunc.updateCharacter(character);
+		dbfunc.updateCharacter(challenger);
 		
 		//Release challenge locks
 		onChallenge = false;

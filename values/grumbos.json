@@ -1,0 +1,71 @@
+{
+	"grumbo": {
+		"gameId": 1000,
+		"id": "grumbo",
+		"name": "Grumbo",
+		"description": "Well if it isn't Grumbo.",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [],
+		"victory": "$name won!",
+		"loss": "$name lost! Maybe you should try harder my dude.",
+		"weight": 80
+	},
+	"toxic_grumbo": {
+		"gameId": 1001,
+		"id": "toxic_grumbo",
+		"name": "Toxic Grumbo",
+		"description": "This Grumbo learned from the best Draven player of all time.",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"poison"
+		],
+		"victory": "$name has overcome gaming toxicity!",
+		"loss": "$name lost all self-esteem after been constantly flamed by Toxic Grumbo.",
+		"weight": 15
+	},
+	"grumbo_thief": {
+		"gameId": 1002,
+		"id": "grumbo_thief",
+		"name": "Grumbo Thief",
+		"description": "A thief who takes some gold if you lose. You also gain a little bit more gold for winning.",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"gold_boost_1",
+			"pilfer"
+		],
+		"victory": "$name avoided getting their lunch money taken!",
+		"loss": "$name had his pockets cut by Grumbo Thief!",
+		"weight": 10
+	},
+	"grumbassassin": {
+		"gameId": 1003,
+		"id": "grumbassassin",
+		"name": "Grumbassassin",
+		"description": "The Grumbassassin is out to get you... and take all of your remaining battle stocks too.",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"assassinate"
+		],
+		"victory": "$name says not today Grumbassassin!",
+		"loss": "$name has been assassinated by the Grumbassassin!",
+		"weight": 8
+	},
+	"wumbo": {
+		"gameId": 1004,
+		"id": "wumbo",
+		"name": "Wumbo",
+		"description": "Wumbo this. Wumbo that. But you can't Wumbo your way past a 70% chance of victory against this Wumbo fellow.",
+		"prebattle": [
+			"wumbo"
+		],
+		"preresults": [],
+		"postresults": [],
+		"victory": "$name has toppled the mighty Wumbo!",
+		"loss": "Wumbo taught $name some wumbo Wumbology!",
+		"weight": 15
+	}
+}

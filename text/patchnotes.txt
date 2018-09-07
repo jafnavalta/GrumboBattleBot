@@ -1,0 +1,10 @@
+GRUMBO PATCH NOTES
+			
+- Added items and item commands.
+- Added shop and shop commands.
+- Added actives.
+- Added random Grumbos and Grumbo actives.
+
+Consult help/guide for more information
+!grumbo help
+!grumbo guide

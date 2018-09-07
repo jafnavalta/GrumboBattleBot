@@ -1,0 +1,14 @@
+GRUMBO BATTLE BOT GUIDE
+
+CHARACTER
+Your Grumbo character. Raise your level by defeating Grumbos and your peers to rise up in the leaderboards of your server. Gold, items and more are at your disposable.
+			
+BATTLES
+You can battle any Grumbo whose level is up to 20 levels higher than you. The experience, gold and chance of victory are based on the level difference between your current level and the Grumbo level. As the level of the Grumbo increases, experience increases, but gold and chance of victory decrease. Experience is also decreased independently based on how high your level is. The min victory chance is 5% and the max is 95%. While you get more gold the lower the level of the Grumbo, you will only get 10 gold if you fight a Grumbo who is over 20 levels lower than you. Actives take effect in battle but watch out, different kinds of Grumbos can appear with their own kind of active effects!
+Battle attempts recover 1 stock every hour up to a maximum of 3.
+				
+CHALLENGES
+Challenge users to a wager.
+Exp challenge: The loser will always lose the wager they bet, but the winner will win a wager based on the chance of victory which is influenced by level difference. The lower the chance, the higher the wager multiplier.
+Gold challenge: The chance of winning is always a 50/50. You always win/lose exactly what was wagered.
+Challenge attempts recover 1 stock every hour up to a maximum of 3.

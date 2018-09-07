@@ -1,254 +1,389 @@
+//Initialize DB
+let dbfunc = require('./data/db.js');
+
 //Initialize items
 const fs = require("fs");
 let itemList = JSON.parse(fs.readFileSync("./values/items.json", "utf8"));
+let activesList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
+
 
 //CONSTANTS
 //Item types
-const IMMEDIATE = "immediate"; //Consume with no active state
-const CONSUME = "consume"; //Consume with active state
-const NONCONSUME = "non-consume"; //Don't consume with no active state
+const IMMEDIATE = "immediate"; //Consume with no active state, no duration
+const CONSUME = "consume"; //Consume with active state, has duration
+const NONCONSUME = "nonconsume"; //Don't consume with no active state, could have duration
 const TOGGLE = "toggle"; //Don't consume with active state. Stays active until used again
+const INDEFINITE = "indefinite"; //Consume with active state, no duration
 
 //Battle states
-const PREBATTLE = "pre-battle"; //Before battle begins
-const PRERESULTS = "pre-results"; //After battle ends but before results are calculated
-const POSTRESULTS = "post-results"; //After results are calculated
+const PREBATTLE = "prebattle"; //Before battle begins
+const PRERESULTS = "preresults"; //After battle ends but before results are calculated
+const POSTRESULTS = "postresults"; //After results are calculated
+
+//Battle functions
+let battlefunc = require('./command/battle.js');
+
+//Active functions
+let characterfunc = require('./actives/active_character.js');
+let grumbofunc = require('./actives/active_grumbo.js');
+let usefunc = require('./actives/active_use.js');
 
 //EXPORTS
 exports.IMMEDIATE = IMMEDIATE;
 exports.CONSUME = CONSUME;
 exports.NONCONSUME = NONCONSUME;
 exports.TOGGLE = TOGGLE;
+exports.INDEFINITE = INDEFINITE;
 
 exports.PREBATTLE = PREBATTLE;
 exports.PRERESULTS = PRERESULTS;
 exports.POSTRESULTS = POSTRESULTS;
 
 /**
-* Do a particular function based on the event (item, equip, effect, skill, etc.) and consume event
+* Do a particular function based on the eventId (item, equip, effect, skill, etc.) and consume eventId
 */
-exports.immediate = function(levels, message, character, event, eventName){
+exports.immediate = function(message, character, eventId, event, amount){
 
-	var resultString = message.member.displayName + " has used " + eventName;
-
-	switch(event){
-	
-		case 'battle_ticket':
+	var state = {
 		
-			if(character.battlesLeft < 3){
-				
-				var index = character.items.indexOf(event);
-				character.items.splice(index, 1);
-				character.battletime -= 3600000;
-			}
-			else{
-				
-				resultString = "You already have all battle attempts available.";
-			}
-			break;
-			
-		case 'challenge_ticket':
-		
-			if(character.challengesLeft < 3){
-				
-				var index = character.items.indexOf(event);
-				character.items.splice(index, 1);
-				character.challengetime -= 3600000;
-			}
-			else{
-				
-				resultString = "You already have all challenge attempts available.";
-			}
-			break;
-			
-		default:
-			//Do nothing
-			break;
+		result: message.member.displayName + " has used " + event.name + " x" + amount
 	}
+	usefunc.immediate[eventId](message, character, state, eventId, event, amount);
 	
-	message.channel.send(resultString);
+	message.channel.send(state.result);
 	
 	//Save character
-	fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
+	dbfunc.updateCharacter(character);
+}
+
+/**
+* Add consumed eventId to active list.
+*/
+exports.consume = function(message, character, eventId, event, amount){
+	
+	var result = message.member.displayName + " has used " + event.name + " x" + amount;
+	
+	dbfunc.getDB().collection("actives").findOne({"_id": character._id + eventId, "character": character._id, "id": eventId}, function(err, active){
 		
-		if (err) console.error(err)
+		var wasConsumed = true;
+		if(active == null){
+			
+			exports.pushToState(character, eventId, event, event.battleStates, amount);
+		}
+		else{
+			
+			//Extend duration of consumable
+			//If duration is 0, don't allow use of item. Duration will be 0 if null.
+			if(active.duration == 10 || active.duration + (event.duration * amount) > 10){
+				
+				result = "You can't have an active for longer than 10 battles";
+				wasConsumed = false;
+			}
+			else{
+				
+				active.duration += event.duration * amount;
+				dbfunc.updateActive(active);
+			}
+		}
+		if(wasConsumed){
+			
+			for(var i = 0; i < amount; i++){
+				
+				var index = character.items.indexOf(eventId);
+				character.items.splice(index, 1);
+			}
+		}
+		
+		message.channel.send(result);
+		
+		//Save character
+		dbfunc.updateCharacter(character);
 	});
 }
 
 /**
-* Add consumed event to active list.
+* Do a particular function based on the eventId (item, equip, effect, skill, etc.) without consuming eventId
 */
-exports.consume = function(levels, message, character, event, eventName, eventState){
+exports.nonconsume = function(message, character, eventId, event, amount){
 
-	var resultString = message.member.displayName + " has used " + eventName;
-	
-	if(!character.active.includes(event)){
+	//None right now
+}
+
+/**
+* Activate or deactivate the eventId.
+*/
+exports.toggle = function(message, character, eventId, event, amount){
+
+	dbfunc.getDB().collection("actives").findOne({"_id": character._id + eventId, "character": character._id, "id": eventId}, function(err, active){
+
+		//Deactivate
+		if(active != null){
+			
+			exports.spliceFromState(character, eventId, event, event.battleStates, active);
+			message.channel.send(message.member.displayName + " has deactivated " + event.name);
+		}
+		//Activate
+		else{
+			
+			exports.pushToState(character, eventId, event, event.battleStates, null);
+			message.channel.send(message.member.displayName + " has activated " + event.name);
+		}
 		
-		pushToState(character, event, eventState);
-		var index = character.items.indexOf(event);
-		character.items.splice(index, 1);
-	}
-	else{
-		
-		resultString = "You already have " + eventName + " active.";
-	}
-	
-	message.channel.send(resultString);
-	
-	//Save character
-	fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
-		
-		if (err) console.error(err)
+		//Save character
+		dbfunc.updateCharacter(character);
 	});
 }
 
 /**
-* Do a particular function based on the event (item, equip, effect, skill, etc.) without consuming event
+* Add indefinite eventId to active list.
 */
-exports.nonconsume = function(levels, message, character, event, eventName){
-
-	//TODO add more item/equip functions
-}
-
-/**
-* Activate or deactivate the event.
-*/
-exports.toggle = function(levels, message, character, event, eventName, eventState){
-
-	//Deactivate
-	if(character.active.includes(event)){
-		
-		spliceFromState(character, event, eventState);
-		message.channel.send(message.member.displayName + " has deactivated " + eventName);
-	}
-	//Activate
-	else{
-		
-		pushToState(character, event, eventState);
-		message.channel.send(message.member.displayName + " has activated " + eventName);
-	}
+exports.indefinite = function(message, character, eventId, event, amount){
 	
-	//Save character
-	fs.writeFile("./levels.json", JSON.stringify(levels, null, 4), (err) => {
+	var result = message.member.displayName + " has used " + event.name;
+	
+	dbfunc.getDB().collection("actives").findOne({"_id": character._id + eventId, "character": character._id, "id": eventId}, function(err, active){
 		
-		if (err) console.error(err)
+		var wasConsumed = true;
+		if(active == null){
+			
+			exports.pushToState(character, eventId, event, event.battleStates, amount);
+		}
+		else{
+			
+			result = message.member.displayName + " already has " + event.name + " active!";
+			wasConsumed = false;
+		}
+		if(wasConsumed){
+				
+			var index = character.items.indexOf(eventId);
+			character.items.splice(index, 1);
+		}
+		
+		message.channel.send(result);
+		
+		//Save character
+		dbfunc.updateCharacter(character);
 	});
 }
 
 /**
 * Pre battle calculations.
 */
-exports.prebattle = function(levels, message, args, character, battleState){
+exports.prebattle = function(message, args, character, battleState, actives, grumbo){
 	
 	battleState.levelDiffActual = character.level - args[3];
 	
-	//TODO prebattle modifiers
-	var chanceMod = 0;
-	var levelDiffMod = 0;
+	//Prebattle base/modifiers
+	battleState.chanceMod = 0;
+	battleState.levelDiffMod = 0;
+	battleState.minMod = 0;
+	battleState.maxMod = 0;
 	
-	//TODO prebattle active functions
-	character.prebattle.forEach(function(event){
+	//Prebattle Grumbo effects
+	for(var i = grumbo.prebattle.length - 1; i >= 0; i--){
 		
-		switch(event){
+		var eventId = grumbo.prebattle[i];
+		if(grumbofunc.prebattle[eventId] != null){
 			
-			case 'battle_potion':
-			
-				if(battleState.levelDiffActual >= 0) chanceMod += 5;
-				else if(battleState.levelDiffActual >= -5) chanceMod += 4;
-				else if(battleState.levelDiffActual >= -10) chanceMod += 3;
-				else if(battleState.levelDiffActual >= -15) chanceMod += 2;
-				else chanceMod += 1;
-				var activeIndex = character.active.indexOf(event);
-				var preIndex = character.prebattle.indexOf(event);
-				character.active.splice(activeIndex, 1);
-				character.prebattle.splice(preIndex, 1);
-				break;
-			
-			default:
-				//Do nothing
-				break;
+			grumbofunc.prebattle[eventId](character, battleState, eventId, actives);
 		}
-	});
+	};
+	
+	//Prebattle character active functions
+	for(var i = character.prebattle.length - 1; i >= 0; i--){
+		
+		var eventId = character.prebattle[i];
+		if(characterfunc.prebattle[eventId] != null){
+			
+			characterfunc.prebattle[eventId](character, battleState, eventId, actives);
+		}
+	};
 	
 	//Calculate prebattle variables
-	battleState.levelDiff = character.level - args[3] + levelDiffMod;
-	battleState.chance = 50 + (battleState.levelDiff * 2) + Math.floor(Math.random() * 6) - 3; + chanceMod;
+	battleState.levelDiff = character.level - args[3] + battleState.levelDiffMod;
+	battleState.chance = 50 + (battleState.levelDiff * 2) + Math.floor(Math.random() * 6) - 3 + battleState.chanceMod;
+	var max = 95 + battleState.maxMod;
+	var min = 5 + battleState.minMod;
 	if(battleState.levelDiff < -15){
 		
 		battleState.chance -= (Math.floor(Math.random() * 3) + 1);
 	}
-	if(battleState.chance > 95){
+	if(battleState.chance > max){
 		
-		battleState.chance = 95;
+		battleState.chance = max;
 	}
-	else if(battleState.chance < 5){
+	else if(battleState.chance < min){
 		
-		battleState.chance = 5;
+		battleState.chance = min;
 	}
 }
 
-//TODO more battle state functions
+/**
+* Pre results calculations. //TODO
+*/
+exports.preresults = function(message, character, battleState, actives, grumbo){
+		
+	//Preresults base/modifiers
+	//None right now
+	
+	//Preresults Grumbo effects
+	for(var i = grumbo.preresults.length - 1; i >= 0; i--){
+		
+		var eventId = grumbo.preresults[i];
+		if(grumbofunc.preresults[eventId] != null){
+			
+			grumbofunc.preresults[eventId](character, battleState, eventId, actives);
+		}
+	};
+	
+	//Preresults character active functions
+	for(var i = character.preresults.length - 1; i >= 0; i--){
+		
+		var eventId = character.preresults[i];
+		if(characterfunc.preresults[eventId] != null){
+			
+			characterfunc.preresults[eventId](character, battleState, eventId, actives);
+		}
+	};
+	
+	//Calculate preresults variables
+	if(battleState.win){
+		
+		battleState.exp = battlefunc.calculateBattleExp(character, battleState.levelDiff);
+		battleState.gold = battlefunc.calculateBattleGold(character, battleState.levelDiff);
+	}
+}
+
+/**
+* Post results calculations. //TODO
+*/
+exports.postresults = function(message, character, battleState, actives, grumbo){
+		
+	//Postresults base/modifiers
+	battleState.endMessages = [];
+	battleState.avoidPostResults = false;
+	
+	//Postresults character active functions
+	for(var i = character.postresults.length - 1; i >= 0; i--){
+		
+		var eventId = character.postresults[i];
+		if(characterfunc.postresults[eventId] != null){
+			
+			characterfunc.postresults[eventId](character, battleState, eventId, actives);
+		}
+	};
+	
+	if(!battleState.avoidPostResults){
+	
+		//Postresults Grumbo effects
+		for(var i = grumbo.postresults.length - 1; i >= 0; i--){
+			
+			var eventId = grumbo.postresults[i];
+			if(grumbofunc.postresults[eventId] != null){
+				
+				grumbofunc.postresults[eventId](character, battleState, eventId, actives);
+			}	
+		};
+	}
+	else{
+		
+		battleState.endMessages.push("You avoided post battle effects!");
+	}
+	
+	//Calculate postresults variables
+	if(battleState.win){
+		
+		var leftover = (battleState.exp + character.experience) % 100;
+		battleState.gains = Math.floor(((battleState.exp + character.experience)/100));
+		var newLevel = character.level + battleState.gains;
+		
+		//Win message and results
+		character.battlesLeft -= 1;
+		character.wins += 1;
+		character.level = newLevel;
+		character.experience = leftover;
+		character.gold += battleState.gold;
+		character.winrate = Math.floor(((character.wins / (character.wins + character.losses)) * 100));
+	}
+	else{
+		
+		character.battlesLeft -= 1;
+		character.losses += 1;
+		character.winrate = Math.floor(((character.wins / (character.wins + character.losses)) * 100));
+	}
+}
 
 /**
 * Push to character state active.
 */
-function pushToState(character, event, eventState){
+exports.pushToState = function(character, eventId, event, eventStates, amount){
 	
-	character.active.push(event);
-	
-	switch(eventState){
+	var totalDuration = event.duration;
+	if(amount != null){
 		
-		case PREBATTLE:
-		
-			character.prebattle.push(event);
-			break;
-			
-		case PRERESULTS:
-		
-			character.preresults.push(event);
-			break;
-			
-		case POSTRESULTS:
-		
-			character.postresults.push(event);
-			break;
-			
-		default:
-			//Do nothing
-			break;
+		//If totalDuration is null, this will make it 0
+		totalDuration = totalDuration * amount;
 	}
+	var id = character._id + eventId;
+	var newActive = {
+		
+		_id: id,
+		character: character._id,
+		id: eventId,
+		battleStates: event.battleStates,
+		name: event.name,
+		duration: totalDuration
+	}
+	
+	eventStates.forEach(function(eventState){
+		
+		character[eventState].push(eventId);
+	});
+	
+	dbfunc.updateActive(newActive);
 }
 
 /**
 * Splice from character state active.
 */
-function spliceFromState(character, event, eventState){
+exports.spliceFromState = function(character, eventId, event, eventStates, active){
 
-	var index = character.active.indexOf(event);
-	character.active.splice(index, 1);
+	eventStates.forEach(function(eventState){
 
-	switch(eventState){
+		var index = character[eventState].indexOf(eventId);
+		character[eventState].splice(index, 1);
+	});
+	
+	dbfunc.removeActive(active);
+}
+
+/**
+* Reduce the duration of an active and its states.
+*/
+exports.reduceDuration = function(character, characterStates, eventId, actives){
+	
+	var active;
+	for(var i = 0; i < actives.length; i++){
 		
-		case PREBATTLE:
-		
-			index = character.prebattle.indexOf(event);
-			character.prebattle.splice(index, 1);
-			break;
+		if(actives[i].id == eventId){
 			
-		case PRERESULTS:
-		
-			index = character.preresults.indexOf(event);
-			character.preresults.splice(index, 1);
+			active = actives[i];
 			break;
+		}
+	}
+	if(active.duration <= 1){
+	
+		for(var i = 0; i < characterStates.length; i++){
 			
-		case POSTRESULTS:
+			var characterState = characterStates[i];
+			var index = characterState.indexOf(eventId);
+			characterState.splice(index, 1);
+			dbfunc.removeActive(active);
+		}
+	}
+	else{
 		
-			index = character.postresults.indexOf(event);
-			character.postresults.splice(index, 1);
-			break;
-			
-		default:
-			//Do nothing
-			break;
+		active.duration -= 1;
+		dbfunc.updateActive(active);
 	}
 }

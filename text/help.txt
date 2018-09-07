@@ -1,0 +1,36 @@
+------GRUMBO HELP------
+Welcome to GrumboBattleBot! Fight against Grumbos, challenge your friends to wagers, buy items, rise up the leaderboards and more! Use the commands below to get started.
+[ ]: the input in square brackets are optional
+< >: the input must be the type in the arrow brackets
+ / : the input must be one of these inputs
+-d : optionally display to channel for commands that message by DM
+
+-------COMMANDS--------
+
+CHARACTER
+!grumbo stats -d  |  See your grumbo stats (level, exp, gold, etc.) and how many battles/challenges you have left.
+!grumbo leaderboards -d  |  See the stats of players on the server. Sorted by level, then experience.
+!grumbo actives -d  |  See your list of current active effects.
+
+BATTLE
+!grumbo battle level <number>  |  Battle a level <number> Grumbo. The higher the level compared to yours, the lower the chance of victory (but more experience!).
+
+CHALLENGE
+!grumbo challenge @mention <number> exp/gold  |  Challenge another user by mentionning them with @ and putting <number> experience/gold on the line!
+!grumbo challenge accept <number> exp/gold  |  If you've been challenged, accept with this command. <number> and exp/gold must match the challenge.
+
+ITEMS
+!grumbo items -d  |  See your current list of items.
+!grumbo items use <item_command> [amount]  |  Use an item [amount] times. Once if [amount] not specified.
+!grumbo items details <item_command> -d  |  See the details of a particular item, including how to use it and what it does.
+
+SHOP
+!grumbo shop -d  |  Display the shop.
+!grumbo shop buy <item_command> [amount]  |  Buy the specified item [amount] times if possible.
+!grumbo shop sell <item_command> [amount]  |  Sell a specified item [amount] times if possible.
+
+INFORMATION
+!grumbo help -d  |  Show this help menu
+!grumbo guide -d  |  Show guide about game mechanics like battles, experience and gold scaling, etc.
+!grumbo patchnotes -d  |  Show the recent patch notes
+

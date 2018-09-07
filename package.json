@@ -5,6 +5,7 @@
   "main": "bot.js",
   "author": "James Navalta",
   "dependencies": {
-    "discord.js": "^11.4.2"
+    "discord.js": "^11.4.2",
+	"mongodb": "^3.1.4"
   }
 }

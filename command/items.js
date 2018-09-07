@@ -7,10 +7,10 @@ let itemList = JSON.parse(fs.readFileSync("./values/items.json", "utf8"));
 //Initialize state for state constants and functions
 let state = require('../state.js');
 
-exports.commandItems = function(levels, message, args, character){
+exports.commandItems = function(message, args, character){
 	
 	//Display list of items
-	if(args.length == 2 || (args.length == 3 && args[2] == 'display')){
+	if(args.length == 2 || (args.length == 3 && args[2] == '-d')){
 		
 		//DM user
 		var sender = message.author;
@@ -27,7 +27,7 @@ exports.commandItems = function(levels, message, args, character){
 		}
 		else{
 			
-			var itemsString = message.member.displayName + "'s items\n\n";
+			var itemsString = message.member.displayName + "'s Items\n\n";
 			var unique = [...new Set(items)];
 			unique.forEach(function(item){
 				
@@ -45,7 +45,7 @@ exports.commandItems = function(levels, message, args, character){
 				}
 				else{
 					
-					itemsString += details.name + "\n";
+					itemsString += details.name + "  |  Command:  " + item + "\n";
 				}
 			});
 			
@@ -54,7 +54,7 @@ exports.commandItems = function(levels, message, args, character){
 	}
 	
 	//Check item details
-	else if(args[2] == 'details' && (args.length == 4 || (args.length == 5 && args[4] == 'display'))){
+	else if(args[2] == 'details' && (args.length == 4 || (args.length == 5 && args[4] == '-d'))){
 		
 		//DM user
 		var sender = message.author;
@@ -68,18 +68,18 @@ exports.commandItems = function(levels, message, args, character){
 		var details = itemList[item];
 		if(details != null){
 			
-			//TODO display details of item
 			detailsString = details.name + "  |  Command:  " + item + "\n"
-				+ details.description + "\n"
-				+ "Sell: " + details.value + " gold\n";
+				+ details.description + "\n";
+			detailsString += "Sell: " + details.value + " gold  |  ";
 			if(details.max > 1){
 				
-				detailsString += "Can hold up to " + details.max;
+				detailsString += "Can hold up to " + details.max + "\n";
 			}
 			else{
 				
-				detailsString += "This is a unique item";
+				detailsString += "Can only hold 1\n";
 			}
+			
 			sender.send(detailsString);
 		}
 		else{
@@ -90,43 +90,36 @@ exports.commandItems = function(levels, message, args, character){
 	}
 	
 	//Use an item
-	else if(args.length == 4 && args[2] == 'use'){
+	else if(args[2] == 'use' && (args.length == 4 || (args.length == 5 && isInteger(args[4])))){
 		
 		var item = args[3];
-		if(character.items.includes(item)){
+		var amount = 1;
+		var hasEnough = character.items.includes(item);
+		if(args.length == 5 && hasEnough){
 			
-			//Determine item type
-			var details = itemList[item];
-			switch(details.type){
+			amount = args[4] * 1;
+			//Count how much the user has of that particular item
+			var count = 0;
+			for(var i = 0; i < character.items.length; ++i){
 				
-				case state.IMMEDIATE:
-				
-					state.immediate(levels, message, character, item, details.name);
-					break;
-					
-				case state.CONSUME:
-				
-					state.consume(levels, message, character, item, details.name, details.battleState);
-					break;
-					
-				case state.NONCONSUME:
-				
-					state.nonconsume(levels, message, character, item, details.name);
-					break;
-					
-				case state.TOGGLE:
-				
-					state.toggle(levels, message, character, item, details.name, details.battleState);
-					break;
-					
-				default:
-					//Do nothing
-					break;
+				if(character.items[i] == item) count++;
 			}
+			if(amount > count) hasEnough = false;
+		}
+		
+		var details = itemList[item];
+		if(hasEnough){
+			
+			//Use item
+			state[details.type](message, character, item, details, amount);
+		}
+		else if(details == null){
+			
+			message.channel.send(item + " does not exist.");
 		}
 		else{
 			
-			message.channel.send("You do not have the item " + item);
+			message.channel.send("You do not have enough of the item: " + details.name);
 		}
 	}
 	
@@ -135,4 +128,12 @@ exports.commandItems = function(levels, message, args, character){
 		
 		message.channel.send("Bad item command. Try '!grumbo help' for the correct command.");
 	}
+}
+
+/**
+* Determines if x is an integer.
+*/
+function isInteger(x){
+	
+	return !isNaN(x) && (x % 1 === 0);
 }

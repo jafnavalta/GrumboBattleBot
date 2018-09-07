@@ -1,0 +1,52 @@
+{
+	"special_1": {
+		"gameId": 30000,
+		"id": "special_1",
+		"name": "Battle Ticket Special",
+		"items": ["battle_ticket"],
+		"description": "A discounted Battle Ticket",
+		"price": 450,
+		"stock": 2,
+		"weight": 20 
+	},
+	"special_2": {
+		"gameId": 30001,
+		"id": "special_2",
+		"name": "Challenge Ticket Special",
+		"items": ["challenge_ticket"],
+		"description": "A discounted Challenge Ticket",
+		"price": 450,
+		"stock": 2,
+		"weight": 20 
+	},
+	"special_3": {
+		"gameId": 30002,
+		"id": "special_3",
+		"name": "Bundle o' Battle Pot",
+		"items": ["battle_potion", "battle_potion", "battle_potion"],
+		"description": "Tis' a bundle o' 3 Battle Pots",
+		"price": 325,
+		"stock": 2,
+		"weight": 20 
+	},
+	"special_4": {
+		"gameId": 30003,
+		"id": "special_4",
+		"name": "Charm of Wumbo",
+		"items": ["charm_of_wumbo"],
+		"description": "Find out the secrets to the charm of Wumbo.",
+		"price": 600,
+		"stock": 2,
+		"weight": 10
+	},
+	"special_5": {
+		"gameId": 30004,
+		"id": "special_5",
+		"name": "2 Flimsy Ropes",
+		"items": ["flimsy_rope", "flimsy_rope"],
+		"description": "Maybe together, they make 1 non-flimsy rope.",
+		"price": 400,
+		"stock": 3,
+		"weight": 10
+	}
+}
