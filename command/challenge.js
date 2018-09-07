@@ -82,7 +82,7 @@ exports.commandChallenge = function(message, args, character){
 	//User accepted a challenge
 	else if(args[2] == 'accept' && isInteger(args[3])){
 		
-		if(message.author.id == opponent.id){
+		if(message.author.id == opponentID){
 			
 			message.channel.send("You can't challenge yourself bud.");
 		}
