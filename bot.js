@@ -21,6 +21,7 @@ let enemyfunc = require('./command/enemy.js');
 //Text
 let fs = require('fs');
 let help = fs.readFileSync("./text/help.txt", "utf8");
+let help2 = fs.readFileSync("./text/help2.txt", "utf8");
 let guide = fs.readFileSync("./text/guide.txt", "utf8");
 let guide2 = fs.readFileSync("./text/guide2.txt", "utf8");
 let guide3 = fs.readFileSync("./text/guide3.txt", "utf8");
@@ -117,7 +118,8 @@ function parseCommand(message){
 				//Message channel
 				sender = message.channel;
 			}
-			sender.send(help); 
+			sender.send(help);
+			sender.send("\n" + help2);
 		}
 		
 		///////////////////////
