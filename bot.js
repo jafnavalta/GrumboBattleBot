@@ -16,6 +16,7 @@ let challengefunc = require('./command/challenge.js');
 let itemsfunc = require('./command/items.js');
 let shopfunc = require('./command/shop.js');
 let activefunc = require('./command/actives.js');
+let enemyfunc = require('./command/enemy.js');
 
 //Text
 let fs = require('fs');
@@ -173,6 +174,14 @@ function parseCommand(message){
 		else if(args[1] == 'actives'){
 			
 			activefunc.commandActives(character, message, args);
+		}
+		
+		//////////////////////
+		// !! ENEMY INFO !! // 
+		//////////////////////
+		else if(args[1] == 'enemy'){
+			
+			enemyfunc.commandEnemy(character, message, args);
 		}
 		
 		/////////////////

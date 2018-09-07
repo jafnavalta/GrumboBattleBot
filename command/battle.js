@@ -61,7 +61,7 @@ exports.commandBattle = function(message, args, character){
 				message.channel.send("Pick a fight up to 20 levels higher than your own level you fool\nYour current limit is Grumbo Lv" + maxLevel);
 			}
 			//No battles left
-			else if(character.battlesLeft == 0){
+			else if(character.battlesLeft <= 0){
 				
 				var timeUntilNextBattleInMinutes = Math.ceil((character.battletime + 3600000 - currentTime)/60000);
 				message.channel.send("You don't have any battles left. You get a battle chance every 1 hour up to a maximum stock of 3 battles. You can battle again in "
@@ -134,9 +134,14 @@ function doBattle(message, args, character, currentTime, actives){
 		}
 		
 		var username = message.member.displayName;
-		message.channel.send(username + " Lv" + character.level + "   VS   " + grumbo.name + " Lv" + args[3] + "\n"
-			+ username + " has a " + battleState.chance + "% chance of victory\n"
-			+ "Battle in progress, please wait a moment...\n");
+		var preMessageString = username + " Lv" + character.level + "   VS   " + grumbo.name + " Lv" + args[3] + "\n";
+		battleState.preMessages.forEach(function(preMessage){
+					
+			preMessageString += preMessage + "\n";
+		});
+		preMessageString += username + " has a " + battleState.chance + "% chance of victory\n"
+			+ "Battle in progress, please wait a moment...\n";
+		message.channel.send(preMessageString);
 			
 		//Wait 5 seconds before determining/displaying battle results
 		setTimeout(function(){

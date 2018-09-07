@@ -10,6 +10,7 @@ let activesList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 */
 exports.commandActives = function(character, message, args){
 	
+	//Display list of actives
 	if(args.length == 2 || (args.length == 3 && args[2] == '-d')){
 	
 		//DM user
@@ -39,13 +40,40 @@ exports.commandActives = function(character, message, args){
 						
 						activeString += "  |  " + activeObj.duration + " battle(s)";
 					}
-					activeString += "\n";
+					activeString += "  |  " + activeObj.id + "\n";
 				});
 				
 				sender.send(activeString);
 			}
 		});
 	}
+	
+	//Check active details
+	else if(args[2] == 'details' && (args.length == 4 || (args.length == 5 && args[4] == '-d'))){
+		
+		//DM user
+		var sender = message.author;
+		if(args.length == 5){
+			
+			//Message channel
+			sender = message.channel;
+		}
+		
+		var active = args[3];
+		var details = activesList[active];
+		if(details != null){
+			
+			detailsString = details.name + "\n" + details.description + "\n";
+			sender.send(detailsString);
+		}
+		else{
+			
+			//Active doesn't exist
+			sender.send(active + " does not exist.");
+		}
+	}
+	
+	//Bad command
 	else{
 		
 		message.channel.send("Bad active command. Try '!grumbo help' for the correct command.");

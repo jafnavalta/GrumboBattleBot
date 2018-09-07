@@ -48,5 +48,15 @@
 		"price": 400,
 		"stock": 3,
 		"weight": 10
+	},
+	"special_6": {
+		"gameId": 30005,
+		"id": "special_6",
+		"name": "Poison Charm",
+		"items": ["poison_charm"],
+		"description": "This charm prevents a certain purple bad active effect. Perhaps food poisoning by grapes?",
+		"price": 3250,
+		"stock": 1,
+		"weight": 4
 	}
 }

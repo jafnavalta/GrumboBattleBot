@@ -1,9 +1,14 @@
 GRUMBO PATCH NOTES
-			
-- Added items and item commands.
-- Added shop and shop commands.
-- Added actives.
-- Added random Grumbos and Grumbo actives.
+Most recent from the top	
+
+- Sep 7: Added command to check enemy grumbo info.
+- Sep 7: Added command to check active details.
+- Sep 7: Added 1 Grumbo, 1 active, 1 item.
+
+- Sep 6: Added items and item commands.
+- Sep 6: Added shop and shop commands.
+- Sep 6: Added actives.
+- Sep 6: Added random Grumbos and Grumbo actives.
 
 Consult help/guide for more information
 !grumbo help

@@ -28,11 +28,11 @@
 		"description": "Completely replenishes all battle and challenge stocks.",
 		"effect": "good",
 		"duration": null,
-		"price": 1450,
+		"price": 1300,
 		"value": 225,
 		"max": 1,
 		"stock": 1,
-		"weight": 2
+		"weight": 3
 	},
 	"duel_converter": {
 		"gameId": 10007,
@@ -60,7 +60,7 @@
 		"description": "Can only use 1 at a time. Gain 80 exp... or maybe lose 80 exp... or maybe...",
 		"effect": "neutral",
 		"duration": null,
-		"price": 300,
+		"price": 200,
 		"value": 50,
 		"max": 10,
 		"stock": 3,

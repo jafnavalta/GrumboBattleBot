@@ -174,6 +174,7 @@ exports.prebattle = function(message, args, character, battleState, actives, gru
 	battleState.levelDiffActual = character.level - args[3];
 	
 	//Prebattle base/modifiers
+	battleState.preMessages = [];
 	battleState.chanceMod = 0;
 	battleState.levelDiffMod = 0;
 	battleState.minMod = 0;
@@ -284,10 +285,6 @@ exports.postresults = function(message, character, battleState, actives, grumbo)
 				grumbofunc.postresults[eventId](character, battleState, eventId, actives);
 			}	
 		};
-	}
-	else{
-		
-		battleState.endMessages.push("You avoided post battle effects!");
 	}
 	
 	//Calculate postresults variables

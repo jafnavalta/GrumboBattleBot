@@ -8,26 +8,31 @@ Welcome to GrumboBattleBot! Fight against Grumbos, challenge your friends to wag
 -------COMMANDS--------
 
 CHARACTER
+<active_command> is always the name of the active in lowercase with the spaces replaced with underscores. E.g. Battle Potion = battle_potion
 !grumbo stats -d  |  See your grumbo stats (level, exp, gold, etc.) and how many battles/challenges you have left.
 !grumbo leaderboards -d  |  See the stats of players on the server. Sorted by level, then experience.
 !grumbo actives -d  |  See your list of current active effects.
+!grumbo actives details <active_command> -d  |  See the details of a particular active effect.
 
 BATTLE
+<grumbo_name> is always the name of the grumbo in lowercase with the spaces replaced with underscores. E.g. Toxic Grumbo = toxic_grumbo
 !grumbo battle level <number>  |  Battle a level <number> Grumbo. The higher the level compared to yours, the lower the chance of victory (but more experience!).
+!grumbo enemy <grumbo_name>  |  See the details of a particular grumbo.
 
 CHALLENGE
 !grumbo challenge @mention <number> exp/gold  |  Challenge another user by mentionning them with @ and putting <number> experience/gold on the line!
 !grumbo challenge accept <number> exp/gold  |  If you've been challenged, accept with this command. <number> and exp/gold must match the challenge.
 
 ITEMS
+<item_command> is always the name of the item in lowercase with the spaces replaced with underscores. E.g. Charm of Wumbo = charm_of_wumbo
 !grumbo items -d  |  See your current list of items.
 !grumbo items use <item_command> [amount]  |  Use an item [amount] times. Once if [amount] not specified.
 !grumbo items details <item_command> -d  |  See the details of a particular item, including how to use it and what it does.
 
 SHOP
 !grumbo shop -d  |  Display the shop.
-!grumbo shop buy <item_command> [amount]  |  Buy the specified item [amount] times if possible.
-!grumbo shop sell <item_command> [amount]  |  Sell a specified item [amount] times if possible.
+!grumbo shop buy <shop_item_command> [amount]  |  Buy the specified item [amount] times if possible.
+!grumbo shop sell <shop_item_command> [amount]  |  Sell a specified item [amount] times if possible.
 
 INFORMATION
 !grumbo help -d  |  Show this help menu

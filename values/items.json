@@ -77,7 +77,7 @@
 		"description": "Only 1 time, if you were to lose gold in battle (not challenge), the Fools Gold will be lost instead. Can only have one active at a time. Consumed after use.",
 		"effect": "good",
 		"duration": null,
-		"price": 10,
+		"price": 7,
 		"value": 1,
 		"max": 3,
 		"stock": 2,
@@ -108,7 +108,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases minimum battle victory chance to 20%. Calculated after all other chance modifiers.",
+		"description": "If you're battle chance is below 20% after all modifiers, bring victory chance up to 20%. Consumed after use.",
 		"effect": "good",
 		"duration": 1,
 		"price": 700,
@@ -143,7 +143,7 @@
 		"description": "Can only use 1 at a time. Gain 80 exp... or maybe lose 80 exp... or maybe...",
 		"effect": "neutral",
 		"duration": null,
-		"price": 300,
+		"price": 200,
 		"value": 50,
 		"max": 10,
 		"stock": 3,
@@ -184,5 +184,23 @@
 		"max": 1,
 		"stock": 1,
 		"weight": 10
+	},
+	"poison_charm": {
+		"gameId": 10011,
+		"id": "poison_charm",
+		"name": "Poison Charm",
+		"command": "!grumbo items use poison_charm",
+		"type": "toggle",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Prevents poison. Poison that is already active will remain active. Use to activate indefinitely. Use again to deactivate.",
+		"effect": "good",
+		"duration": null,
+		"price": 3250,
+		"value": 500,
+		"max": 1,
+		"stock": 1,
+		"weight": 4
 	}
 }

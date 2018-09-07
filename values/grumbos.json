@@ -3,26 +3,26 @@
 		"gameId": 1000,
 		"id": "grumbo",
 		"name": "Grumbo",
-		"description": "Well if it isn't Grumbo.",
+		"description": "Well if it isn't Grumbo!",
 		"prebattle": [],
 		"preresults": [],
 		"postresults": [],
 		"victory": "$name won!",
 		"loss": "$name lost! Maybe you should try harder my dude.",
-		"weight": 80
+		"weight": 75
 	},
 	"toxic_grumbo": {
 		"gameId": 1001,
 		"id": "toxic_grumbo",
 		"name": "Toxic Grumbo",
-		"description": "This Grumbo learned from the best Draven player of all time.",
+		"description": "This Grumbo learned from the best Draven player of all time. Inflicts poison upon losing.",
 		"prebattle": [],
 		"preresults": [],
 		"postresults": [
 			"poison"
 		],
 		"victory": "$name has overcome gaming toxicity!",
-		"loss": "$name lost all self-esteem after been constantly flamed by Toxic Grumbo.",
+		"loss": "$name lost all self-esteem after being constantly flamed by Toxic Grumbo.",
 		"weight": 15
 	},
 	"grumbo_thief": {
@@ -67,5 +67,20 @@
 		"victory": "$name has toppled the mighty Wumbo!",
 		"loss": "Wumbo taught $name some wumbo Wumbology!",
 		"weight": 15
+	},
+	"spidergrumbo": {
+		"gameId": 1005,
+		"id": "spidergrumbo",
+		"name": "SpiderGrumbo",
+		"description": "Creepy crawly SpiderGrumbo is on his way. Inflicts Fear and Poison upon losing.",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"poison",
+			"fear"
+		],
+		"victory": "$name has squashed the SpiderGrumbo!",
+		"loss": "SpiderGrumbo had a good bite out of $name!",
+		"weight": 10
 	}
 }

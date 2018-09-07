@@ -30,10 +30,11 @@ exports.prebattle.wumbo = function(character, battleState, eventId, actives){
 //////////////////////////////////
 exports.postresults.poison = function(character, battleState, eventId, actives){
 	
-	if(!battleState.win){
+	if(!battleState.win && !character.postresults.includes('poison_charm')){
 					
 		var active;
 		if(character.prebattle.includes(eventId)){
+			
 			for(var i = 0; i < actives.length; i++){
 				
 				if(actives[i].id == eventId){
@@ -90,5 +91,33 @@ exports.postresults.assassinate = function(character, battleState, eventId, acti
 					
 		character.battlesLeft -= character.battlesLeft - 1;
 		battleState.endMessages.push("The Grumbassassin stabbed your remaining battle stocks right out of you!");
+	}
+}
+
+exports.postresults.fear = function(character, battleState, eventId, actives){
+	
+	if(!battleState.win){
+					
+		var active;
+		if(character.prebattle.includes(eventId)){
+			
+			for(var i = 0; i < actives.length; i++){
+				
+				if(actives[i].id == eventId){
+					
+					active = actives[i];
+					active.duration += activesList[eventId].duration;
+					if(active.duration > 10) active.duration = 10;
+					dbfunc.updateActive(active);
+					break;
+				}
+			}
+		}
+		else{
+			
+			active = activesList[eventId];
+			state.pushToState(character, eventId, active, active.battleStates, 1);
+		}
+		battleState.endMessages.push("You have been feared!");
 	}
 }

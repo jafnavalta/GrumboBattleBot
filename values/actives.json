@@ -79,5 +79,25 @@
 		],
 		"description": "Increases victory chance by 5%. Every battle, the victory chance increased goes down by 1%, all the way down to -5% in the last battle. Can only have 1 active at a time.",
 		"duration": 10
+	},
+	"fear": {
+		"gameId": 70008,
+		"id": "fear",
+		"name": "Fear",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "10% chance to decrease chance of victory by 100%.",
+		"duration": 3
+	},
+	"poison_charm": {
+		"gameId": 70009,
+		"id": "poison_charm",
+		"name": "Poison Charm",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Prevents poison. Poison that is already active will remain active. Use to activate indefinitely. Use again to deactivate.",
+		"duration": null
 	}
 }

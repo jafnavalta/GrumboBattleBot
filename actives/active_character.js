@@ -22,6 +22,17 @@ exports.prebattle.poison = function(character, battleState, eventId, actives){
 	state.reduceDuration(character, [character.prebattle], eventId, actives);
 }
 
+exports.prebattle.fear = function(character, battleState, eventId, actives){
+	
+	var fearResults = Math.random() * 100;
+	if(fearResults < 10){
+		
+		battleState.chanceMod -= 100;
+		battleState.preMessages.push("You were overcome with fear!");
+	}
+	state.reduceDuration(character, [character.prebattle], eventId, actives);
+}
+
 exports.prebattle.battle_potion = function(character, battleState, eventId, actives){
 	
 	if(battleState.levelDiffActual >= 0) battleState.chanceMod += 5;
@@ -65,6 +76,7 @@ exports.postresults.flimsy_rope = function(character, battleState, eventId, acti
 	if(random < 50){
 		
 		battleState.avoidPostResults = true;
+		battleState.endMessages.push("Flimsy rope activated and let you avoid post battle effects!");
 	}
 	state.reduceDuration(character, [character.postresults], eventId, actives);
 }
