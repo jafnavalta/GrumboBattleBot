@@ -31,7 +31,11 @@ exports.commandChallenge = function(message, args, character){
 	//User issued a challenge
 	else if(opponent != null && isInteger(args[3])){
 		
-		if(!onChallenge && !onChallengeAccept){
+		if(message.author.id == opponent.id){
+			
+			message.channel.send("You can't challenge yourself bud.");
+		}
+		else if(!onChallenge && !onChallengeAccept){
 			
 			//Exp challenge
 			if(args[4] == 'exp'){
@@ -83,10 +87,6 @@ exports.commandChallenge = function(message, args, character){
 	else if(args[2] == 'accept' && isInteger(args[3])){
 		
 		if(message.author.id == opponentID){
-			
-			message.channel.send("You can't challenge yourself bud.");
-		}
-		else if(message.author.id == opponentID){
 			
 			if(args[4] == 'exp' && wagerType == 'exp'){
 				
