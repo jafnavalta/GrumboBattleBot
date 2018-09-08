@@ -136,6 +136,10 @@ exports.immediate.gamblers_coin = function(message, character, state, eventId, e
 				character.level -= 1;
 			}
 		}
+		else{
+
+			character.experience = leftover;
+		}
 		state.result = "You dropped 80 experience with the coin. How unlucky.";
 	}
 	else{
