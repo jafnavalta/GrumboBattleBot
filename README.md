@@ -9,7 +9,7 @@ Features:
 
 # Instructions
 Follow instructions in discord applications to create and setup your own bot.  
-Follow instructions on MongoDB site to install MongoDB for your OS.
+Follow instructions on MongoDB site to install MongoDB for your OS.  
 Node.js 6.0.0 or newer is required for running your own bot  
 MongoDB 3.1.4 or newer is required  
 
