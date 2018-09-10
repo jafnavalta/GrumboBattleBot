@@ -1,14 +1,25 @@
+CHALLENGE
+!grumbo challenge @mention <number> exp/gold  |  Challenge another user by mentionning them with @ and putting <number> experience/gold on the line!
+!grumbo challenge accept <number> exp/gold  |  If you've been challenged, accept with this command. <number> and exp/gold must match the challenge.
+|
 ITEMS
 <item_command> is always the name of the item in lowercase with the spaces replaced with underscores. E.g. Charm of Wumbo = charm_of_wumbo
 !grumbo items -d  |  See your current list of items.
 !grumbo items use <item_command> [amount]  |  Use an item [amount] times. Once if [amount] not specified.
-!grumbo items details <item_command> -d  |  See the details of a particular item, including how to use it and what it does.
-
+!grumbo items info <item_command> -d  |  See the info of a particular item.
+|
+EQUIPS
+<equip_command> is always the name of the equip in lowercase with the spaces replaced with underscores. E.g. Pan Lid = pan_lid
+!grumbo equip -d  |  See your current list of equips.
+!grumbo equip info <equip_command> -d  |  See the info of a particular equip.
+!grumbo equip <equip_command>  |  Equip. Will unequip equip if you already have an equip of that type on.
+!grumbo unequip <equip_command>  |  Unequip. Removes equip active affects as well.
+|
 SHOP
 !grumbo shop -d  |  Display the shop.
 !grumbo shop buy <shop_item_command> [amount]  |  Buy the specified item [amount] times if possible.
 !grumbo shop sell <shop_item_command> [amount]  |  Sell a specified item [amount] times if possible.
-
+|
 INFORMATION
 !grumbo help -d  |  Show this help menu
 !grumbo guide -d  |  Show guide about game mechanics like battles, experience and gold scaling, etc.

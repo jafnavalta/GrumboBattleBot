@@ -3,6 +3,7 @@
 		"gameId": 70000,
 		"id": "battle_potion",
 		"name": "Battle Potion",
+		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
@@ -13,16 +14,19 @@
 		"gameId": 70001,
 		"id": "poison",
 		"name": "Poison",
+		"effect": "bad",
 		"battleStates": [
-			"prebattle"
+			"prebattle",
+			"postresults"
 		],
-		"description": "Decreases chance of victory by 5 for the next battle.",
+		"description": "Decreases chance of victory by 5% for the next battle. Lose 5 extra HP per battle.",
 		"duration": 3
 	},
 	"fools_gold": {
 		"gameId": 70002,
 		"id": "fools_gold",
 		"name": "Fools Gold",
+		"effect": "good",
 		"battleStates": [
 			"preresults",
 			"postresults"
@@ -34,21 +38,23 @@
 		"gameId": 70003,
 		"id": "pilfer",
 		"name": "Pilfer",
+		"effect": "bad",
 		"battleStates": [
 			"postresults"
 		],
 		"description": "Lose between 50-100 gold when you lose a battle.",
-		"duration": 1
+		"duration": null
 	},
 	"gold_boost_1": {
 		"gameId": 70004,
 		"id": "pilfer",
 		"name": "Gold Boost 1",
+		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Gain between 20-50 gold when you win a battle.",
-		"duration": 1
+		"description": "Gain between 25-75 gold when you win a battle.",
+		"duration": null
 	},
 	"charm_of_wumbo": {
 		"gameId": 70005,
@@ -64,6 +70,7 @@
 		"gameId": 70006,
 		"id": "flimsy_rope",
 		"name": "Flimsy Rope",
+		"effect": "good",
 		"battleStates": [
 			"postresults"
 		],
@@ -74,6 +81,7 @@
 		"gameId": 70007,
 		"id": "berserk_potion",
 		"name": "Berserk Potion",
+		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
@@ -84,6 +92,7 @@
 		"gameId": 70008,
 		"id": "fear",
 		"name": "Fear",
+		"effect": "bad",
 		"battleStates": [
 			"prebattle"
 		],
@@ -94,10 +103,176 @@
 		"gameId": 70009,
 		"id": "poison_charm",
 		"name": "Poison Charm",
+		"effect": "good",
 		"battleStates": [
 			"postresults"
 		],
 		"description": "Prevents poison. Poison that is already active will remain active. Use to activate indefinitely. Use again to deactivate.",
+		"duration": null
+	},
+	"assassinate": {
+		"gameId": 70010,
+		"id": "assassinate",
+		"name": "Assassinate",
+		"effect": "bad",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Reduces battle stock and HP to 0.",
+		"duration": null
+	},
+	"wild_swing": {
+		"gameId": 70011,
+		"id": "wild_swing",
+		"name": "Wild Swing",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "Warrior only. POW/8 % chance of increasing chance of victory by 10%",
+		"duration": null
+	},
+	"observation": {
+		"gameId": 70012,
+		"id": "observation",
+		"name": "Observation",
+		"effect": "good",
+		"battleStates": [
+			"preresults"
+		],
+		"description": "Adventurer only. 10% chance to erase the level experience penalty.",
+		"duration": null
+	},
+	"safety_hat": {
+		"gameId": 70013,
+		"id": "safety_hat",
+		"name": "Safety Hat",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "If HP < 50, reduce damage by 50%.",
+		"duration": null
+	},
+	"outsmart": {
+		"gameId": 70014,
+		"id": "outsmart",
+		"name": "Outsmart",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "35% chance to double the WIS bonus chance in battle.",
+		"duration": null
+	},
+	"second_chance": {
+		"gameId": 70015,
+		"id": "second_chance",
+		"name": "Second Chance",
+		"effect": "good",
+		"battleStates": [
+			"preresults"
+		],
+		"description": "When you lose, 3% chance to win instead.",
+		"duration": null
+	},
+	"dodge": {
+		"gameId": 70016,
+		"id": "dodge",
+		"name": "Dodge",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "8% chance to reduce damage to 0.",
+		"duration": null
+	},
+	"vision": {
+		"gameId": 70017,
+		"id": "vision",
+		"name": "Vision",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "20% chance to reduce damage to by you RES.",
+		"duration": null
+	},
+	"permaboost": {
+		"gameId": 70018,
+		"id": "permaboost",
+		"name": "Permaboost",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Randomly gain a permanent +1 boost to any character stat (POW, WIS, DEF, etc.)",
+		"duration": null
+	},
+	"brojob": {
+		"gameId": 70019,
+		"id": "brojob",
+		"name": "Brojob",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Heal for 20 HP and gain some pocket change of 20 gold.",
+		"duration": null
+	},
+	"bleed": {
+		"gameId": 70020,
+		"id": "bleed",
+		"name": "Bleed",
+		"effect": "bad",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Bleed for extra damage based on duration. Also reduces your DEF and RES by 5 until it's gone.",
+		"duration": 5
+	},
+	"petrify": {
+		"gameId": 70021,
+		"id": "petrify",
+		"name": "Petrify",
+		"effect": "bad",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Gives DEF +50 but POW -100",
+		"duration": 2
+	},
+	"grumbot_miner": {
+		"gameId": 70022,
+		"id": "grumbot_miner",
+		"name": "Grumbot Miner",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Grumbot mines for 10 battles, retrieving 90-150 gold after each battle.",
+		"duration": 10
+	},
+	"throwing_shield": {
+		"gameId": 70023,
+		"id": "throwing_shield",
+		"name": "Throwing Shield",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "Throw a shield at an enemy in battle. Increases chance of victory by DEF/3.",
+		"duration": 1
+	},
+	"wumbo": {
+		"gameId": 70024,
+		"id": "wumbo",
+		"name": "Wumbo",
+		"effect": "bad",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "Caps maximum battle chance at 70%",
 		"duration": null
 	}
 }

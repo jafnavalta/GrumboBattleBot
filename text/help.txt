@@ -3,23 +3,24 @@ Welcome to GrumboBattleBot! Fight against Grumbos, challenge your friends to wag
 [ ]: the input in square brackets are optional
 < >: the input must be the type in the arrow brackets
  / : the input must be one of these inputs
--d : optionally display to channel for commands that message by DM
-
+-d : optionally display to the server channel for commands that normally message by DM
+|
 -------COMMANDS--------
-
+|
 CHARACTER
 <active_command> is always the name of the active in lowercase with the spaces replaced with underscores. E.g. Battle Potion = battle_potion
-!grumbo stats -d  |  See your grumbo stats (level, exp, gold, etc.) and how many battles/challenges you have left.
+!grumbo stats -d  |  See your grumbo stats (POW, WIS, DEF, etc.), progression (level, exp, gold, etc.), equips and how many battles/challenges you have left.
 !grumbo leaderboards -d  |  See the stats of players on the server. Sorted by level, then experience.
 !grumbo actives -d  |  See your list of current active effects.
-!grumbo actives details <active_command> -d  |  See the details of a particular active effect.
-
+!grumbo actives info <active_command> -d  |  See the info of a particular active effect.
+|
+CLASS
+!grumbo class -d  |  See your class progression for all classes
+!grumbo class info <class_command>  |  See the info of a particular class
+!grumbo class change <class_command>  |  Change class to the given class.
+|
 BATTLE
 <grumbo_name> is always the name of the grumbo in lowercase with the spaces replaced with underscores. E.g. Toxic Grumbo = toxic_grumbo
 !grumbo battle level <number>  |  Battle a level <number> Grumbo. The higher the level compared to yours, the lower the chance of victory (but more experience!).
-!grumbo enemy <grumbo_name>  |  See the details of a particular grumbo.
-
-CHALLENGE
-!grumbo challenge @mention <number> exp/gold  |  Challenge another user by mentionning them with @ and putting <number> experience/gold on the line!
-!grumbo challenge accept <number> exp/gold  |  If you've been challenged, accept with this command. <number> and exp/gold must match the challenge.
-
+!grumbo enemy <grumbo_name>  |  See the info of a particular grumbo.
+|

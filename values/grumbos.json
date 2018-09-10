@@ -3,19 +3,27 @@
 		"gameId": 1000,
 		"id": "grumbo",
 		"name": "Grumbo",
-		"description": "Well if it isn't Grumbo!",
+		"powBase": 50,
+		"wisBase": 50,
+		"powX": 1,
+		"wisX": 1,
+		"description": "Well if it isn't Grumbo! The most ordinary of Grumbos!",
 		"prebattle": [],
 		"preresults": [],
 		"postresults": [],
 		"victory": "$name won!",
 		"loss": "$name lost! Maybe you should try harder my dude.",
-		"weight": 55
+		"weight": 69
 	},
 	"toxic_grumbo": {
 		"gameId": 1001,
 		"id": "toxic_grumbo",
 		"name": "Toxic Grumbo",
-		"description": "This Grumbo learned from the best Draven player of all time. Inflicts poison upon losing.",
+		"powBase": 46,
+		"wisBase": 66,
+		"powX": 0.89,
+		"wisX": 1.1,
+		"description": "This Grumbo learned from the best Draven player of all time. Inflicts poison upon losing. The brightest of intellectuals.",
 		"prebattle": [],
 		"preresults": [],
 		"postresults": [
@@ -23,13 +31,17 @@
 		],
 		"victory": "$name has overcome gaming toxicity!",
 		"loss": "$name lost all self-esteem after being constantly flamed by Toxic Grumbo.",
-		"weight": 15
+		"weight": 14
 	},
 	"grumbo_thief": {
 		"gameId": 1002,
 		"id": "grumbo_thief",
 		"name": "Grumbo Thief",
-		"description": "A thief who takes some gold if you lose. You also gain a little bit more gold for winning.",
+		"powBase": 49,
+		"wisBase": 52,
+		"powX": 0.98,
+		"wisX": 1.02,
+		"description": "A thief who takes some gold if you lose. You also gain a little bit more gold for winning. Average stats.",
 		"prebattle": [],
 		"preresults": [],
 		"postresults": [
@@ -44,7 +56,11 @@
 		"gameId": 1003,
 		"id": "grumbassassin",
 		"name": "Grumbassassin",
-		"description": "The Grumbassassin is out to get you... and take all of your remaining battle stocks too.",
+		"powBase": 40,
+		"wisBase": 51,
+		"powX": 0.91,
+		"wisX": 1,
+		"description": "The Grumbassassin is out to get you... and all of your remaining battle stocks and HP. Lower on Power.",
 		"prebattle": [],
 		"preresults": [],
 		"postresults": [
@@ -52,13 +68,17 @@
 		],
 		"victory": "$name says not today Grumbassassin!",
 		"loss": "$name has been assassinated by the Grumbassassin!",
-		"weight": 8
+		"weight": 5
 	},
 	"wumbo": {
 		"gameId": 1004,
 		"id": "wumbo",
 		"name": "Wumbo",
-		"description": "Wumbo this. Wumbo that. But you can't Wumbo your way past a 70% chance of victory against this Wumbo fellow.",
+		"powBase": 70,
+		"wisBase": 30,
+		"powX": 1.11,
+		"wisX": 1.1,
+		"description": "Wumbo this. Wumbo that. But you can't Wumbo your way past a 70% chance of victory against this Wumbo fellow. High in Power. Surprisingly average in Wumbology.",
 		"prebattle": [
 			"wumbo"
 		],
@@ -66,13 +86,17 @@
 		"postresults": [],
 		"victory": "$name has toppled the mighty Wumbo!",
 		"loss": "Wumbo taught $name some wumbo Wumbology!",
-		"weight": 15
+		"weight": 13
 	},
 	"spidergrumbo": {
 		"gameId": 1005,
 		"id": "spidergrumbo",
 		"name": "SpiderGrumbo",
-		"description": "Creepy crawly SpiderGrumbo is on his way. Inflicts Fear and Poison upon losing.",
+		"powBase": 49,
+		"wisBase": 48,
+		"powX": 0.96,
+		"wisX": 0.94,
+		"description": "Creepy crawly SpiderGrumbo is on his way. Inflicts Fear and Poison upon losing. Miniscule lower stats, if you get what I mean.",
 		"prebattle": [],
 		"preresults": [],
 		"postresults": [
@@ -81,6 +105,94 @@
 		],
 		"victory": "$name has squashed the SpiderGrumbo!",
 		"loss": "SpiderGrumbo had a good bite out of $name!",
-		"weight": 10
+		"weight": 7
+	},
+	"grandbo": {
+		"gameId": 1006,
+		"id": "grandbo",
+		"name": "Grandbo",
+		"powBase": 40,
+		"wisBase": 40,
+		"powX": 0.9,
+		"wisX": 0.9,
+		"description": "The grandest of Grumbos. So grand, he gives you a grand gift upon beating him! Weaker than a regular Grumbo.",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"permaboost"
+		],
+		"victory": "$name received their gift from Grandbo!",
+		"loss": "$name somehow lost to the Grandbo! No gift for you.",
+		"weight": 1
+	},
+	"grumbro": {
+		"gameId": 1006,
+		"id": "grumbro",
+		"name": "Grumbro",
+		"powBase": 54,
+		"wisBase": 40,
+		"powX": 1.04,
+		"wisX": 0.7,
+		"description": "A Grumbo bro. Helps you out whether you win or lose.",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"brojob"
+		],
+		"victory": "$name had to take down Grumbro!",
+		"loss": "$name was beaten by Grumbro, but it wasn't so bad.",
+		"weight": 9
+	},
+	"grumbo_cat": {
+		"gameId": 1007,
+		"id": "grumbo_cat",
+		"name": "Grumbo Cat",
+		"powBase": 41,
+		"wisBase": 37,
+		"powX": 1.04,
+		"wisX": 1.04,
+		"description": "Grumbo Cat. Big Meaty Claws. Can make you bleed. Slightly lower stats on average.",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"bleed"
+		],
+		"victory": "$name sent Grumbo Cat to Grumbo Cat Heaven!",
+		"loss": "$name was scratched in the face by Grumbo Cat!",
+		"weight": 12
+	},
+	"grumbo_gazer": {
+		"gameId": 1008,
+		"id": "grumbo_gazer",
+		"name": "Grumbo Gazer",
+		"powBase": 55,
+		"wisBase": 55,
+		"powX": 0.90,
+		"wisX": 1.02,
+		"description": "Medusa's brother, Grumbo Gazer. Don't gaze into his Grumbeyes or you'll be petrified! Average stats.",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"petrify"
+		],
+		"victory": "$name smashed Grumbo Gazer to pieces!",
+		"loss": "$name gazed into the Grumbo Gazer's eyes!",
+		"weight": 8
+	},
+	"mighty_grumbo": {
+		"gameId": 1009,
+		"id": "mighty_grumbo",
+		"name": "Mighty Grumbo",
+		"powBase": 40,
+		"wisBase": 40,
+		"powX": 1.22,
+		"wisX": 1.22,
+		"description": "The Mighty Grumbo! The mightier the level, the mightier the stats!",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [],
+		"victory": "$name overcame the mightiest of foes!",
+		"loss": "$name was overwhelmed by their mighty opponent!",
+		"weight": 16
 	}
 }

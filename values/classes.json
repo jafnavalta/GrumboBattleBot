@@ -1,0 +1,66 @@
+{
+	"adventurer": {
+		"gameId": 100,
+    "pow": "B",
+    "wis": "B",
+    "def": "B",
+    "res": "B",
+    "spd": "B",
+    "luk": "C",
+		"classId": "adventurer",
+		"className": "Adventurer",
+    "description": "Your typical Grumbo Adventurer. Specializes in nothing. However, you can gain a permanent +2 boost to POW/WIS/DEF and +1 to RES/SPD/LUK every other class level!",
+		"perks": [
+		    "The Adventurer gets no perks at class level 1.",
+				"Become more observant. Learn the Observation active."
+		]
+	},
+  "warrior": {
+		"gameId": 101,
+    "pow": "A+",
+    "wis": "D+",
+    "def": "C+",
+    "res": "B",
+    "spd": "B",
+    "luk": "C",
+		"classId": "warrior",
+		"className": "Warrior",
+    "description": "Warrior packs a powerful punch but isn't the smartest about it. Gain a permanent +2 boost to POW every class level.",
+		"perks": [
+		    "A novice Warrior only knows the Wild Swing active.",
+				"POW +10 when classed as a Warrior."
+		]
+	},
+  "magician": {
+		"gameId": 102,
+    "pow": "C",
+    "wis": "S+",
+    "def": "C-",
+    "res": "A+",
+    "spd": "B",
+    "luk": "C",
+		"classId": "magician",
+		"className": "Magician",
+    "description": "The Magician is pretty good at card tricks. Gain a permanent +2 boost to WIS every class level.",
+		"perks": [
+		    "The Magician can Outsmart his enemies.",
+				"WIS +15 when classed as a Magician."
+		]
+	},
+  "rogue": {
+		"gameId": 103,
+    "pow": "B-",
+    "wis": "B+",
+    "def": "C",
+    "res": "A-",
+    "spd": "A",
+    "luk": "A-",
+		"classId": "rogue",
+		"className": "Rogue",
+    "description": "The quick and slippery rogue. Gain a permanent +1 boost to SPD every class level.",
+		"perks": [
+		    "The Rogue very rarely gets a second chance when losing.",
+				"SPD +2 / LUK +2 when classed as a Rogue."
+		]
+	}
+}

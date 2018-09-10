@@ -5,9 +5,9 @@
 		"name": "Battle Ticket Special",
 		"items": ["battle_ticket"],
 		"description": "A discounted Battle Ticket",
-		"price": 450,
+		"price": 400,
 		"stock": 2,
-		"weight": 20 
+		"weight": 20
 	},
 	"special_2": {
 		"gameId": 30001,
@@ -15,9 +15,9 @@
 		"name": "Challenge Ticket Special",
 		"items": ["challenge_ticket"],
 		"description": "A discounted Challenge Ticket",
-		"price": 450,
+		"price": 250,
 		"stock": 2,
-		"weight": 20 
+		"weight": 20
 	},
 	"special_3": {
 		"gameId": 30002,
@@ -26,8 +26,8 @@
 		"items": ["battle_potion", "battle_potion", "battle_potion"],
 		"description": "Tis' a bundle o' 3 Battle Pots",
 		"price": 325,
-		"stock": 2,
-		"weight": 20 
+		"stock": 3,
+		"weight": 20
 	},
 	"special_4": {
 		"gameId": 30003,
@@ -35,7 +35,7 @@
 		"name": "Charm of Wumbo",
 		"items": ["charm_of_wumbo"],
 		"description": "Find out the secrets to the charm of Wumbo.",
-		"price": 600,
+		"price": 575,
 		"stock": 2,
 		"weight": 10
 	},
@@ -55,8 +55,48 @@
 		"name": "Poison Charm",
 		"items": ["poison_charm"],
 		"description": "This charm prevents a certain purple bad active effect. Perhaps food poisoning by grapes?",
-		"price": 3250,
+		"price": 2850,
 		"stock": 1,
-		"weight": 4
+		"weight": 3
+	},
+	"special_8": {
+		"gameId": 30007,
+		"id": "special_8",
+		"name": "Master Grumbo's Blessing",
+		"items": ["master_grumbos_blessing"],
+		"description": "For those that want to receive Master Grumbo's Blessing. Well here it is.",
+		"price": 1994,
+		"stock": 1,
+		"weight": 1
+	},
+	"special_7": {
+		"gameId": 30006,
+		"id": "special_7",
+		"name": "First Aid Kit",
+		"items": ["medicine", "antidote", "bandages"],
+		"description": "For all your healing needs.",
+		"price": 299,
+		"stock": 2,
+		"weight": 12
+	},
+	"special_9": {
+		"gameId": 30008,
+		"id": "special_9",
+		"name": "Pot of Grumbo",
+		"items": ["battle_ticket", "battle_ticket"],
+		"description": "Pot of Grumbo lets me battle two MORE times!",
+		"price": 700,
+		"stock": 1,
+		"weight": 8
+	},
+	"special_10": {
+		"gameId": 30009,
+		"id": "special_10",
+		"name": "Grumbot Miner",
+		"items": ["grumbot_miner"],
+		"description": "Spend gold to make gold! That's what the Grumbot Miner will do for you!",
+		"price": 1000,
+		"stock": 1,
+		"weight": 6
 	}
 }

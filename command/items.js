@@ -53,8 +53,8 @@ exports.commandItems = function(message, args, character){
 		}
 	}
 	
-	//Check item details
-	else if(args[2] == 'details' && (args.length == 4 || (args.length == 5 && args[4] == '-d'))){
+	//Check item info
+	else if(args[2] == 'info' && (args.length == 4 || (args.length == 5 && args[4] == '-d'))){
 		
 		//DM user
 		var sender = message.author;
