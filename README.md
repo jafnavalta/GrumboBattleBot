@@ -25,7 +25,7 @@ node bot.js
 ```
 
 Add my GrumboBattleBot (WIP) to your server with this URL:  
-https://discordapp.com/oauth2/authorize?client_id=168682538028630017&scope=bot
+https://discordapp.com/oauth2/authorize?client_id=485285356598591509&scope=bot  
 
 Type '!grumbo help' in your server's text channel for commands.
 
