@@ -23,6 +23,8 @@ exports.immediate.medicine = function(message, character, state, eventId, event,
 		var used = 0;
 		for(var i = 0; i < amount; i++){
 
+			var index = character.items.indexOf(eventId);
+			character.items.splice(index, 1);
 			character.hp += 40;
 			used++;
 			if(character.hp >= 100){
