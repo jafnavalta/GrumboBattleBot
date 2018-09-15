@@ -248,11 +248,11 @@ exports.unequip = function(message, character, equip){
 // BATTLE STATE //
 //////////////////
 /**
-* Pre battle calculations.
+* Pre battle calculations. dmgMod is used for Bosses.
 */
 exports.prebattle = function(message, args, character, battleState, actives, grumbo){
 
-	battleState.levelDiffActual = character.level - args[3];
+	battleState.levelDiffActual = character.level - battleState.enemyLevel;
 
 	//Prebattle base/modifiers
 	battleState.preMessages = [];
@@ -263,8 +263,19 @@ exports.prebattle = function(message, args, character, battleState, actives, gru
 	battleState.hpMod = 0;
 	battleState.powMod = 0;
 	battleState.wisMod = 0;
+	battleState.dmgMod = 0;
 
 	battlefunc.calculateCharacterMods(message, args, character, battleState, actives, grumbo);
+
+	//Prebattle character active functions
+	for(var i = character.prebattle.length - 1; i >= 0; i--){
+
+		var eventId = character.prebattle[i];
+		if(characterfunc.prebattle[eventId] != null){
+
+			characterfunc.prebattle[eventId](character, battleState, eventId, actives);
+		}
+	};
 
 	//Prebattle Grumbo effects
 	for(var i = grumbo.prebattle.length - 1; i >= 0; i--){
@@ -285,19 +296,20 @@ exports.prebattle = function(message, args, character, battleState, actives, gru
 		}
 	};
 
-	//Prebattle character active functions
-	for(var i = character.prebattle.length - 1; i >= 0; i--){
-
-		var eventId = character.prebattle[i];
-		if(characterfunc.prebattle[eventId] != null){
-
-			characterfunc.prebattle[eventId](character, battleState, eventId, actives);
-		}
-	};
-
 	//Calculate prebattle variables
-	battleState.levelDiff = character.level - args[3] + battleState.levelDiffMod;
-	battleState.chance = 50 + (battleState.levelDiff * 2) + Math.floor(Math.random() * 4) - 2 + battleState.chanceMod + battleState.powMod + battleState.wisMod + battleState.hpMod;
+	battleState.levelDiff = character.level - battleState.enemyLevel + battleState.levelDiffMod;
+	battleState.chance = Math.floor(Math.random() * 4) - 2 + battleState.chanceMod + battleState.powMod + battleState.wisMod + battleState.hpMod;
+	if(!battleState.isBoss){
+
+		battleState.chance += 50 + (battleState.levelDiff * 2);
+	}
+	else{
+
+		battleState.chance += grumbo.base_chance;
+		var charDmg = character.pow;
+		if(charDmg < character.wis) charDmg = Math.ceil(character.wis * (0.95));
+		battleState.dmgMod += Math.ceil(charDmg * 0.8) + Math.floor((Math.random()*15) - 7);
+	}
 	var max = 95 + battleState.maxMod;
 	var min = 5 + battleState.minMod;
 	if(battleState.levelDiff < -15){
@@ -315,18 +327,30 @@ exports.prebattle = function(message, args, character, battleState, actives, gru
 }
 
 /**
-* Pre results calculations.
+* Pre results calculations. Bosses use battleState.win for phase calculations.
 */
 exports.preresults = function(message, character, battleState, actives, grumbo){
 
 	//Preresults base/modifiers
 	battleState.preResMessages = [];
 	battleState.expMod = 0;
-	battleState.win = false;
-	if(battleState.result < battleState.chance){
+	battleState.win = true;
+	if(battleState.result >= battleState.chance){
 
-		battleState.win = true;
+		battleState.win = false;
+		battleState.dmgMod = Math.ceil(battleState.dmgMod/1.7);
 	}
+
+	//Preresults character active functions
+	for(var i = character.preresults.length - 1; i >= 0; i--){
+
+		var eventId = character.preresults[i];
+		if(characterfunc.preresults[eventId] != null){
+
+			characterfunc.preresults[eventId](character, battleState, eventId, actives);
+		}
+	};
+
 
 	//Preresults Grumbo effects
 	for(var i = grumbo.preresults.length - 1; i >= 0; i--){
@@ -347,18 +371,8 @@ exports.preresults = function(message, character, battleState, actives, grumbo){
 		}
 	};
 
-	//Preresults character active functions
-	for(var i = character.preresults.length - 1; i >= 0; i--){
-
-		var eventId = character.preresults[i];
-		if(characterfunc.preresults[eventId] != null){
-
-			characterfunc.preresults[eventId](character, battleState, eventId, actives);
-		}
-	};
-
 	//Calculate preresults variables
-	if(battleState.win){
+	if(battleState.win && !battleState.isBoss){
 
 		battleState.exp = battlefunc.calculateBattleExp(character, battleState.levelDiff, battleState);
 		battleState.gold = Math.ceil(battlefunc.calculateBattleGold(character, battleState.levelDiff) * (1 + (character.luk / 100)));
@@ -366,17 +380,23 @@ exports.preresults = function(message, character, battleState, actives, grumbo){
 }
 
 /**
-* Post results calculations.
+* Post results calculations. Bosses do not use classExp.
 */
 exports.postresults = function(message, character, battleState, actives, grumbo){
 
 	//Postresults base/modifiers
 	battleState.endMessages = [];
 	battleState.avoidPostResults = false;
+	battleState.noDmgTaken = false;
 	battleState.hpLoss = 3;
 	battleState.classExp = 1;
 
 	battlefunc.calculateHPLoss(message, character, battleState, actives, grumbo);
+
+	if(battleState.isBoss){
+
+		battleState.bossHp = grumbo.hp;
+	}
 
 	//Postresults character active functions
 	for(var i = character.postresults.length - 1; i >= 0; i--){
@@ -386,7 +406,7 @@ exports.postresults = function(message, character, battleState, actives, grumbo)
 
 			characterfunc.postresults[eventId](character, battleState, eventId, actives);
 		}
-	};
+	}
 
 	//Postresults Grumbo effects
 	for(var i = grumbo.postresults.length - 1; i >= 0; i--){
@@ -405,32 +425,16 @@ exports.postresults = function(message, character, battleState, actives, grumbo)
 				grumbofunc.postresults[eventId](character, battleState, eventId, actives);
 			}
 		}
-	};
-
-	//Calculate postresults variables
-	if(battleState.win){
-
-		var leftover = (battleState.exp + character.experience) % 100;
-		battleState.gains = Math.floor(((battleState.exp + character.experience)/100));
-
-		//Win message and results
-		character.battlesLeft -= 1;
-		character.wins += 1;
-		charfunc.levelChange(character, battleState.gains);
-		character.experience = leftover;
-		character.gold = Math.floor(character.gold + battleState.gold);
-		character.winrate = Math.floor(((character.wins / (character.wins + character.losses)) * 100));
-	}
-	else{
-
-		character.battlesLeft -= 1;
-		character.losses += 1;
-		character.winrate = Math.floor(((character.wins / (character.wins + character.losses)) * 100));
 	}
 
-	character.hp -= battleState.hpLoss;
-	if(character.hp < 0) character.hp = 0;
-	else if(character.hp > charfunc.MAX_HP) character.hp = charfunc.MAX_HP;
-	character.classExp += battleState.classExp;
-	classfunc.levelUpClass(character, battleState);
+	//Cleric miracle active
+	if(battleState.hpLoss >= character.hp){
+
+		if(battleState.miracle == true){
+
+			battleState.miracleUsed = true;
+			battleState.hpLoss = character.hp - 1;
+			battleState.endMessages.push("Miracle saved your life!");
+		}
+	}
 }

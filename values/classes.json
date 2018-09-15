@@ -12,7 +12,10 @@
     "description": "Your typical Grumbo Adventurer. Specializes in nothing. However, you can gain a permanent +2 boost to POW/WIS/DEF and +1 to RES/SPD/LUK every other class level!",
 		"perks": [
 		    "The Adventurer gets no perks at class level 1.",
-				"Become more observant. Learn the Observation active."
+				"Become more observant. Learn the Observation active.",
+				"POW/WIS/DEF +2 and RES/SPD/LUK +1 when classed as an Adventurer.",
+				"RES +4 / LUK +5 when classed as an Adventurer.",
+				"Try your chances for a small reward with the Adventurer's Grab Bag."
 		]
 	},
   "warrior": {
@@ -20,7 +23,7 @@
     "pow": "A+",
     "wis": "D+",
     "def": "C+",
-    "res": "B",
+    "res": "C+",
     "spd": "B",
     "luk": "C",
 		"classId": "warrior",
@@ -28,7 +31,10 @@
     "description": "Warrior packs a powerful punch but isn't the smartest about it. Gain a permanent +2 boost to POW every class level.",
 		"perks": [
 		    "A novice Warrior only knows the Wild Swing active.",
-				"POW +10 when classed as a Warrior."
+				"POW +10 when classed as a Warrior.",
+				"POW +4 / DEF +2 / SPD +2 when classed as a Warrior.",
+				"The Warrior can reduce damage taken with Lifesteal.",
+				"Use Revenge as your HP lowers."
 		]
 	},
   "magician": {
@@ -36,7 +42,7 @@
     "pow": "C",
     "wis": "S+",
     "def": "C-",
-    "res": "A+",
+    "res": "A-",
     "spd": "B",
     "luk": "C",
 		"classId": "magician",
@@ -44,7 +50,10 @@
     "description": "The Magician is pretty good at card tricks. Gain a permanent +2 boost to WIS every class level.",
 		"perks": [
 		    "The Magician can Outsmart his enemies.",
-				"WIS +15 when classed as a Magician."
+				"WIS +15 when classed as a Magician.",
+				"WIS +6 / RES +2 when classed as a Magician",
+				"Increase your damage dealt with Explosion.",
+				"Decrease your damage received with Barrier."
 		]
 	},
   "rogue": {
@@ -60,7 +69,48 @@
     "description": "The quick and slippery rogue. Gain a permanent +1 boost to SPD every class level.",
 		"perks": [
 		    "The Rogue very rarely gets a second chance when losing.",
-				"SPD +2 / LUK +2 when classed as a Rogue."
+				"SPD +2 / LUK +2 when classed as a Rogue.",
+				"Quick Step your way to victory.",
+				"The Rogue can show enemies the Power of Wealth.",
+				"SPD +2 / POW +4 / RES +1 when classed as a Rogue."
+		]
+	},
+  "cleric": {
+		"gameId": 104,
+    "pow": "D+",
+    "wis": "A",
+    "def": "D+",
+    "res": "S++",
+    "spd": "B+",
+    "luk": "C",
+		"classId": "cleric",
+		"className": "Cleric",
+    "description": "The highly resistant Cleric. Gain a permanent +1 boost to RES every class level.",
+		"perks": [
+		    "The Cleric reduces damage received per battle with the Regen active.",
+				"RES +3 when classed as a Cleric.",
+				"The Cleric can further reduce damage received with the Miracle active.",
+				"Increase your battle strength with Holy.",
+				"RES +1 / WIS +8 when classed as a Cleric."
+		]
+	},
+  "knight": {
+		"gameId": 105,
+    "pow": "C+",
+    "wis": "D",
+    "def": "A+",
+    "res": "D-",
+    "spd": "F",
+    "luk": "C",
+		"classId": "knight",
+		"className": "Knight",
+    "description": "The Knight is a sturdy fellow. Gain a permanent +2 boost to DEF every class level.",
+		"perks": [
+		    "The Knight can make full use of their Armory.",
+				"DEF +4 when classed as a Knight.",
+				"Recoil can activate against enemies.",
+				"SPD +5 / RES +4 / POW +4 when classed as a Knight.",
+				"Stand Your Ground against weaker enemies."
 		]
 	}
 }

@@ -302,5 +302,41 @@
 		"max": 1,
 		"stock": 1,
 		"weight": 4
+	},
+	"mini_magnet": {
+		"gameId": 10016,
+		"id": "mini_magnet",
+		"name": "Mini Magnet",
+		"command": "!grumbo items use mini_magnet",
+		"type": "toggle",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Gain 20 gold after every battle/phase regardless of outcome. Use to activate indefinitely. Use again to deactivate.",
+		"effect": "good",
+		"duration": null,
+		"price": 1,
+		"value": 1,
+		"max": 1,
+		"stock": null,
+		"weight": null
+	},
+	"blood_potion": {
+		"gameId": 10017,
+		"id": "blood_potion",
+		"name": "Blood Potion",
+		"command": "!grumbo items use blood_potion",
+		"type": "consume",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "For 2 battles, increases chance of victory by 5-10%",
+		"effect": "good",
+		"duration": 2,
+		"price": 600,
+		"value": 100,
+		"max": 3,
+		"stock": 1,
+		"weight": 5
 	}
 }

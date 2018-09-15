@@ -83,6 +83,8 @@ exports.immediate.antidote = function(message, character, state, eventId, event,
 		character.items.splice(index, 1);
 		index = character.prebattle.indexOf('poison');
 		character.prebattle.splice(index, 1);
+		index = character.postresults.indexOf('poison');
+		character.postresults.splice(index, 1);
 		var _id = character._id + 'poison';
 		var active = {
 			"_id": _id

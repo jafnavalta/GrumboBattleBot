@@ -121,28 +121,33 @@ function initShop(shopFunction){
 
 		if(equip != null){
 
-			equip.forEach(function(equipItem){
+			for(var i = 0; i < equip.length; i++){
 
+				var equipItem = equip[i];
 				shop.equip.push(equipItem);
-			});
+			}
 		}
 		dbfunc.getDB().collection("shop_rotation").find().toArray(function(err, rotation){
 
 			if(rotation != null){
 
-				rotation.forEach(function(rotationItem){
+				for(var i = 0; i < rotation.length; i++){
+
+					var rotationItem = rotation[i];
 
 					shop.rotation.push(rotationItem);
-				});
+				}
 			}
 			dbfunc.getDB().collection("shop_special").find().toArray(function(err, special){
 
 				if(special != null){
 
-					special.forEach(function(specialItem){
+					for(var i = 0; i < special.length; i++){
+
+						var specialItem = special[i];
 
 						shop.special.push(specialItem);
-					});
+					}
 				}
 				updateRotationSpecialEquip(function(){ shopFunction() });
 			});
@@ -608,7 +613,7 @@ function buyEquipItem(message, character, equip){
 
 				if(equip.stock != null){
 
-					equip.stock -= amount;
+					equip.stock -= 1;
 					dbfunc.updateEquipItem(equip);
 				}
 

@@ -216,10 +216,11 @@ exports.pushToState = function(character, eventId, event, eventStates, amount){
 		duration: totalDuration
 	}
 
-	eventStates.forEach(function(eventState){
+	for(var i = 0; i < eventStates.length; i++){
 
+		var eventState = eventStates[i];
 		character[eventState].push(eventId);
-	});
+	}
 
 	module.exports.updateActive(newActive);
 }
@@ -229,11 +230,12 @@ exports.pushToState = function(character, eventId, event, eventStates, amount){
 */
 exports.spliceFromState = function(character, eventId, event, eventStates, active){
 
-	eventStates.forEach(function(eventState){
+	for(var i = 0; i < eventStates.length; i++){
 
+		var eventState = eventStates[i];
 		var index = character[eventState].indexOf(eventId);
 		character[eventState].splice(index, 1);
-	});
+	}
 
 	module.exports.removeActive(active);
 }

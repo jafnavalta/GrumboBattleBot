@@ -14,6 +14,7 @@ let dbfunc = require('./data/db.js');
 
 //Initialize game functions
 let battlefunc = require('./command/battle.js');
+let bossfunc = require('./command/boss.js');
 let challengefunc = require('./command/challenge.js');
 let itemsfunc = require('./command/items.js');
 let shopfunc = require('./command/shop.js');
@@ -32,6 +33,7 @@ let guide = fs.readFileSync("./text/guide.txt", "utf8");
 let guide2 = fs.readFileSync("./text/guide2.txt", "utf8");
 let guide3 = fs.readFileSync("./text/guide3.txt", "utf8");
 let guide4 = fs.readFileSync("./text/guide4.txt", "utf8");
+let guide5 = fs.readFileSync("./text/guide5.txt", "utf8");
 let patchnotes = fs.readFileSync("./text/patchnotes.txt", "utf8");
 let classList = JSON.parse(fs.readFileSync("./values/classes.json", "utf8"));
 let equipList = JSON.parse(fs.readFileSync("./values/equips.json", "utf8"));
@@ -114,9 +116,6 @@ function parseCommand(message){
 	dbfunc.getDB().collection("characters").findOne({"_id": message.author.id}, function(err, character){
 
 		var args = message.content.split(' ');
-		//console.log(character.prebattle);
-		//console.log(character.preresults);
-		//console.log(character.postresults);
 
 		/////////////////////
 		// !! HELP MENU !! //
@@ -165,6 +164,7 @@ function parseCommand(message){
 			sender.send(guide2);
 			sender.send(guide3);
 			sender.send(guide4);
+			sender.send(guide5);
 		}
 
 		/////////////////
@@ -237,6 +237,14 @@ function parseCommand(message){
 		else if(args[1] == 'battle'){
 
 			battlefunc.commandBattle(message, args, character);
+		}
+
+		//////////////////
+		// !! BATTLE !! //
+		//////////////////
+		else if(args[1] == 'boss'){
+
+			bossfunc.commandBoss(message, args, character);
 		}
 
 		/////////////////////

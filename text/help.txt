@@ -24,3 +24,7 @@ BATTLE
 !grumbo battle level <number>  |  Battle a level <number> Grumbo. The higher the level compared to yours, the lower the chance of victory (but more experience!).
 !grumbo enemy <grumbo_name>  |  See the info of a particular grumbo.
 |
+CHALLENGE
+!grumbo challenge @mention <number> exp/gold  |  Challenge another user by mentionning them with @ and putting <number> experience/gold on the line!
+!grumbo challenge accept <number> exp/gold  |  If you've been challenged, accept with this command. <number> and exp/gold must match the challenge.
+|

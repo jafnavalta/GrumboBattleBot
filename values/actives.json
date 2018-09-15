@@ -7,7 +7,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases chance of victory for the next battle. Scales depending on level difference from +1 for Grumbos who are 20 levels higher than you to +5 if the same level or lower. Can have multiple active at the same time but only 1 will be used up every battle. Unaffected by level difference modifiers.",
+		"description": "Increases chance of victory for the next battle. Scales depending on level difference from +1 for Grumbos who are 20 levels higher than you to +5 if the same level or lower. Can have multiple active at the same time but only 1 will be used up every battle. Unaffected by level difference modifiers. Against bosses, deals an extra 3 damage.",
 		"duration": 1
 	},
 	"poison": {
@@ -63,7 +63,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases minimum battle victory chance to 20%. Calculated after all other chance modifiers.",
+		"description": "Increases minimum battle victory chance to 20%. Calculated after all other chance modifiers. Doesn't work against bosses.",
 		"duration": 1
 	},
 	"flimsy_rope": {
@@ -85,7 +85,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases victory chance by 5%. Every battle, the victory chance increased goes down by 1%, all the way down to -5% in the last battle. Can only have 1 active at a time.",
+		"description": "Increases victory chance by 5%. Every battle, the victory chance increased goes down by 1%, all the way down to -5% in the last battle. The same chance modifier is also applied to extra (or loss) damage done against bosses. Can only have 1 active at a time.",
 		"duration": 10
 	},
 	"fear": {
@@ -129,7 +129,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Warrior only. POW/8 % chance of increasing chance of victory by 10%",
+		"description": "Warrior only. POW/8 % chance of increasing chance of victory by 10%. Against bosses, deals an extra 10 damage.",
 		"duration": null
 	},
 	"observation": {
@@ -151,7 +151,7 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "If HP < 50, reduce damage by 50%.",
+		"description": "If HP < 50, reduce damage by 25%.",
 		"duration": null
 	},
 	"outsmart": {
@@ -162,7 +162,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "35% chance to double the WIS bonus chance in battle.",
+		"description": "35% chance to double the WIS bonus chance in battle. Against bosses, increases damage dealt by initial WIS bonus chance as well.",
 		"duration": null
 	},
 	"second_chance": {
@@ -173,7 +173,7 @@
 		"battleStates": [
 			"preresults"
 		],
-		"description": "When you lose, 3% chance to win instead.",
+		"description": "When you lose, 4% chance to win instead.",
 		"duration": null
 	},
 	"dodge": {
@@ -261,7 +261,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Throw a shield at an enemy in battle. Increases chance of victory by DEF/3.",
+		"description": "Throw a shield at an enemy in battle. Increases chance of victory by DEF/3. Deals an extra 6 damage against bosses.",
 		"duration": 1
 	},
 	"wumbo": {
@@ -273,6 +273,238 @@
 			"prebattle"
 		],
 		"description": "Caps maximum battle chance at 70%",
+		"duration": null
+	},
+	"venom": {
+		"gameId": 70025,
+		"id": "venom",
+		"name": "Venom",
+		"effect": "bad",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "Inflicts poison before phase results. If you have an antidote in your inventory, it will destroy an antidote instead of inflicting poison.",
+		"duration": null
+	},
+	"venom_bite": {
+		"gameId": 70026,
+		"id": "venom_bite",
+		"name": "Venom Bite",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Deals 3 extra damage. Multiplies total damage by 5 if the target is poisoned.",
+		"duration": null
+	},
+	"equalizer": {
+		"gameId": 70027,
+		"id": "equalizer",
+		"name": "Equalizer",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Activates when below 120 HP. If you have less than POW 85 or WIS 85 or RES 8, receive damage equal to the difference between your POW and WIS. Only activates once.",
+		"duration": null
+	},
+	"red_eye": {
+		"gameId": 70028,
+		"id": "red_eye",
+		"name": "Red Eye",
+		"effect": "bad",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "Activates in Phase 1 against Crimson Grumbo. Petrifies if you don't have a Feather Stone or a Battle Potion in your items. Does not consume the Feather Stone or Battle Potion.",
+		"duration": null
+	},
+	"rock_smash": {
+		"gameId": 70029,
+		"id": "rock_smash",
+		"name": "Rock Smash",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Activates in Phase 1 against Crimson Grumbo. If DEF > 150, receive an additional 100 damage. Otherwise, receive additional damage equal to DEF/10.",
+		"duration": null
+	},
+	"crimson_blood": {
+		"gameId": 70030,
+		"id": "crimson_blood",
+		"name": "Crimson Blood",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Activates in Phase 2 against Crimson Grumbo. Puts the Crimson Blood active on your character. (DEF/10 + RES*2)% chance of removing the active every battle/phase. Lasts 2 turns. On the second turn, if it's still active, receive an additional 100 damage.",
+		"duration": 2
+	},
+	"crimson": {
+		"gameId": 70031,
+		"id": "crimson",
+		"name": "Crimson",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "Increases max chance of victory  by 5%. (DEF/10 + RES*2)% chance of increasing chance of victory by 5.",
+		"duration": null
+	},
+	"regen": {
+		"gameId": 70016,
+		"id": "regen",
+		"name": "Regen",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Reduce HP loss by 3 HP every battle.",
+		"duration": null
+	},
+	"miracle": {
+		"gameId": 70017,
+		"id": "miracle",
+		"name": "Miracle",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "(RES * 2)% chance to reduce damage received by 12. If you were to take damage that would reduce your HP to 0, (RES * 2)% chance to reduce your HP to 1 instead. The revive effect will not activate multiple times in a boss battle.",
+		"duration": null
+	},
+	"holy": {
+		"gameId": 70018,
+		"id": "holy",
+		"name": "Holy",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "RES % chance to increase chance of victory by WIS/12 and damage by WIS/8.",
+		"duration": null
+	},
+	"armory": {
+		"gameId": 70019,
+		"id": "armory",
+		"name": "Armory",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "DEF/7 % chance to increase chance of victory and damage by the amount of equips in your inventory up to a maximum of 12.",
+		"duration": null
+	},
+	"recoil": {
+		"gameId": 70020,
+		"id": "recoil",
+		"name": "Recoil",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "POW/10 % chance to increase chance of victory by the difference between your POW and DEF divided by 5 and increases damage dealt against bosses by that same difference divided by 2.",
+		"duration": null
+	},
+	"stand_your_ground": {
+		"gameId": 70021,
+		"id": "stand_your_ground",
+		"name": "Stand Your Ground",
+		"effect": "good",
+		"battleStates": [
+			"preresults",
+			"postresults"
+		],
+		"description": "DEF/8 % chance to outright win against Grumbos who are lower level than you. Against bosses, DEF/8 % chance to reduce damage received by 7.",
+		"duration": null
+	},
+	"grab_bag": {
+		"gameId": 70022,
+		"id": "grab_bag",
+		"name": "Grab Bag",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "66% chance to increase experience gained by 10 or gold gained by 25.",
+		"duration": null
+	},
+	"lifesteal": {
+		"gameId": 70023,
+		"id": "lifesteal",
+		"name": "Lifesteal",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "75% chance to reduce damage received by 2% of POW.",
+		"duration": null
+	},
+	"revenge": {
+		"gameId": 70024,
+		"id": "revenge",
+		"name": "Revenge",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "Higher chance of activation the lower the HP you are. Increases chance of victory by POW/12. Against bosses, deal extra damage equal to POW/5.",
+		"duration": null
+	},
+	"explosion": {
+		"gameId": 70025,
+		"id": "explosion",
+		"name": "Explosion",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "15% chance to increase damage by WIS/2. No effect in regular battles.",
+		"duration": null
+	},
+	"barrier": {
+		"gameId": 70026,
+		"id": "barrier",
+		"name": "Barrier",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "RES% chance to reduce damage received by WIS/12.",
+		"duration": null
+	},
+	"power_of_wealth": {
+		"gameId": 70027,
+		"id": "power_of_wealth",
+		"name": "Power of Wealth",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "(LUK * 0.8)% chance of increasing chance of victory by amount of gold held divided by 1500 and damage dealt by amount of gold held divided by 150.",
+		"duration": null
+	},
+	"quick_step": {
+		"gameId": 70028,
+		"id": "quick_step",
+		"name": "Quick Step",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "SPD% chance to increase chance of victory by 4%.",
+		"duration": null
+	},
+	"shield_bash": {
+		"gameId": 70029,
+		"id": "shield_bash",
+		"name": "Shield Bash",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "5% chance to increase damage dealt by DEF/3.",
 		"duration": null
 	}
 }

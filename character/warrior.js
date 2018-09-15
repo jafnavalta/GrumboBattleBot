@@ -14,15 +14,17 @@ let activesList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 //ALL classes should have these.
 exports.className = "Warrior";
 
-exports.CLASS_LEVEL_MAX = 2;
+exports.CLASS_LEVEL_MAX = 5;
 
 //Actives
 const LEVEL_1_ACTIVE = 'wild_swing';
+const LEVEL_4_ACTIVE = 'lifesteal';
+const LEVEL_5_ACTIVE = 'revenge';
 
 const BASE_POW_EQ = 5;
 const BASE_WIS_EQ = -3;
 const BASE_DEF_EQ = -2;
-const BASE_RES_EQ = -1;
+const BASE_RES_EQ = -3;
 const BASE_SPD_EQ = 0;
 const BASE_LUK_EQ = 0;
 
@@ -123,14 +125,21 @@ exports.setClassLevelFunc.warrior2 = function(character){
 
 exports.setClassLevelFunc.warrior3 = function(character){
 
+  character.spdEq += 2;
+  character.powEq += 4;
+  character.defEq += 2;
 }
 
 exports.setClassLevelFunc.warrior4 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_4_ACTIVE);
+  dbfunc.pushToState(character, active.id, active, active.battleStates, 1);
 }
 
 exports.setClassLevelFunc.warrior5 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_5_ACTIVE);
+  dbfunc.pushToState(character, active.id, active, active.battleStates, 1);
 }
 
 exports.setClassLevelFunc.warrior6 = function(character){
@@ -169,14 +178,21 @@ exports.removeClassLevelFunc.warrior2 = function(character){
 
 exports.removeClassLevelFunc.warrior3 = function(character){
 
+  character.spdEq -= 2;
+  character.powEq -= 4;
+  character.defEq -= 2;
 }
 
 exports.removeClassLevelFunc.warrior4 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_4_ACTIVE);
+  dbfunc.spliceFromState(character, active.id, active, active.battleStates, active);
 }
 
 exports.removeClassLevelFunc.warrior5 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_5_ACTIVE);
+  dbfunc.spliceFromState(character, active.id, active, active.battleStates, active);
 }
 
 exports.removeClassLevelFunc.warrior6 = function(character){

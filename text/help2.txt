@@ -1,6 +1,8 @@
-CHALLENGE
-!grumbo challenge @mention <number> exp/gold  |  Challenge another user by mentionning them with @ and putting <number> experience/gold on the line!
-!grumbo challenge accept <number> exp/gold  |  If you've been challenged, accept with this command. <number> and exp/gold must match the challenge.
+BOSS
+<boss_command> is always the name of the boss in lowercase with the spaces replaced with underscores. E.g. Venom Grumbo = venom_grumbo
+!grumbo boss -d  |  See the current list of bosses
+!grumbo boss <boss_command>  |  Fight the boss!
+!grumbo boss info <boss_command> -d  |  See the info of a particular boss.
 |
 ITEMS
 <item_command> is always the name of the item in lowercase with the spaces replaced with underscores. E.g. Charm of Wumbo = charm_of_wumbo

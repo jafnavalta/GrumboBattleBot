@@ -14,15 +14,17 @@ let activesList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 //ALL classes should have these.
 exports.className = "Magician";
 
-exports.CLASS_LEVEL_MAX = 2;
+exports.CLASS_LEVEL_MAX = 5;
 
 //Actives
 const LEVEL_1_ACTIVE = 'outsmart';
+const LEVEL_4_ACTIVE = 'explosion';
+const LEVEL_5_ACTIVE = 'barrier';
 
 const BASE_POW_EQ = -5;
 const BASE_WIS_EQ = 6;
 const BASE_DEF_EQ = -5;
-const BASE_RES_EQ = 5;
+const BASE_RES_EQ = 2;
 const BASE_SPD_EQ = 0;
 const BASE_LUK_EQ = 0;
 
@@ -36,7 +38,7 @@ exports.BASE_LUK_EQ = BASE_LUK_EQ;
 exports.powX = 0.84;
 exports.wisX = 1.34;
 exports.defX = 0.79;
-exports.resX = 1.2;
+exports.resX = 1.1;
 exports.spdX = 1;
 exports.lukX = 1;
 
@@ -123,14 +125,20 @@ exports.setClassLevelFunc.magician2 = function(character){
 
 exports.setClassLevelFunc.magician3 = function(character){
 
+  character.wisEq += 6;
+  character.resEq += 2;
 }
 
 exports.setClassLevelFunc.magician4 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_4_ACTIVE);
+  dbfunc.pushToState(character, active.id, active, active.battleStates, 1);
 }
 
 exports.setClassLevelFunc.magician5 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_5_ACTIVE);
+  dbfunc.pushToState(character, active.id, active, active.battleStates, 1);
 }
 
 exports.setClassLevelFunc.magician6 = function(character){
@@ -169,14 +177,20 @@ exports.removeClassLevelFunc.magician2 = function(character){
 
 exports.removeClassLevelFunc.magician3 = function(character){
 
+  character.wisEq -= 6;
+  character.resEq -= 2;
 }
 
 exports.removeClassLevelFunc.magician4 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_4_ACTIVE);
+  dbfunc.spliceFromState(character, active.id, active, active.battleStates, active);
 }
 
 exports.removeClassLevelFunc.magician5 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_5_ACTIVE);
+  dbfunc.spliceFromState(character, active.id, active, active.battleStates, active);
 }
 
 exports.removeClassLevelFunc.magician6 = function(character){

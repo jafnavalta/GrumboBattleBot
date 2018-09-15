@@ -1,0 +1,60 @@
+{
+  "venom_grumbo": {
+    "gameId": 900,
+    "id": "venom_grumbo",
+    "name": "Venom Grumbo",
+    "level": 30,
+    "hp": 400,
+    "max_hp": 400,
+    "base_chance": 48,
+    "powBase": 90,
+    "wisBase": 94,
+    "powX": 1.00,
+		"wisX": 1.00,
+    "description": "Poisonous. Toxic. But most importantly, Venomous. Venom Grumbo administers poison to its victims and deals extra damage to them as well!",
+    "actives": ["venom", "venom_bite", "equalizer"],
+    "prebattle": [
+      "venom"
+    ],
+		"preresults": [],
+		"postresults": [
+      "venom_bite",
+      "equalizer"
+    ],
+    "victory": "$name has claimed victory over Eddi-- Venom Grumbo!",
+		"loss": "$name lay defeated in a pool of Venom Grumbo's toxic wasteland!",
+    "firstTime": "venom_mask",
+    "lootchance": [100, 60, 20],
+    "loot": ["", "antidote", "medicine", "mini_magnet", "venom_plate", "venom_mask_ex"],
+    "weights": [40, 36, 16, 5, 4, 4]
+  },
+  "crimson_grumbo": {
+    "gameId": 901,
+    "id": "crimson_grumbo",
+    "name": "Crimson Grumbo",
+    "level": 60,
+    "hp": 620,
+    "max_hp": 620,
+    "base_chance": 38,
+    "powBase": 116,
+    "wisBase": 130,
+    "powX": 1.00,
+		"wisX": 1.00,
+    "description": "The red-eyed Crimson Grumbo. His crimson eyes make for some scary effects!",
+    "actives": ["red_eye", "rock_smash", "crimson_blood"],
+    "prebattle": [
+      "red_eye"
+    ],
+		"preresults": [],
+		"postresults": [
+      "rock_smash",
+      "crimson_blood"
+    ],
+    "victory": "Crimson Grumbo was vanquished by $name!",
+		"loss": "$name was smashed to bits by the Crimson Grumbo!",
+    "firstTime": "crimson_dagger",
+    "lootchance": [90, 50, 10],
+    "loot": ["", "battle_potion", "feather_stone", "blood_potion", "crimson_staff", "crimson_scepter"],
+    "weights": [35, 45, 15, 8, 4, 4]
+  }
+}

@@ -14,10 +14,12 @@ let activesList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 //ALL classes should have these.
 exports.className = "Rogue";
 
-exports.CLASS_LEVEL_MAX = 2;
+exports.CLASS_LEVEL_MAX = 5;
 
 //Actives
 const LEVEL_1_ACTIVE = 'second_chance';
+const LEVEL_3_ACTIVE = 'quick_step';
+const LEVEL_4_ACTIVE = 'power_of_wealth';
 
 const BASE_POW_EQ = -2;
 const BASE_WIS_EQ = 2;
@@ -124,14 +126,21 @@ exports.setClassLevelFunc.rogue2 = function(character){
 
 exports.setClassLevelFunc.rogue3 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_3_ACTIVE);
+  dbfunc.pushToState(character, active.id, active, active.battleStates, 1);
 }
 
 exports.setClassLevelFunc.rogue4 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_4_ACTIVE);
+  dbfunc.pushToState(character, active.id, active, active.battleStates, 1);
 }
 
 exports.setClassLevelFunc.rogue5 = function(character){
 
+  character.spdEq += 2;
+  character.powEq += 4;
+  character.resEq += 1;
 }
 
 exports.setClassLevelFunc.rogue6 = function(character){
@@ -171,14 +180,21 @@ exports.removeClassLevelFunc.rogue2 = function(character){
 
 exports.removeClassLevelFunc.rogue3 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_3_ACTIVE);
+  dbfunc.spliceFromState(character, active.id, active, active.battleStates, active);
 }
 
 exports.removeClassLevelFunc.rogue4 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_4_ACTIVE);
+  dbfunc.spliceFromState(character, active.id, active, active.battleStates, active);
 }
 
 exports.removeClassLevelFunc.rogue5 = function(character){
 
+  character.spdEq -= 2;
+  character.powEq -= 4;
+  character.resEq -= 1;
 }
 
 exports.removeClassLevelFunc.rogue6 = function(character){

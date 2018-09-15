@@ -151,5 +151,23 @@
 		"max": 10,
 		"stock": 5,
 		"weight": 20
+	},
+	"blood_potion": {
+		"gameId": 10017,
+		"id": "blood_potion",
+		"name": "Blood Potion",
+		"command": "!grumbo items use blood_potion",
+		"type": "consume",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "For 2 battles, increases chance of victory by 5-10%",
+		"effect": "good",
+		"duration": 2,
+		"price": 600,
+		"value": 100,
+		"max": 3,
+		"stock": 1,
+		"weight": 5
 	}
 }
