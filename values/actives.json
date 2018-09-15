@@ -316,7 +316,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Activates in Phase 1 against Crimson Grumbo. Petrifies if you don't have a Feather Stone or a Battle Potion in your items. Does not consume the Feather Stone or Battle Potion.",
+		"description": "Activates in Phase 1 against Crimson Grumbo. Petrifies if you don't have a Feather Stone and a Battle Potion in your items. Does not consume the Feather Stone or Battle Potion.",
 		"duration": null
 	},
 	"rock_smash": {
