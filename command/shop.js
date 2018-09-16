@@ -165,6 +165,10 @@ function updateRotationSpecialEquip(shopFunction){
 	var currentRotation = Math.floor(currentTime/INTERVAL);
 	if(currentRotation > LR.lastRotation || shop.equip.length <= 0){ //Equip shop check for DB version 6+ when equips were added
 
+		itemList = JSON.parse(fs.readFileSync("./values/items.json", "utf8"));
+		rotationList = JSON.parse(fs.readFileSync("./values/rotation_items_list.json", "utf8"));
+		specialList = JSON.parse(fs.readFileSync("./values/special_items_list.json", "utf8"));
+		equipList = JSON.parse(fs.readFileSync("./values/equips.json", "utf8"));
 		LR.lastRotation = currentRotation;
 		fs.writeFileSync("./values/shop_lastrotation.json", JSON.stringify(LR, null, 4));
 
