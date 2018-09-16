@@ -169,11 +169,11 @@ function updateRotationSpecialEquip(shopFunction){
 		fs.writeFileSync("./values/shop_lastrotation.json", JSON.stringify(LR, null, 4));
 
 		//Randomize new rotation/special/equip shops
-		dbfunc.getDB().collection("shop_rotation").drop(function(err, result){
+		dbfunc.getDB().collection("shop_rotation").deleteMany({}, function(err, result){
 
-			dbfunc.getDB().collection("shop_special").drop(function(err, result){
+			dbfunc.getDB().collection("shop_special").deleteMany({}, function(err, result){
 
-				dbfunc.getDB().collection("shop_equip").drop(function(err, result){
+				dbfunc.getDB().collection("shop_equip").deleteMany({}, function(err, result){
 
 					shop.rotation = [];
 					shop.special = [];
