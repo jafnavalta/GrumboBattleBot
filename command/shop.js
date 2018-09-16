@@ -345,6 +345,10 @@ function displayShop(message, args, character){
 		shopString4 += "\n|\n" + equipItem.name + "  |  Buy:  " + equipItem.id + "\n"
 			+ equipItem.description + "\n";
 		shopString4 += "Price: " + equipItem.price + " gold";
+		if(equipItem.stock != null){
+
+			shopString4 += "\nStock: " + equipItem.stock;
+		}
 	});
 
 	sender.send(shopString4);
