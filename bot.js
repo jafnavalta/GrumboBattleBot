@@ -377,7 +377,7 @@ function displayLeaderboards(message, args){
 			characters.forEach(function(sortedCharacter){
 
 				//Only show people in the server
-				if(message.guild.members.get(sortedCharacter._id) != undefined){
+				if(message.guild.members.get(sortedCharacter._id) != undefined && count <= 10){
 
 					leaderboards = leaderboards + "[" + count + "] " + message.guild.members.get(sortedCharacter._id).displayName + "   Lv" + sortedCharacter.level + "  |  "
 						+ sortedCharacter.experience + " EXP  |  " + sortedCharacter.gold + " Gold"
