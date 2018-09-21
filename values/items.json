@@ -158,7 +158,7 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "Has a 50% chance of avoiding any post battle Grumbo active effects (good or bad). Gets used up even if an effect wasn't avoided.",
+		"description": "Has a 20% chance of avoiding any post battle Grumbo active effects (good or bad). Gets used up even if an effect wasn't avoided.",
 		"effect": "good",
 		"duration": 1,
 		"price": 200,

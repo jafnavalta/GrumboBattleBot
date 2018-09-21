@@ -260,8 +260,9 @@ exports.postresults.poison = function(character, battleState, eventId, actives){
 
 exports.postresults.flimsy_rope = function(character, battleState, eventId, actives){
 
+	battleState.avoidPostResults = false;
 	var random = Math.random() * 100;
-	if(random < 50){
+	if(random < 20){
 
 		battleState.avoidPostResults = true;
 		battleState.endMessages.push("Flimsy rope activated and let you avoid post battle effects!");
