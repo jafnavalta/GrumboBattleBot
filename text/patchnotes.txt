@@ -1,6 +1,7 @@
 GRUMBO PATCH NOTES
 Most recent from the top
 
+- Sep 23: Added Boss timer.
 - Sep 23: Added 2 Bosses, 1 Grumbo, 6 Items, 12 Equips.
 - Sep 23: Adventurer Lv 6. Gets nothing new except the stat boost.
 - Sep 23: Increased the drop rate of boss exclusive drops.

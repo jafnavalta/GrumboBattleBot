@@ -571,7 +571,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "If you do not have (12 - phase #) actives, chance of phase victory and damage done is reduced by 64.",
+		"description": "If you do not have (11 - phase #) actives, chance of phase victory and damage done is reduced by 64.",
 		"duration": null
 	},
 	"final_track": {

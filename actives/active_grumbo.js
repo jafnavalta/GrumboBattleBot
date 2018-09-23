@@ -105,7 +105,7 @@ exports.prebattle.red_eye = function(character, battleState, eventId, actives, g
 //BOSS Mixtape Grumbo
 exports.prebattle.show_me_your_mixtape = function(character, battleState, eventId, actives, grumbo){
 
-		if(actives.length < 12 - battleState.phase){
+		if(actives.length < 11 - battleState.phase){
 
 			battleState.chanceMod -= 64;
 			battleState.dmgMod -= 64;

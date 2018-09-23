@@ -16,6 +16,9 @@ let activeList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 let itemList = JSON.parse(fs.readFileSync("./values/items.json", "utf8"));
 let equipList = JSON.parse(fs.readFileSync("./values/equips.json", "utf8"));
 
+const BOSS_WAIT_TIME = 21600000; //6 hours
+
+exports.BOSS_WAIT_TIME = BOSS_WAIT_TIME;
 
 /**
 * Battle command
@@ -118,7 +121,7 @@ exports.commandBoss = function(message, args, character){
       //Determine how many battles they should have left
   		var date = new Date();
   		var currentTime = date.getTime();
-  		exports.restockBattles(currentTime, character);
+      var timeSinceLastBoss = currentTime - character.bosstime;
 
   		//Character is already in a battle
   		if(character.battleLock){
@@ -134,10 +137,13 @@ exports.commandBoss = function(message, args, character){
 
   			message.channel.send("You need to be level " + boss.level + " to fight " + boss.name);
   		}
-  		//2 or less battles left
-  		else if(character.battlesLeft <= 2){
+  		//Bossed too recently
+  		else if(timeSinceLastBoss/BOSS_WAIT_TIME < 1){
 
-  			message.channel.send("You don't have enough battles left! You need at least 3 battle stocks to fight a boss!");
+        var hours = Math.floor((BOSS_WAIT_TIME - timeSinceLastBoss)/3600000);
+      	var minutes = Math.ceil(((BOSS_WAIT_TIME - timeSinceLastBoss) % 3600000) / 60000);
+        message.channel.send("You've fought a boss too recently " + message.member.displayName + "!"
+          + "\nYou can boss again in " + hours + " hours " + minutes + " minutes");
   		}
   		//BOSS
   		else{
@@ -145,6 +151,7 @@ exports.commandBoss = function(message, args, character){
   			//Get all character active effects
   			dbfunc.getDB().collection("actives").find({"character": character._id}).toArray(function(err, actives){
 
+          character.bosstime = currentTime;
   				doBoss(message, args, character, currentTime, actives, boss);
   			});
   		}
@@ -331,8 +338,6 @@ function recursiveBossPhase2(battleState, message, args, character, currentTime,
       endMessageString += "# " + username + "  HP  " + character.hp + "  |  " + boss.name + "  HP  " + boss.hp + "\n#\n"
         + "######### END PHASE " + battleState.phase + " ########";
 
-      character.battleLock = false;
-
       //Save battle results
       dbfunc.updateCharacter(character);
 
@@ -357,6 +362,7 @@ function recursiveBossPhase2(battleState, message, args, character, currentTime,
 function finishBoss(battleState, message, args, character, currentTime, actives, boss){
 
   //WIN
+  character.battleLock = false;
   var username = message.member.displayName;
   if(character.hp > 0){
 

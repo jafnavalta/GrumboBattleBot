@@ -80,12 +80,13 @@ exports.createNewCharacter = function(message, callback){
 		battlesLeft: 5,
 		battletime: 9999999999999,
 		battleLock: false,
+		bosstime: 0,
 		challengeWins: 0,
 		challengeLosses: 0,
 		challengeWinrate: 0,
 		challengesLeft: 3,
 		challengetime: 9999999999999,
-		gold: 500,
+		gold: 700,
 		items: ['battle_ticket', 'challenge_ticket', 'battle_potion', 'battle_potion'],
 		prebattle: [],
 		preresults: [],
@@ -528,6 +529,36 @@ function runMigrations(version, callback){
 						function(){
 
 							version.version = 7;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
+
+	else if(version.version <= 7){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+
+				var character = characters[i];
+				character.bosstime = 0;
+
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 8;
 							runMigrations(version, callback);
 					});
 				}
