@@ -26,7 +26,7 @@
     "firstTime": "venom_mask",
     "lootchance": [100, 60, 20],
     "loot": ["", "antidote", "medicine", "challenge_ticket", "mini_magnet", "venom_plate", "venom_mask_ex"],
-    "weights": [40, 36, 16, 8, 5, 12, 12]
+    "weights": [40, 36, 24, 8, 5, 8, 8]
   },
   "mixtape_grumbo": {
     "gameId": 902,
@@ -55,7 +55,7 @@
     "firstTime": "safety_boots",
     "lootchance": [95, 55, 15, 5],
     "loot": ["", "medicine", "bandages", "adrenaline", "class_ticket", "academy_jacket", "angel_wings"],
-    "weights": [31, 48, 23, 8, 5, 28, 11]
+    "weights": [31, 48, 23, 10, 5, 18, 9]
   },
   "crimson_grumbo": {
     "gameId": 901,
@@ -84,7 +84,7 @@
     "firstTime": "crimson_dagger",
     "lootchance": [90, 50, 10],
     "loot": ["", "battle_potion", "feather_stone", "battle_ticket", "blood_potion", "crimson_staff", "crimson_scepter"],
-    "weights": [35, 45, 15, 8, 8, 16, 16]
+    "weights": [35, 45, 20, 8, 8, 9, 9]
   },
   "master_grumbo": {
     "gameId": 903,
@@ -113,6 +113,6 @@
     "firstTime": "master_cloak",
     "lootchance": [65, 35, 10],
     "loot": ["", "medicine", "battle_potion", "class_ticket", "adventurers_spellbook", "grumbot_miner", "grumbo_whistle", "master_grumbos_blessing"],
-    "weights": [35, 45, 30, 16, 16, 4, 2, 1]
+    "weights": [35, 45, 35, 16, 14, 4, 2, 1]
   }
 }
