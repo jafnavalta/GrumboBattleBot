@@ -16,7 +16,7 @@ let activeList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 let itemList = JSON.parse(fs.readFileSync("./values/items.json", "utf8"));
 let equipList = JSON.parse(fs.readFileSync("./values/equips.json", "utf8"));
 
-const BOSS_WAIT_TIME = 21600000; //6 hours
+const BOSS_WAIT_TIME = 14400000; //4 hours
 
 exports.BOSS_WAIT_TIME = BOSS_WAIT_TIME;
 
