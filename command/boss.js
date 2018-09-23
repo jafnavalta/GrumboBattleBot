@@ -121,6 +121,7 @@ exports.commandBoss = function(message, args, character){
       //Determine how many battles they should have left
   		var date = new Date();
   		var currentTime = date.getTime();
+      exports.restockBattles(currentTime, character);
       var timeSinceLastBoss = currentTime - character.bosstime;
 
   		//Character is already in a battle
@@ -137,6 +138,11 @@ exports.commandBoss = function(message, args, character){
 
   			message.channel.send("You need to be level " + boss.level + " to fight " + boss.name);
   		}
+      //Not enough battles left
+      else if(character.battlesLeft < 2){
+
+        message.channel.send("You need at least 2 battle stock to fight a boss.");
+      }
   		//Bossed too recently
   		else if(timeSinceLastBoss/BOSS_WAIT_TIME < 1){
 
@@ -151,7 +157,6 @@ exports.commandBoss = function(message, args, character){
   			//Get all character active effects
   			dbfunc.getDB().collection("actives").find({"character": character._id}).toArray(function(err, actives){
 
-          character.bosstime = currentTime;
   				doBoss(message, args, character, currentTime, actives, boss);
   			});
   		}
@@ -203,6 +208,7 @@ function doBoss(message, args, character, currentTime, actives, boss){
 			{$set: {"battleLock": character.battleLock}},
 		function(error, result){
 
+    character.bosstime = currentTime;
     if(character.battlesLeft == 5){
 
   		character.battletime = currentTime;
@@ -222,7 +228,7 @@ function doBoss(message, args, character, currentTime, actives, boss){
 
 			character.battletime = currentTime;
 		}
-    character.battlesLeft -= 3;
+    character.battlesLeft -= 2;
 
     var username = message.member.displayName;
     message.channel.send(username + " has begun a boss battle against " + boss.name + "!");
