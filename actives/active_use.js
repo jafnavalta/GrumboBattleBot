@@ -241,6 +241,14 @@ exports.immediate.feather_stone = function(message, character, state, eventId, e
 	}
 }
 
+exports.immediate.class_ticket = function(message, character, state, eventId, event, amount){
+
+		var index = character.items.indexOf(eventId);
+		character.items.splice(index, 1);
+		character.classTime = 0;
+		state.result = message.member.displayName + " has used a class ticket!";
+}
+
 //////////////////////////
 // NONCONSUME FUNCTIONS //
 //////////////////////////

@@ -39,7 +39,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases chance of victory for the next battle. Scales depending on level difference from +1 for Grumbos who are 20 levels higher than you to +5 if the same level or lower. Can have multiple active at the same time but only 1 will be used up every battle. Unaffected by level difference modifiers. Consumed after use.",
+		"description": "Increases chance of victory for the next battle. Scales depending on level difference from +1 for Grumbos who are 20 levels higher than you to +5 if the same level or lower. Can have multiple active at the same time but only 1 will be used up every battle. Unaffected by level difference modifiers. Against bosses, deal an extra 3 damage. Consumed after use.",
 		"effect": "good",
 		"duration": 1,
 		"price": 175,
@@ -108,7 +108,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "If you're battle chance is below 20% after all modifiers, bring victory chance up to 20%. Consumed after use.",
+		"description": "If you're battle chance is below 20% after all modifiers, bring victory chance up to 20%. Doesn't work against bosses. Consumed after use.",
 		"effect": "good",
 		"duration": 1,
 		"price": 575,
@@ -143,7 +143,7 @@
 		"description": "Can only use 1 at a time. Gain 80 exp... or maybe lose 80 exp... or maybe...",
 		"effect": "neutral",
 		"duration": null,
-		"price": 150,
+		"price": 220,
 		"value": 50,
 		"max": 10,
 		"stock": 3,
@@ -176,7 +176,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases victory chance by 5%. Every battle, the victory chance increased goes down by 1%, all the way down to -5% in the last battle. Can only have 1 active at a time.",
+		"description": "Increases victory chance by 5%. Every battle, the victory chance increased goes down by 1%, all the way down to -5% in the last battle. The same chance modifier is also applied to extra (or loss) damage done against bosses. Can only have 1 active at a time.",
 		"effect": "good",
 		"duration": 10,
 		"price": 225,
@@ -283,7 +283,7 @@
 		"value": 100,
 		"max": 1,
 		"stock": 1,
-		"weight": 6
+		"weight": 4
 	},
 	"throwing_shield": {
 		"gameId": 10016,
@@ -294,7 +294,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Throw a shield at an enemy in battle. Increases chance of victory by DEF/3.",
+		"description": "Throw a shield at an enemy in battle. Increases chance of victory by DEF/3. Against bosses, deals an extra 6 damage.",
 		"effect": "good",
 		"duration": 1,
 		"price": 820,
@@ -333,10 +333,116 @@
 		"description": "For 2 battles, increases chance of victory by 5-10%",
 		"effect": "good",
 		"duration": 2,
-		"price": 600,
+		"price": 700,
 		"value": 100,
 		"max": 3,
 		"stock": 1,
 		"weight": 5
+	},
+	"iron_pendant": {
+		"gameId": 10018,
+		"id": "iron_pendant",
+		"name": "Iron Pendant",
+		"command": "!grumbo items use iron_pendant",
+		"type": "toggle",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Prevents petrify and bleed. Petrify or Bleed that is already active will remain active. Use to activate indefinitely. Use again to deactivate.",
+		"effect": "good",
+		"duration": null,
+		"price": 3600,
+		"value": 750,
+		"max": 1,
+		"stock": null,
+		"weight": null
+	},
+	"trip_mine": {
+		"gameId": 10019,
+		"id": "trip_mine",
+		"name": "Trip Mine",
+		"command": "!grumbo items use trip_mine",
+		"type": "consume",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "Deals 10 damage. Doesn't do anything in regular battles, but it's duration will still be reduced. Consumed after use.",
+		"effect": "good",
+		"duration": 1,
+		"price": 201,
+		"value": 49,
+		"max": 10,
+		"stock": 4,
+		"weight": 9
+	},
+	"grumbo_whistle": {
+		"gameId": 10020,
+		"id": "grumbo_whistle",
+		"name": "Grumbo Whistle",
+		"command": "!grumbo items use grumbo_whistle",
+		"type": "toggle",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Pay 94 gold every activation to either reduce damage received by 5 or deal an extra 20 damage. Does nothing if you don't have enough gold. Still activates in regular battles. Use to activate indefinitely. Use again to deactivate.",
+		"effect": "good",
+		"duration": null,
+		"price": 1737,
+		"value": 777,
+		"max": 1,
+		"stock": 1,
+		"weight": 3
+	},
+	"class_ticket": {
+		"gameId": 10021,
+		"id": "class_ticket",
+		"name": "Class Ticket",
+		"command": "!grumbo items use class_ticket",
+		"type": "immediate",
+		"battleStates": [],
+		"description": "Allows you to class change immediately after using this ticket. Consumed after use.",
+		"effect": "good",
+		"duration": null,
+		"price": 1200,
+		"value": 240,
+		"max": 1,
+		"stock": 1,
+		"weight": 2
+	},
+	"adrenaline": {
+		"gameId": 10022,
+		"id": "adrenaline",
+		"name": "Adrenaline",
+		"command": "!grumbo items use adrenaline",
+		"type": "indefinite",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "If you have less than or equal to 10 HP at the beginning of the battle/phase, recover 20 HP at the end of it. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per boss battle.",
+		"effect": "good",
+		"duration": null,
+		"price": 499,
+		"value": 75,
+		"max": 2,
+		"stock": 5,
+		"weight": 7
+	},
+	"stimulus": {
+		"gameId": 10023,
+		"id": "stimulus",
+		"name": "Stimulus",
+		"command": "!grumbo items use stimulus",
+		"type": "indefinite",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "If you have less than or equal to 20 HP at the beginning of the battle/phase, deal 40 damage at the end of it. Damage is not reduced by phase loss. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per boss battle.",
+		"effect": "good",
+		"duration": null,
+		"price": 549,
+		"value": 75,
+		"max": 2,
+		"stock": 5,
+		"weight": 6
 	}
 }

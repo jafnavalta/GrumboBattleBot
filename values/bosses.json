@@ -25,8 +25,37 @@
 		"loss": "$name lay defeated in a pool of Venom Grumbo's toxic wasteland!",
     "firstTime": "venom_mask",
     "lootchance": [100, 60, 20],
-    "loot": ["", "antidote", "medicine", "mini_magnet", "venom_plate", "venom_mask_ex"],
-    "weights": [40, 36, 16, 5, 4, 4]
+    "loot": ["", "antidote", "medicine", "challenge_ticket", "mini_magnet", "venom_plate", "venom_mask_ex"],
+    "weights": [40, 36, 16, 8, 5, 12, 12]
+  },
+  "mixtape_grumbo": {
+    "gameId": 902,
+    "id": "mixtape_grumbo",
+    "name": "Mixtape Grumbo",
+    "level": 45,
+    "hp": 416,
+    "max_hp": 416,
+    "base_chance": 41,
+    "powBase": 80,
+    "wisBase": 146,
+    "powX": 1.00,
+		"wisX": 1.00,
+    "description": "Beware the super hot fire of the Mixtape Grumbo!",
+    "actives": ["show_me_your_mixtape", "disco_inferno", "final_track"],
+    "prebattle": [
+      "show_me_your_mixtape"
+    ],
+		"preresults": [],
+		"postresults": [
+      "disco_inferno",
+      "final_track"
+    ],
+    "victory": "$name dropped an even hotter album than Mixtape Grumbo!",
+		"loss": "Mixtape Grumbo's mixtape was too fire for $name!",
+    "firstTime": "safety_boots",
+    "lootchance": [95, 55, 15, 5],
+    "loot": ["", "medicine", "bandages", "adrenaline", "class_ticket", "academy_jacket", "angel_wings"],
+    "weights": [31, 48, 23, 8, 5, 28, 11]
   },
   "crimson_grumbo": {
     "gameId": 901,
@@ -54,7 +83,36 @@
 		"loss": "$name was smashed to bits by the Crimson Grumbo!",
     "firstTime": "crimson_dagger",
     "lootchance": [90, 50, 10],
-    "loot": ["", "battle_potion", "feather_stone", "blood_potion", "crimson_staff", "crimson_scepter"],
-    "weights": [35, 45, 15, 8, 4, 4]
+    "loot": ["", "battle_potion", "feather_stone", "battle_ticket", "blood_potion", "crimson_staff", "crimson_scepter"],
+    "weights": [35, 45, 15, 8, 8, 16, 16]
+  },
+  "master_grumbo": {
+    "gameId": 903,
+    "id": "master_grumbo",
+    "name": "Master Grumbo",
+    "level": 100,
+    "hp": 1000,
+    "max_hp": 1000,
+    "base_chance": 50,
+    "powBase": 160,
+    "wisBase": 185,
+    "powX": 1.00,
+		"wisX": 1.00,
+    "description": "The Master of many Grumbos. Only those who are acknowledged by the Master Grumbo have a chance at beating him!",
+    "actives": ["teaching", "strategize", "evaluation", "gate_of_grumbo"],
+    "prebattle": [],
+		"preresults": [],
+		"postresults": [
+      "teaching",
+      "strategize",
+      "evaluation",
+      "gate_of_grumbo"
+    ],
+    "victory": "$name taught Master Grumbo the true way of the Grumbo!",
+		"loss": "It's 100 years too early for $name to take on Master Grumbo.",
+    "firstTime": "master_cloak",
+    "lootchance": [65, 35, 10],
+    "loot": ["", "medicine", "battle_potion", "class_ticket", "adventurers_spellbook", "grumbot_miner", "grumbo_whistle", "master_grumbos_blessing"],
+    "weights": [35, 45, 30, 16, 16, 4, 2, 1]
   }
 }

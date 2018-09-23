@@ -97,6 +97,36 @@
 		"description": "Spend gold to make gold! That's what the Grumbot Miner will do for you!",
 		"price": 1000,
 		"stock": 1,
-		"weight": 6
+		"weight": 4
+	},
+	"special_11": {
+		"gameId": 30010,
+		"id": "special_11",
+		"name": "Iron Pendant",
+		"items": ["iron_pendant"],
+		"description": "This pendant prevents a stony and bloody effects. A bloody stone perhaps?",
+		"price": 3600,
+		"stock": 1,
+		"weight": 2
+	},
+	"special_12": {
+		"gameId": 30011,
+		"id": "special_12",
+		"name": "Grumbo Whistle",
+		"items": ["grumbo_whistle"],
+		"description": "Whistle in your friendly Grumbos... for a price...!",
+		"price": 1737,
+		"stock": 1,
+		"weight": 3
+	},
+	"special_13": {
+		"gameId": 30012,
+		"id": "special_13",
+		"name": "Injectors",
+		"items": ["adrenaline", "stimulus"],
+		"description": "A couple of your staple injection shots.",
+		"price": 900,
+		"stock": 1,
+		"weight": 5
 	}
 }

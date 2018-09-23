@@ -29,6 +29,7 @@ const WEAPON = "weapon";
 const PREBATTLE = "prebattle"; //Before battle begins
 const PRERESULTS = "preresults"; //After battle ends but before results are calculated
 const POSTRESULTS = "postresults"; //After results are calculated
+const FINAL = "final"; //Final character state after everything else
 
 //Battle functions
 let battlefunc = require('./command/battle.js');
@@ -167,7 +168,7 @@ exports.indefinite = function(message, character, eventId, event, amount){
 		var wasConsumed = true;
 		if(active == null){
 
-			dbfunc.pushToState(character, eventId, event, event.battleStates, amount);
+			dbfunc.pushToState(character, eventId, event, event.battleStates, 1);
 		}
 		else{
 
@@ -273,7 +274,7 @@ exports.prebattle = function(message, args, character, battleState, actives, gru
 		var eventId = character.prebattle[i];
 		if(characterfunc.prebattle[eventId] != null){
 
-			characterfunc.prebattle[eventId](character, battleState, eventId, actives);
+			characterfunc.prebattle[eventId](character, battleState, eventId, actives, grumbo);
 		}
 	};
 
@@ -291,7 +292,7 @@ exports.prebattle = function(message, args, character, battleState, actives, gru
 			}
 			else{
 
-				grumbofunc.prebattle[eventId](character, battleState, eventId, actives);
+				grumbofunc.prebattle[eventId](character, battleState, eventId, actives, grumbo);
 			}
 		}
 	};
@@ -338,7 +339,7 @@ exports.preresults = function(message, character, battleState, actives, grumbo){
 	if(battleState.result >= battleState.chance){
 
 		battleState.win = false;
-		battleState.dmgMod = Math.ceil(battleState.dmgMod/1.7);
+		battleState.dmgMod = Math.ceil(battleState.dmgMod/1.8);
 	}
 
 	//Preresults character active functions
@@ -347,7 +348,7 @@ exports.preresults = function(message, character, battleState, actives, grumbo){
 		var eventId = character.preresults[i];
 		if(characterfunc.preresults[eventId] != null){
 
-			characterfunc.preresults[eventId](character, battleState, eventId, actives);
+			characterfunc.preresults[eventId](character, battleState, eventId, actives, grumbo);
 		}
 	};
 
@@ -366,7 +367,7 @@ exports.preresults = function(message, character, battleState, actives, grumbo){
 			}
 			else{
 
-				grumbofunc.preresults[eventId](character, battleState, eventId, actives);
+				grumbofunc.preresults[eventId](character, battleState, eventId, actives, grumbo);
 			}
 		}
 	};
@@ -404,7 +405,7 @@ exports.postresults = function(message, character, battleState, actives, grumbo)
 		var eventId = character.postresults[i];
 		if(characterfunc.postresults[eventId] != null){
 
-			characterfunc.postresults[eventId](character, battleState, eventId, actives);
+			characterfunc.postresults[eventId](character, battleState, eventId, actives, grumbo);
 		}
 	}
 
@@ -422,19 +423,18 @@ exports.postresults = function(message, character, battleState, actives, grumbo)
 			}
 			else{
 
-				grumbofunc.postresults[eventId](character, battleState, eventId, actives);
+				grumbofunc.postresults[eventId](character, battleState, eventId, actives, grumbo);
 			}
 		}
 	}
 
-	//Cleric miracle active
-	if(battleState.hpLoss >= character.hp){
+	//FINAL character active functions after all other actives
+	for(var i = character.final.length - 1; i >= 0; i--){
 
-		if(battleState.miracle == true){
+		var eventId = character.final[i];
+		if(characterfunc.final[eventId] != null){
 
-			battleState.miracleUsed = true;
-			battleState.hpLoss = character.hp - 1;
-			battleState.endMessages.push("Miracle saved your life!");
+			characterfunc.final[eventId](character, battleState, eventId, actives, grumbo);
 		}
 	}
 }

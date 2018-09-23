@@ -21,6 +21,7 @@ exports.connectToServer = function(callback){
 		assert.equal(null, error);
 		db = client.db();
 
+		//As of higher versions, DO NOT use a levels.json because of the actives/class tables not being dealt with. Leaving this if for note though, we have backup DBs just in case.
 		if(fs.existsSync("./levels.json")){
 
 			//If levels.json still exists, use it for DB
@@ -84,11 +85,12 @@ exports.createNewCharacter = function(message, callback){
 		challengeWinrate: 0,
 		challengesLeft: 3,
 		challengetime: 9999999999999,
-		gold: 0,
+		gold: 500,
 		items: ['battle_ticket', 'challenge_ticket', 'battle_potion', 'battle_potion'],
 		prebattle: [],
 		preresults: [],
 		postresults: [],
+		final: [],
 		head: "",
 		armor: "",
 		bottom: "",
@@ -475,6 +477,62 @@ function runMigrations(version, callback){
 				else{
 
 					module.exports.updateClass(classRow);
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
+
+	//Migration 6 to 7: Final state, moving some actives to final
+	else if(version.version <= 6){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+
+				var character = characters[i];
+				character.final = [];
+
+				if(character.postresults.includes('dodge')){
+
+					character.postresults.splice(character.postresults.indexOf('dodge'), 1);
+					character.final.push('dodge');
+				}
+				if(character.postresults.includes('vision')){
+
+					character.postresults.splice(character.postresults.indexOf('vision'), 1);
+					character.final.push('vision');
+				}
+				if(character.postresults.includes('safety_hat')){
+
+					character.postresults.splice(character.postresults.indexOf('safety_hat'), 1);
+					character.final.push('safety_hat');
+				}
+				if(character.postresults.includes('stand_your_ground')){
+
+					character.postresults.splice(character.postresults.indexOf('stand_your_ground'), 1);
+					character.final.push('stand_your_ground');
+				}
+				if(character.postresults.includes('miracle')){
+
+					character.final.push('miracle');
+				}
+
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 7;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
 					module.exports.updateCharacter(character);
 				}
 			};

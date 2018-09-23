@@ -149,9 +149,9 @@
 		"name": "Safety Hat",
 		"effect": "good",
 		"battleStates": [
-			"postresults"
+			"final"
 		],
-		"description": "If HP < 50, reduce damage by 25%.",
+		"description": "If HP < 50, reduce damage by 30%.",
 		"duration": null
 	},
 	"outsmart": {
@@ -182,7 +182,7 @@
 		"name": "Dodge",
 		"effect": "good",
 		"battleStates": [
-			"postresults"
+			"final"
 		],
 		"description": "8% chance to reduce damage to 0.",
 		"duration": null
@@ -193,7 +193,7 @@
 		"name": "Vision",
 		"effect": "good",
 		"battleStates": [
-			"postresults"
+			"final"
 		],
 		"description": "20% chance to reduce damage to by you RES.",
 		"duration": null
@@ -349,7 +349,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases max chance of victory  by 5%. (DEF/10 + RES*2)% chance of increasing chance of victory by 5.",
+		"description": "Increases max chance of victory by 4%. (DEF/10 + RES*2)% chance of increasing chance of victory by 4.",
 		"duration": null
 	},
 	"regen": {
@@ -369,7 +369,8 @@
 		"name": "Miracle",
 		"effect": "good",
 		"battleStates": [
-			"postresults"
+			"postresults",
+			"final"
 		],
 		"description": "(RES * 2)% chance to reduce damage received by 12. If you were to take damage that would reduce your HP to 0, (RES * 2)% chance to reduce your HP to 1 instead. The revive effect will not activate multiple times in a boss battle.",
 		"duration": null
@@ -404,7 +405,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "POW/10 % chance to increase chance of victory by the difference between your POW and DEF divided by 5 and increases damage dealt against bosses by that same difference divided by 2.",
+		"description": "POW/10 % chance to increase chance of victory by the difference between your WIS and DEF divided by 3 and increases damage dealt against bosses by that same difference divided by 2.",
 		"duration": null
 	},
 	"stand_your_ground": {
@@ -414,7 +415,7 @@
 		"effect": "good",
 		"battleStates": [
 			"preresults",
-			"postresults"
+			"final"
 		],
 		"description": "DEF/8 % chance to outright win against Grumbos who are lower level than you. Against bosses, DEF/8 % chance to reduce damage received by 7.",
 		"duration": null
@@ -460,7 +461,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "15% chance to increase damage by WIS/2. No effect in regular battles.",
+		"description": "WIS/11% chance to increase damage by WIS/2. No effect in regular battles.",
 		"duration": null
 	},
 	"barrier": {
@@ -471,7 +472,7 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "RES% chance to reduce damage received by WIS/12.",
+		"description": "RES% chance to reduce damage received by WIS/12. Can heal if damage reduced is more than damage received.",
 		"duration": null
 	},
 	"power_of_wealth": {
@@ -505,6 +506,215 @@
 			"prebattle"
 		],
 		"description": "5% chance to increase damage dealt by DEF/3.",
+		"duration": null
+	},
+	"study": {
+		"gameId": 70030,
+		"id": "study",
+		"name": "Study",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "12% chance to increase class exp by 1. If you were to get more class exp than needed to level up a class, does not grant the extra 1 class exp. Doesn't work against bosses.",
+		"duration": null
+	},
+	"iron_pendant": {
+		"gameId": 70031,
+		"id": "iron_pendant",
+		"name": "Iron Pendant",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Prevents petrify and bleed. Petrify or Bleed that is already active will remain active. Use to activate indefinitely. Use again to deactivate.",
+		"duration": null
+	},
+	"trip_mine": {
+		"gameId": 70032,
+		"id": "trip_mine",
+		"name": "Trip Mine",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "Deals 10 damage. Doesn't do anything in regular battles, but it's duration will still be reduced. Consumed after use.",
+		"duration": 1
+	},
+	"grumbo_whistle": {
+		"gameId": 70033,
+		"id": "grumbo_whistle",
+		"name": "Grumbo Whistle",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Pay 94 gold every activation to either reduce damage received by 5 or deal an extra 20 damage. Does nothing if you don't have enough gold. Still activates in regular battles. Use to activate indefinitely. Use again to deactivate.",
+		"duration": null
+	},
+	"root": {
+		"gameId": 70034,
+		"id": "root",
+		"name": "Root",
+		"effect": "bad",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Reduces SPD by 10. If you are a Rogue, you cannot be rooted. If you were already rooted, the root still takes effect.",
+		"duration": 3
+	},
+	"show_me_your_mixtape": {
+		"gameId": 70035,
+		"id": "show_me_your_mixtape",
+		"name": "Show me your Mixtape",
+		"effect": "neutral",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "If you do not have (12 - phase #) actives, chance of phase victory and damage done is reduced by 64.",
+		"duration": null
+	},
+	"final_track": {
+		"gameId": 70036,
+		"id": "final_track",
+		"name": "Final Track",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "From phase 8 onward, deals 416 damage.",
+		"duration": null
+	},
+	"disco_inferno": {
+		"gameId": 70037,
+		"id": "disco_inferno",
+		"name": "Disco Inferno",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Deals 6 damage. From phase 4 onward, heals for the difference between his WIS and your WIS (heals for 0 if you have more). That same difference % chance to deal 60 damage.",
+		"duration": null
+	},
+	"safety_boots": {
+		"gameId": 70038,
+		"id": "safety_boots",
+		"name": "Safety Boots",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "When HP < 50, reduces damage by 2.",
+		"duration": null
+	},
+	"adrenaline": {
+		"gameId": 70039,
+		"id": "adrenaline",
+		"name": "Adrenaline",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "If you have less than or equal to 10 HP at the beginning of the battle/phase, recover 20 HP at the end of it. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per boss battle.",
+		"duration": 1
+	},
+	"stimulus": {
+		"gameId": 70040,
+		"id": "stimulus",
+		"name": "Stimulus",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "If you have less than or equal to 20 HP at the beginning of the battle/phase, deal 40 damage at the end of it. Damage is not reduced by phase loss. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per boss battle.",
+		"duration": 1
+	},
+	"guardian_angel": {
+		"gameId": 70041,
+		"id": "guardian_angel",
+		"name": "Guardian Angel",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+		"description": "When taking lethal damage, 10% chance to revive with HP equal to your RES. Can activate multiple times.",
+		"duration": null
+	},
+	"strategize": {
+		"gameId": 70042,
+		"id": "strategize",
+		"name": "Strategize",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "If the total bonus increases to your battle chance is less than 6%, reduce damage dealt by 100. Can heal the boss.",
+		"duration": null
+	},
+	"gate_of_grumbo": {
+		"gameId": 70043,
+		"id": "gate_of_grumbo",
+		"name": "Gate of Grumbo",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Every 5 phases, (SPD+LUK)*2 % chance for Master Grumbo to reduce your damage received by 50. Otherwise, Master Grumbo will reduce his damage received by 150. Can heal the boss.",
+		"duration": null
+	},
+	"evaluation": {
+		"gameId": 70044,
+		"id": "evaluation",
+		"name": "Evaluation",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Every 4 phases, if the difference between your POW/WIS is less than 45, receive 45 damage. Otherwise, that same difference % chance to reduce your damage recieved by 15.",
+		"duration": null
+	},
+	"teaching": {
+		"gameId": 70045,
+		"id": "teaching",
+		"name": "Teaching",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Master Grumbo's regular attack every phase. Deal an additional 10 damage. Reduced by a random number between 0 and your SPD. Can be reduced below 0.",
+		"duration": null
+	},
+	"master_grumbos_protection": {
+		"gameId": 70046,
+		"id": "master_grumbos_protection",
+		"name": "Master Grumbo's Protection",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+		"description": "If you were to take lethal damage, 25% chance to negate both your damage and the enemies damage and instead deal damage equal to your RES. Can activate multiple times.",
+		"duration": null
+	},
+	"conceal": {
+		"gameId": 70047,
+		"id": "conceal",
+		"name": "Conceal",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "SPD% chance to reduce damage by 5 and deal 10 extra damage.",
+		"duration": null
+	},
+	"blessed": {
+		"gameId": 70048,
+		"id": "blessed",
+		"name": "Blessed",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+		"description": "0.7% chance to permanently increase a random stat by 1. Does not activate against bosses.",
 		"duration": null
 	}
 }

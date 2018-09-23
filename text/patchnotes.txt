@@ -1,25 +1,17 @@
 GRUMBO PATCH NOTES
 Most recent from the top
 
+- Sep 23: Added 2 Bosses, 1 Grumbo, 6 Items, 12 Equips.
+- Sep 23: Adventurer Lv 6. Gets nothing new except the stat boost.
+- Sep 23: Increased the drop rate of boss exclusive drops.
+- Sep 23: Recoil now scales off difference between WIS/DEF instead of POW/DEF.
+- Sep 23: Small buff to Revenge's activation rate from missing HP/2 to missing HP/1.5.
+- Sep 23: Crimson nerfed so max chance and regular chance increase is now 4 instead of 5.
+- Sep 23: Buffed Vision, Stand Your Ground, Dodge, Safety Hat so that their calculations happen at the very end.
+- Sep 21: Hotfixed Flimsy Rope.
+
 - Sep 15: Added Cleric and Knight classes. All classes now go to class level 5.
 - Sep 15: Added boss command and boss loot. 2 Bosses added to start.
-
-- Sep 9: Added new Grumbos, Items, Actives.
-- Sep 9: Increased Rotation/Special rotation to 3 items.
-- Sep 9: Added Equip section to Shop. Has 3 equips on rotation.
-- Sep 9: Added classes and class command. Currently barebones. Only 4 classes, each class only has 2 levels.
-- Sep 9: Added equips and equip command.
-- Sep 9: Added RPG stats. Changed Poison and Assassinate. Moved Battle Potion to Rotation shop. Medicine is now a Standard item.
-- Sep 9: Increased max battle stock to 5.
-
-- Sep 7: Added command to check enemy grumbo info.
-- Sep 7: Added command to check active details.
-- Sep 7: Added 1 Grumbo, 1 active, 1 item.
-
-- Sep 6: Added items and item commands.
-- Sep 6: Added shop and shop commands.
-- Sep 6: Added actives.
-- Sep 6: Added random Grumbos and Grumbo actives.
 
 Consult help/guide for more information
 !grumbo help

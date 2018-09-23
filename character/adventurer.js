@@ -14,7 +14,7 @@ let activesList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 //ALL classes should have these.
 exports.className = "Adventurer";
 
-exports.CLASS_LEVEL_MAX = 5;
+exports.CLASS_LEVEL_MAX = 6;
 
 //Actives
 const LEVEL_2_ACTIVE = 'observation';
@@ -34,9 +34,9 @@ exports.BASE_RES_EQ = BASE_RES_EQ;
 exports.BASE_SPD_EQ = BASE_SPD_EQ;
 exports.BASE_LUK_EQ = BASE_LUK_EQ;
 
-exports.powX = 1;
-exports.wisX = 1;
-exports.defX = 1;
+exports.powX = 0.97;
+exports.wisX = 0.97;
+exports.defX = 0.97;
 exports.resX = 1;
 exports.spdX = 1;
 exports.lukX = 1;
@@ -167,6 +167,7 @@ exports.setClassLevelFunc.adventurer5 = function(character){
 
 exports.setClassLevelFunc.adventurer6 = function(character){
 
+  //The Adventurer gets nothing at class level 6 except the permanent stat boost
 }
 
 exports.setClassLevelFunc.adventurer7 = function(character){
@@ -223,6 +224,7 @@ exports.removeClassLevelFunc.adventurer5 = function(character){
 
 exports.removeClassLevelFunc.adventurer6 = function(character){
 
+  //The Adventurer gets nothing at class level 6 except the permanent stat boost
 }
 
 exports.removeClassLevelFunc.adventurer7 = function(character){

@@ -9,13 +9,14 @@
     "luk": "C",
 		"classId": "adventurer",
 		"className": "Adventurer",
-    "description": "Your typical Grumbo Adventurer. Specializes in nothing. However, you can gain a permanent +2 boost to POW/WIS/DEF and +1 to RES/SPD/LUK every other class level!",
+    "description": "Your typical Grumbo Adventurer. Specializes in nothing. However, you gain a permanent +2 boost to POW/WIS/DEF and +1 to RES/SPD/LUK every other class level!",
 		"perks": [
 		    "The Adventurer gets no perks at class level 1.",
 				"Become more observant. Learn the Observation active.",
 				"POW/WIS/DEF +2 and RES/SPD/LUK +1 when classed as an Adventurer.",
 				"RES +4 / LUK +5 when classed as an Adventurer.",
-				"Try your chances for a small reward with the Adventurer's Grab Bag."
+				"Try your chances for a small reward with the Adventurer's Grab Bag.",
+				"The Adventurer gets no perks at class level 6 except the permanent stat boost."
 		]
 	},
   "warrior": {

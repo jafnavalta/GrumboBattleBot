@@ -194,5 +194,23 @@
 		"victory": "$name overcame the mightiest of foes!",
 		"loss": "$name was overwhelmed by their mighty opponent!",
 		"weight": 16
+	},
+	"grumbo_tree": {
+		"gameId": 1010,
+		"id": "grumbo_tree",
+		"name": "Grumbo Tree",
+		"powBase": 20,
+		"wisBase": 75,
+		"powX": 0.7,
+		"wisX": 1.45,
+		"description": "Bask in the knowledge and wisdom of the Grumbo Tree! Take caution not to get tripped up by its roots.",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"root"
+		],
+		"victory": "$name cut down the Grumbo Tree!",
+		"loss": "$name got knocked over by a stray apple from the Grumbo Tree!",
+		"weight": 9
 	}
 }

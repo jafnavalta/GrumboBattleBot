@@ -6,6 +6,7 @@ const fs = require("fs");
 
 //Initialize list of equips file
 let equipList = JSON.parse(fs.readFileSync("./values/equips.json", "utf8"));
+let activeList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 
 //Initialize state for state constants and functions
 let state = require('../state.js');
@@ -87,7 +88,11 @@ exports.commandEquip = function(message, args, character){
 		if(details != null){
 
       var detailsString = details.name + "  |  Lv Req:  " + details.level + "  |  Command: " + details.id + "\n"
-        + details.description + "\n";
+        + details.description + "\nActive: ";
+			var activeString;
+			if(details.active == null) activeString = "None\n";
+			else activeString = activeList[details.active].name + "\n";
+			detailsString += activeString;
       detailsString += "Sell: " + details.value + " gold";
 			sender.send(detailsString);
 		}

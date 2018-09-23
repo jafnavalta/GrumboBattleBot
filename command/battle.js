@@ -303,26 +303,26 @@ function calculateLowLevelExp(exp, levelDiff){
 */
 function calculateHighLevelExp(exp, levelDiff){
 
-	exp = exp - Math.ceil(levelDiff * Math.pow(1.142, Math.abs(levelDiff))) + Math.floor(Math.random() * 25) + 5;
+	exp = exp - Math.ceil(levelDiff * Math.pow(1.136, Math.abs(levelDiff))) + Math.floor(Math.random() * 20 ) + 5;
 	if(levelDiff < -3){
 
-		exp = exp + Math.floor(Math.random() * 20) + 10;
+		exp = exp - Math.floor(Math.random() * 10);
 	}
 	if(levelDiff < -7){
 
-		exp = exp + Math.floor(Math.random() * 25) + 15;
+		exp = exp + Math.floor(Math.random() * 15) + 5;
 	}
 	if(levelDiff < -12){
 
-		exp = exp + Math.floor(Math.random() * 35) + 20;
+		exp = exp + Math.floor(Math.random() * 25) + 15;
 	}
 	if(levelDiff < -16){
 
-		exp = exp + Math.floor(Math.random() * 40) + 25;
+		exp = exp + Math.floor(Math.random() * 30) + 20;
 	}
 	if(levelDiff == -20){
 
-		exp = exp + Math.floor(Math.random() * 45) + 30;
+		exp = exp + Math.floor(Math.random() * 35) + 25;
 	}
 	return exp;
 }

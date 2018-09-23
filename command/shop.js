@@ -9,6 +9,7 @@ let itemList = JSON.parse(fs.readFileSync("./values/items.json", "utf8"));
 let rotationList = JSON.parse(fs.readFileSync("./values/rotation_items_list.json", "utf8"));
 let specialList = JSON.parse(fs.readFileSync("./values/special_items_list.json", "utf8"));
 let equipList = JSON.parse(fs.readFileSync("./values/equips.json", "utf8"));
+let activeList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 let LR = JSON.parse(fs.readFileSync("./values/shop_lastrotation.json", "utf8")); //Set value in this file to 0 to force shop rotation
 
 //Initialize state for state constants and functions
@@ -346,8 +347,12 @@ function displayShop(message, args, character){
 	var shopString4 = "|\n[--- EQUIPS ---]\nThe next rotation is in " + hours + " hours " + minutes + " minutes";
 	shop.equip.forEach(function(equipItem){
 
-		shopString4 += "\n|\n" + equipItem.name + "  |  Buy:  " + equipItem.id + "\n"
-			+ equipItem.description + "\n";
+		shopString4 += "\n|\n" + equipItem.name + "  |  Lv Req: " + equipItem.level + "  |  Buy:  " + equipItem.id + "\n"
+			+ equipItem.description + "\nActive: ";
+		var activeString;
+		if(equipItem.active == null) activeString = "None\n";
+		else activeString = activeList[equipItem.active].name + "\n";
+		shopString4 += activeString;
 		shopString4 += "Price: " + equipItem.price + " gold";
 		if(equipItem.stock != null){
 

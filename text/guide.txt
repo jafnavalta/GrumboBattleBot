@@ -8,7 +8,7 @@ WIS: Wisdom. Affects battle chance, but slightly less than POW. Chance is propor
 DEF: Defense. Lowers damage taken after a battle. Damage taken is proportionate to the difference between enemy POW and character DEF.
 RES: Resistance. % chance of avoiding negative enemy active effects.
 SPD: Speed. Each speed point above or below 10 increases or decreases the battle/challenge wait time by 1 minute.
-LUK: Luck. % extra gold gained in battle.
+LUK: Luck. % extra gold gained in battle. Increases chance of getting more loot from boss battles.
 Your character can also be affected by active effects through items, battle, etc. which affect the outcomes of battles, some being based on the stats above.
 |
 CLASS

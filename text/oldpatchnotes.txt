@@ -1,6 +1,23 @@
 GRUMBO OLD PATCH NOTES
 Most recent from the top
-			
+
+- Sep 9: Added new Grumbos, Items, Actives.
+- Sep 9: Increased Rotation/Special rotation to 3 items.
+- Sep 9: Added Equip section to Shop. Has 3 equips on rotation.
+- Sep 9: Added classes and class command. Currently barebones. Only 4 classes, each class only has 2 levels.
+- Sep 9: Added equips and equip command.
+- Sep 9: Added RPG stats. Changed Poison and Assassinate. Moved Battle Potion to Rotation shop. Medicine is now a Standard item.
+- Sep 9: Increased max battle stock to 5.
+
+- Sep 7: Added command to check enemy grumbo info.
+- Sep 7: Added command to check active details.
+- Sep 7: Added 1 Grumbo, 1 active, 1 item.
+
+- Sep 6: Added items and item commands.
+- Sep 6: Added shop and shop commands.
+- Sep 6: Added actives.
+- Sep 6: Added random Grumbos and Grumbo actives.
+
 - Users can now battle at the same time. Challenges are still one at a time.
 - Stats and leaderboards are now private messages.
 - Added gold challenges. Item shop is probably next on the roadmap.
