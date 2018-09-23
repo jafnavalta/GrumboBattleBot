@@ -540,6 +540,7 @@ function runMigrations(version, callback){
 		});
 	}
 
+	//Migration 7 to 8: boss timer
 	else if(version.version <= 7){
 
 		db.collection("characters").find().toArray(function(error, characters){
