@@ -247,7 +247,7 @@ function doExpChallenge(message, character, challenger, currentTime){
 	setTimeout(function(){
 
 		//Determine battle results
-		var result = Math.floor(Math.random() * 100) + 1;
+		var result = Math.random() * 100;
 
 		//If challenger loses
 		if(result <= chance){
@@ -292,10 +292,19 @@ function doGoldChallenge(message, character, challenger, currentTime){
 	setTimeout(function(){
 
 		//Determine battle results
-		var result = Math.floor(Math.random() * 100) + 1;
+		var result = Math.floor(Math.random() * 100);
+		var result2 = Math.floor(Math.random() * 100);
+		while(result == result2){
+
+			result = Math.floor(Math.random() * 100);
+			result2 = Math.floor(Math.random() * 100);
+		}
+
+		message.channel.send(message.member.displayName + " rolled a " + result +
+			"!\n" + message.guild.members.get(challengerID).displayName + " rolled a " + result2 + "!");
 
 		//If challenger loses
-		if(result <= 50){
+		if(result > result2){
 
 			//Winner results
 			calculateGoldChallengeResults(message, character, challenger,
