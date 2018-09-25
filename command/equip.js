@@ -65,6 +65,11 @@ exports.commandEquip = function(message, args, character){
 
           equipClassName = classes[equipObj.classId].className;
         }
+		if(equipsString.length >= 1500){
+
+			sender.send(equipsString);
+			equipsString = "";
+		}
         equipsString += equipObj.name + "  |  Lv Req:  " + equipObj.level + "  |  Type: " + equipObj.type.charAt(0).toUpperCase() + equipObj.type.substr(1) + "  |  Class: " + equipClassName + "  |  Command: " + equipObj.id + "\n";
       });
 

@@ -39,6 +39,11 @@ exports.commandItems = function(message, args, character){
 				}
 				
 				var details = itemList[item];
+				if(itemsString.length >= 1500){
+
+					sender.send(itemsString);
+					itemsString = "";
+				}
 				if(details.max > 1){
 					
 					itemsString += count + "/" + details.max + "  " + details.name + "  |  Command:  " + item + "\n";

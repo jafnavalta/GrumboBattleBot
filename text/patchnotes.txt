@@ -1,6 +1,10 @@
 GRUMBO PATCH NOTES
 Most recent from the top
 
+- Sep 25: Nerfed Holy activation rate.
+- Sep 25: Nerfed Miracle activation rate to RES*1.5 from *2. Damage reduction to 7 from 12.
+- Sep 25: Fixed long equip/item list bug.
+
 - Sep 23: Added Boss timer. Bosses now only require 2 battle stock instead of 3.
 - Sep 23: Added 2 Bosses, 1 Grumbo, 6 Items, 12 Equips.
 - Sep 23: Adventurer Lv 6. Gets nothing new except the stat boost.

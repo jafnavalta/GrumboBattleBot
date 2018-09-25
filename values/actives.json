@@ -372,7 +372,7 @@
 			"postresults",
 			"final"
 		],
-		"description": "(RES * 2)% chance to reduce damage received by 12. If you were to take damage that would reduce your HP to 0, (RES * 2)% chance to reduce your HP to 1 instead. The revive effect will not activate multiple times in a boss battle.",
+		"description": "(RES * 1.5)% chance to reduce damage received by 7. If you were to take damage that would reduce your HP to 0, (RES * 1.5)% chance to reduce your HP to 1 instead. The revive effect will not activate multiple times in a boss battle.",
 		"duration": null
 	},
 	"holy": {
@@ -383,7 +383,7 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "RES % chance to increase chance of victory by WIS/12 and damage by WIS/8.",
+		"description": "RES/1.5 % chance to increase chance of victory by WIS/12 and damage by WIS/8.",
 		"duration": null
 	},
 	"armory": {

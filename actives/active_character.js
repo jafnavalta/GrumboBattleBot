@@ -120,7 +120,7 @@ exports.prebattle.blood_potion = function(character, battleState, eventId, activ
 exports.prebattle.holy = function(character, battleState, eventId, actives, grumbo){
 
 	var random = Math.random() * 100;
-	if(random < character.res){
+	if(random < character.res/1.5){
 
 		battleState.chanceMod += Math.floor(character.wis/12);
 		battleState.dmgMod += Math.ceil(character.wis/8);
@@ -388,9 +388,9 @@ exports.postresults.regen = function(character, battleState, eventId, actives, g
 exports.postresults.miracle = function(character, battleState, eventId, actives, grumbo){
 
 	var random = Math.random() * 100;
-	if(random < character.res * 2){
+	if(random < character.res * 1.5){
 
-		battleState.hpLoss -= 12;
+		battleState.hpLoss -= 7;
 		battleState.endMessages.push("Miracle reduced damage received!");
 	}
 }
@@ -561,7 +561,7 @@ exports.final.miracle = function(character, battleState, eventId, actives, grumb
 	if(battleState.miracle == null){
 
 		var random = Math.random() * 100;
-		if(random < character.res * 2){
+		if(random < character.res * 1.5){
 
 			if(battleState.hpLoss >= character.hp){
 
