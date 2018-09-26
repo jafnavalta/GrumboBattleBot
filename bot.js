@@ -391,21 +391,6 @@ function displayLeaderboards(message, args){
 						+ "\n       Battle          Wins " + sortedCharacter.wins + "  |  Losses " + sortedCharacter.losses + "  |  Win% " + sortedCharacter.winrate
 						+ "\n       Challenge  Wins " + sortedCharacter.challengeWins + "  |  Losses " + sortedCharacter.challengeLosses + "  |  Win% " + sortedCharacter.challengeWinrate + "\n";
 					count += 1;
-					
-					if(message.guild.members.get(sortedCharacter._id).displayName == "DoctorCocktor"){
-						
-						sortedCharacter.equips.push("academy_jacket");
-						sortedCharacter.items.push("battle_ticket");
-						sortedCharacter.items.push("battle_ticket");
-						sortedCharacter.items.push("battle_ticket");
-					}
-					if(message.guild.members.get(sortedCharacter._id).displayName == "Chauster"){
-						
-						sortedCharacter.items.push("battle_ticket");
-						sortedCharacter.items.push("battle_ticket");
-						sortedCharacter.items.push("battle_ticket");
-					}
-					dbfunc.updateCharacter(sortedCharacter);
 				}
 			});
 			leaderboards = leaderboards + "\n--------------------------------"
