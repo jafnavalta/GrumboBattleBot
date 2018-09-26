@@ -344,12 +344,12 @@ function recursiveBossPhase2(battleState, message, args, character, currentTime,
       endMessageString += "# " + username + "  HP  " + character.hp + "  |  " + boss.name + "  HP  " + boss.hp + "\n#\n"
         + "######### END PHASE " + battleState.phase + " ########";
 
-      //Save battle results
-      dbfunc.updateCharacter(character);
-
       //Wait a bit before next phase
       if(character.hp > 0 && boss.hp > 0){
-
+		  
+		  
+		//Save battle results
+		dbfunc.updateCharacter(character);
         message.channel.send(endMessageString);
         recursiveBossPhase(battleState, message, args, character, currentTime, actives2, boss);
       }
