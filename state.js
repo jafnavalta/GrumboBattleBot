@@ -253,7 +253,14 @@ exports.unequip = function(message, character, equip){
 */
 exports.prebattle = function(message, args, character, battleState, actives, grumbo){
 
-	battleState.levelDiffActual = character.level - battleState.enemyLevel;
+	if(!battleState.isBoss){
+		
+		battleState.levelDiffActual = character.level - battleState.enemyLevel;
+	}
+	else{
+		
+		battleState.levelDiffActual = 0;
+	}
 
 	//Prebattle base/modifiers
 	battleState.preMessages = [];
