@@ -1007,8 +1007,8 @@ function runMigrations(version, callback){
 		});
 	}
 	
-	//Migration 21 to 22: SKL
-	if(version.version <= 21){
+	//Migration 21 to 23: SKL
+	if(version.version <= 22){
 
 		db.collection("characters").find().toArray(function(error, characters){
 
@@ -1031,7 +1031,7 @@ function runMigrations(version, callback){
 						{upsert: true},
 						function(){
 
-							version.version = 22;
+							version.version = 23;
 							runMigrations(version, callback);
 					});
 				}
