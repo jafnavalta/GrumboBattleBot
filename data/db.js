@@ -1097,6 +1097,40 @@ function runMigrations(version, callback){
 			};
 		});
 	}
+	
+	//Migration 25 to 26: LUK bug
+	if(version.version <= 25){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+
+				var character = characters[i];
+				if(character.luk > 25 || (character.armor == 'academy_jacket' && character.luk > 0)){
+
+					character.lukEq -= 25;
+				}
+				charfunc.calculateStats(character);
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 26;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
 
 	//Add more migrations before this with else if
 	//If gets to else, DB is up to date
