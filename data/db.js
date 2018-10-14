@@ -1006,6 +1006,42 @@ function runMigrations(version, callback){
 			};
 		});
 	}
+	
+	//Migration 21 to 22: SKL
+	if(version.version <= 21){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+
+				var character = characters[i];
+				character.maxHP = 0;
+				character.skl = 0;
+				character.turn = 0;
+				character.aggro = 0;
+
+				charfunc.calculateStats(character);
+
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 22;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
 
 	//Add more migrations before this with else if
 	//If gets to else, DB is up to date
