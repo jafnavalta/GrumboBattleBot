@@ -7,7 +7,11 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases chance of victory for the next battle. Scales depending on level difference from +1 for Grumbos who are 20 levels higher than you to +5 if the same level or lower. Can have multiple active at the same time but only 1 will be used up every battle. Unaffected by level difference modifiers. Against bosses, deals an extra 3 damage.",
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Increases chance of victory for the next battle. Scales depending on level difference from +1 for Grumbos who are 20 levels higher than you to +5 if the same level or lower. Can have multiple active at the same time but only 1 will be used up every battle. Against bosses, deals an extra 3 damage.",
 		"duration": 1
 	},
 	"poison": {
@@ -19,7 +23,11 @@
 			"prebattle",
 			"postresults"
 		],
-		"description": "Decreases chance of victory by 5% for the next battle. Lose 5 extra HP per battle.",
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+		"turn_final": "",
+		"description": "Decreases chance of victory by 5% for the next battle. Lose 5% HP per battle.",
 		"duration": 3
 	},
 	"fools_gold": {
@@ -31,6 +39,10 @@
 			"preresults",
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Only 1 time, if you were to lose gold in battle (not challenge), the Fools Gold will be lost instead.",
 		"duration": null
 	},
@@ -42,6 +54,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Lose between 50-100 gold when you lose a battle.",
 		"duration": null
 	},
@@ -53,6 +69,10 @@
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Gain between 25-75 gold when you win a battle.",
 		"duration": null
 	},
@@ -63,6 +83,10 @@
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Increases minimum battle victory chance to 20%. Calculated after all other chance modifiers. Doesn't work against bosses.",
 		"duration": 1
 	},
@@ -74,6 +98,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "boss",
+		"turn_final": "",
 		"description": "Has a 20% chance of avoiding any post battle Grumbo active effects (good or bad). Gets used up even if an effect wasn't avoided.",
 		"duration": 1
 	},
@@ -85,7 +113,11 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases victory chance by 5%. Every battle, the victory chance increased goes down by 1%, all the way down to -5% in the last battle. The same chance modifier is also applied to extra (or loss) damage done against bosses. Can only have 1 active at a time.",
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Increases victory chance by 5%. Every battle/phase/turn, the victory chance increased goes down by 1%, all the way down to -5% in the last battle. The same chance modifier is also applied to extra (or loss) damage done against bosses. Can only have 1 active at a time.",
 		"duration": 10
 	},
 	"fear": {
@@ -96,6 +128,10 @@
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "10% chance to decrease chance of victory by 100%.",
 		"duration": 3
 	},
@@ -107,6 +143,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Prevents poison. Poison that is already active will remain active. Use to activate indefinitely. Use again to deactivate.",
 		"duration": null
 	},
@@ -118,17 +158,26 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "Reduces battle stock and HP to 0.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Reduces battle stock to 0 and deals an extra 100 damage.",
 		"duration": null
 	},
 	"wild_swing": {
 		"gameId": 70011,
 		"id": "wild_swing",
 		"name": "Wild Swing",
+		"classId": "warrior",
 		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Warrior only. POW/8 % chance of increasing chance of victory by 10%. Against bosses, deals an extra 10 damage.",
 		"duration": null
 	},
@@ -136,11 +185,16 @@
 		"gameId": 70012,
 		"id": "observation",
 		"name": "Observation",
+		"classId": "adventurer",
 		"effect": "good",
 		"battleStates": [
 			"preresults"
 		],
-		"description": "Adventurer only. 10% chance to erase the level experience penalty.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Adventurer only. 7.5% chance to erase the level experience penalty from winning battles.",
 		"duration": null
 	},
 	"safety_hat": {
@@ -151,6 +205,10 @@
 		"battleStates": [
 			"final"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "boss",
 		"description": "If HP < 50, reduce damage by 30%.",
 		"duration": null
 	},
@@ -158,22 +216,32 @@
 		"gameId": 70014,
 		"id": "outsmart",
 		"name": "Outsmart",
+		"classId": "magician",
 		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "35% chance to double the WIS bonus chance in battle. Against bosses, increases damage dealt by initial WIS bonus chance as well.",
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "18% chance to double the WIS bonus chance in battle. Against bosses, increases damage dealt by initial WIS bonus chance as well.",
 		"duration": null
 	},
 	"second_chance": {
 		"gameId": 70015,
 		"id": "second_chance",
 		"name": "Second Chance",
+		"classId": "rogue",
 		"effect": "good",
 		"battleStates": [
 			"preresults"
 		],
-		"description": "When you lose, 4% chance to win instead.",
+    "turn_prebattle": "",
+    "turn_preresults": "character",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "When you lose battle/phase/turn, 7% chance to win instead.",
 		"duration": null
 	},
 	"dodge": {
@@ -184,6 +252,10 @@
 		"battleStates": [
 			"final"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "boss",
 		"description": "8% chance to reduce damage to 0.",
 		"duration": null
 	},
@@ -195,7 +267,11 @@
 		"battleStates": [
 			"final"
 		],
-		"description": "20% chance to reduce damage to by you RES.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "boss",
+		"description": "20% chance to reduce damage received by your RES.",
 		"duration": null
 	},
 	"permaboost": {
@@ -206,6 +282,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Randomly gain a permanent +1 boost to any character stat (POW, WIS, DEF, etc.)",
 		"duration": null
 	},
@@ -217,6 +297,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Heal for 20 HP and gain some pocket change of 20 gold.",
 		"duration": null
 	},
@@ -228,7 +312,11 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "Bleed for extra damage based on duration. Also reduces your DEF and RES by 5 until it's gone.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Bleed for a % of your HP based on duration. Also reduces your DEF and RES by 5 until it's gone.",
 		"duration": 5
 	},
 	"petrify": {
@@ -239,6 +327,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
 		"description": "Gives DEF +50 but POW -100",
 		"duration": 2
 	},
@@ -250,7 +342,11 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "Grumbot mines for 10 battles, retrieving 90-150 gold after each battle.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Grumbot mines for 10 battles/phases/turns, retrieving 90-150 gold after each battle.",
 		"duration": 10
 	},
 	"throwing_shield": {
@@ -261,7 +357,11 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Throw a shield at an enemy in battle. Increases chance of victory by DEF/3. Deals an extra 6 damage against bosses.",
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Throw a shield at an enemy in battle/phase/turn. Increases chance of victory by DEF/3. Deals an extra 6 damage against bosses.",
 		"duration": 1
 	},
 	"wumbo": {
@@ -272,6 +372,10 @@
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Caps maximum battle chance at 70%",
 		"duration": null
 	},
@@ -283,6 +387,10 @@
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Inflicts poison before phase results. If you have an antidote in your inventory, it will destroy an antidote instead of inflicting poison.",
 		"duration": null
 	},
@@ -292,9 +400,14 @@
 		"name": "Venom Bite",
 		"effect": "neutral",
 		"battleStates": [
+			"preresults",
 			"postresults"
 		],
-		"description": "Deals 3 extra damage. Multiplies total damage by 5 if the target is poisoned.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Deals damage equivalent to damage received during battles + 6. Multiplies total damage by 5 if the target is poisoned.",
 		"duration": null
 	},
 	"equalizer": {
@@ -305,7 +418,11 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "Activates when below 120 HP. If you have less than POW 85 or WIS 85 or RES 8, receive damage equal to the difference between your POW and WIS. Only activates once.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Activates when below 120 HP. If you have less than POW 82 or WIS 82 or RES 7, receive damage equal to the difference between your POW and WIS. Only activates once.",
 		"duration": null
 	},
 	"red_eye": {
@@ -316,6 +433,10 @@
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Activates in Phase 1 against Crimson Grumbo. Petrifies if you don't have a Feather Stone and a Battle Potion in your items. Does not consume the Feather Stone or Battle Potion.",
 		"duration": null
 	},
@@ -325,9 +446,14 @@
 		"name": "Rock Smash",
 		"effect": "neutral",
 		"battleStates": [
+			"preresults",
 			"postresults"
 		],
-		"description": "Activates in Phase 1 against Crimson Grumbo. If DEF > 150, receive an additional 100 damage. Otherwise, receive additional damage equal to DEF/10.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Deals damage equivalent to damage received during battles + 12. Following additional effects only activate on Phase 1 against Crimson Grumbo. If you are petrified, receive an additional 100 damage. Otherwise, receive additional damage equal to DEF/10.",
 		"duration": null
 	},
 	"crimson_blood": {
@@ -338,6 +464,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
 		"description": "Activates in Phase 2 against Crimson Grumbo. Puts the Crimson Blood active on your character. (DEF/10 + RES*2)% chance of removing the active every battle/phase. Lasts 2 turns. On the second turn, if it's still active, receive an additional 100 damage.",
 		"duration": 2
 	},
@@ -349,51 +479,75 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases max chance of victory by 4%. (DEF/10 + RES*2)% chance of increasing chance of victory by 4.",
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Increases max chance of victory by 3%. (DEF/10 + RES)% chance of increasing chance of victory by 3.",
 		"duration": null
 	},
 	"regen": {
 		"gameId": 70016,
 		"id": "regen",
 		"name": "Regen",
+		"classId": "cleric",
 		"effect": "good",
 		"battleStates": [
 			"postresults"
 		],
-		"description": "Reduce HP loss by 3 HP every battle.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Reduce HP loss by 2.5% HP every battle/phase/etc.",
 		"duration": null
 	},
 	"miracle": {
 		"gameId": 70017,
 		"id": "miracle",
 		"name": "Miracle",
+		"classId": "cleric",
 		"effect": "good",
 		"battleStates": [
 			"postresults",
 			"final"
 		],
-		"description": "(RES * 1.5)% chance to reduce damage received by 7. If you were to take damage that would reduce your HP to 0, (RES * 1.5)% chance to reduce your HP to 1 instead. The revive effect will not activate multiple times in a boss battle.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "boss",
+    "turn_final": "boss",
+		"description": "(RES * 1.5)% chance to reduce damage received by 5% of your max HP. If you were to take damage that would reduce your HP to 0, (RES * 1.5)% chance to reduce your HP to 1 instead. The revive effect will not activate multiple times in a battle.",
 		"duration": null
 	},
 	"holy": {
 		"gameId": 70018,
 		"id": "holy",
 		"name": "Holy",
+		"classId": "cleric",
 		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "RES/1.5 % chance to increase chance of victory by WIS/12 and damage by WIS/8.",
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "RES/2.2 % chance to increase chance of victory by WIS/12 and damage by WIS/8.",
 		"duration": null
 	},
 	"armory": {
 		"gameId": 70019,
 		"id": "armory",
 		"name": "Armory",
+		"classId": "knight",
 		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "DEF/7 % chance to increase chance of victory and damage by the amount of equips in your inventory up to a maximum of 12.",
 		"duration": null
 	},
@@ -401,33 +555,48 @@
 		"gameId": 70020,
 		"id": "recoil",
 		"name": "Recoil",
+		"classId": "knight",
 		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "POW/10 % chance to increase chance of victory by the difference between your WIS and DEF divided by 3 and increases damage dealt against bosses by that same difference divided by 2.",
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "POW/10 % chance to increase chance of victory by the difference between your (WIS*0.9) and (DEF*1.1) divided by 3 and increases damage dealt against bosses by that same difference divided by 1.5.",
 		"duration": null
 	},
 	"stand_your_ground": {
 		"gameId": 70021,
 		"id": "stand_your_ground",
 		"name": "Stand Your Ground",
+		"classId": "knight",
 		"effect": "good",
 		"battleStates": [
 			"preresults",
 			"final"
 		],
-		"description": "DEF/8 % chance to outright win against Grumbos who are lower level than you. Against bosses, DEF/8 % chance to reduce damage received by 7.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "boss",
+		"description": "DEF/8 % chance to outright win against Grumbos who are lower level than you. If you were to receive damage equal to or more than 16% your max HP, DEF/8 % chance to negate the damage completely.",
 		"duration": null
 	},
 	"grab_bag": {
 		"gameId": 70022,
 		"id": "grab_bag",
 		"name": "Grab Bag",
+		"classId": "adventurer",
 		"effect": "good",
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "66% chance to increase experience gained by 10 or gold gained by 25.",
 		"duration": null
 	},
@@ -435,32 +604,47 @@
 		"gameId": 70023,
 		"id": "lifesteal",
 		"name": "Lifesteal",
+		"classId": "warrior",
 		"effect": "good",
 		"battleStates": [
 			"postresults"
 		],
-		"description": "75% chance to reduce damage received by 2% of POW.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "75% chance to reduce damage received by 1.5% of POW.",
 		"duration": null
 	},
 	"revenge": {
 		"gameId": 70024,
 		"id": "revenge",
 		"name": "Revenge",
+		"classId": "warrior",
 		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Higher chance of activation the lower the HP you are. Increases chance of victory by POW/12. Against bosses, deal extra damage equal to POW/5.",
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Higher chance of activation the lower the HP you are. Increases chance of victory by POW/15, capped at 20. Against bosses, deal extra damage equal to POW/5.",
 		"duration": null
 	},
 	"explosion": {
 		"gameId": 70025,
 		"id": "explosion",
 		"name": "Explosion",
+		"classId": "magician",
 		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "WIS/11% chance to increase damage by WIS/2. No effect in regular battles.",
 		"duration": null
 	},
@@ -468,33 +652,48 @@
 		"gameId": 70026,
 		"id": "barrier",
 		"name": "Barrier",
+		"classId": "magician",
 		"effect": "good",
 		"battleStates": [
 			"postresults"
 		],
-		"description": "RES% chance to reduce damage received by WIS/12. Can heal if damage reduced is more than damage received.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "boss",
+    "turn_final": "",
+		"description": "RES*0.75 % chance to reduce damage received by WIS/20. Can heal if damage reduced is more than damage received.",
 		"duration": null
 	},
 	"power_of_wealth": {
 		"gameId": 70027,
 		"id": "power_of_wealth",
 		"name": "Power of Wealth",
+		"classId": "rogue",
 		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "(LUK * 0.8)% chance of increasing chance of victory by amount of gold held divided by 1500 and damage dealt by amount of gold held divided by 150.",
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "(LUK * 0.8)% chance of increasing chance of victory by amount of gold held divided by 1500 (capped at 20) and damage dealt by amount of gold held divided by 150 (capped at 200).",
 		"duration": null
 	},
 	"quick_step": {
 		"gameId": 70028,
 		"id": "quick_step",
 		"name": "Quick Step",
+		"classId": "rogue",
 		"effect": "good",
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "SPD% chance to increase chance of victory by 4%.",
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "SPD% chance to increase chance of victory by 5%.",
 		"duration": null
 	},
 	"shield_bash": {
@@ -505,6 +704,10 @@
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "5% chance to increase damage dealt by DEF/3.",
 		"duration": null
 	},
@@ -516,6 +719,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "12% chance to increase class exp by 1. If you were to get more class exp than needed to level up a class, does not grant the extra 1 class exp. Doesn't work against bosses.",
 		"duration": null
 	},
@@ -527,6 +734,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Prevents petrify and bleed. Petrify or Bleed that is already active will remain active. Use to activate indefinitely. Use again to deactivate.",
 		"duration": null
 	},
@@ -538,6 +749,10 @@
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Deals 10 damage. Doesn't do anything in regular battles, but it's duration will still be reduced. Consumed after use.",
 		"duration": 1
 	},
@@ -549,6 +764,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
 		"description": "Pay 94 gold every activation to either reduce damage received by 5 or deal an extra 20 damage. Does nothing if you don't have enough gold. Still activates in regular battles. Use to activate indefinitely. Use again to deactivate.",
 		"duration": null
 	},
@@ -560,6 +779,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
 		"description": "Reduces SPD by 10. If you are a Rogue, you cannot be rooted. If you were already rooted, the root still takes effect.",
 		"duration": 3
 	},
@@ -571,6 +794,10 @@
 		"battleStates": [
 			"prebattle"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "If you do not have (11 - phase #) actives, chance of phase victory and damage done is reduced by 64.",
 		"duration": null
 	},
@@ -582,6 +809,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "From phase 8 onward, deals 416 damage.",
 		"duration": null
 	},
@@ -591,9 +822,14 @@
 		"name": "Disco Inferno",
 		"effect": "neutral",
 		"battleStates": [
+			"preresults",
 			"postresults"
 		],
-		"description": "Deals 6 damage. From phase 4 onward, heals for the difference between his WIS and your WIS (heals for 0 if you have more). That same difference % chance to deal 60 damage.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Deals damage equivalent to damage received during battles + 7. From phase 4 onward, heals for the difference between his WIS and your WIS (heals for 0 if you have more). That same difference % chance to deal 60 damage.",
 		"duration": null
 	},
 	"safety_boots": {
@@ -604,7 +840,11 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "When HP < 50, reduces damage by 2.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "boss",
+    "turn_final": "",
+		"description": "When HP < 50%, reduces damage by 2.",
 		"duration": null
 	},
 	"adrenaline": {
@@ -615,7 +855,11 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "If you have less than or equal to 10 HP at the beginning of the battle/phase, recover 20 HP at the end of it. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per boss battle.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "If you have less than or equal to 10% HP at the beginning of the battle/phase/turn, recover 20 HP at the end of it. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per battle.",
 		"duration": 1
 	},
 	"stimulus": {
@@ -626,7 +870,11 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "If you have less than or equal to 20 HP at the beginning of the battle/phase, deal 40 damage at the end of it. Damage is not reduced by phase loss. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per boss battle.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "If you have less than or equal to 20% HP at the beginning of the battle/phase/turn, deal 40 damage at the end of it. Damage is not reduced by phase loss. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per battle.",
 		"duration": 1
 	},
 	"guardian_angel": {
@@ -637,10 +885,14 @@
 		"battleStates": [
 			"final"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "both",
 		"description": "When taking lethal damage, 10% chance to revive with HP equal to your RES. Can activate multiple times.",
 		"duration": null
 	},
-	"strategize": {
+	"egize": {
 		"gameId": 70042,
 		"id": "strategize",
 		"name": "Strategize",
@@ -648,7 +900,11 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "If the total bonus increases to your battle chance is less than 6%, reduce damage dealt by 100. Can heal the boss.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "If the total bonus increases to your battle chance is less than 7%, reduce damage dealt by 100. Can heal the boss.",
 		"duration": null
 	},
 	"gate_of_grumbo": {
@@ -659,6 +915,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Every 5 phases, (SPD+LUK)*2 % chance for Master Grumbo to reduce your damage received by 50. Otherwise, Master Grumbo will reduce his damage received by 150. Can heal the boss.",
 		"duration": null
 	},
@@ -670,6 +930,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "Every 4 phases, if the difference between your POW/WIS is less than 45, receive 45 damage. Otherwise, that same difference % chance to reduce your damage recieved by 15.",
 		"duration": null
 	},
@@ -679,9 +943,14 @@
 		"name": "Teaching",
 		"effect": "neutral",
 		"battleStates": [
+			"preresults",
 			"postresults"
 		],
-		"description": "Master Grumbo's regular attack every phase. Deal an additional 10 damage. Reduced by a random number between 0 and your SPD. Can be reduced below 0.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Master Grumbo's regular attack every phase. Deals damage equivalent to damage received during battles + 25. Reduced by a random number between 0 and your SPD. Can be reduced below 0.",
 		"duration": null
 	},
 	"master_grumbos_protection": {
@@ -692,7 +961,11 @@
 		"battleStates": [
 			"final"
 		],
-		"description": "If you were to take lethal damage, 25% chance to negate both your damage and the enemies damage and instead deal damage equal to your RES. Can activate multiple times.",
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "boss",
+		"description": "If you were to take lethal damage, 20% chance to negate both your damage and the enemies damage and instead deal damage equal to your RES. Can activate multiple times.",
 		"duration": null
 	},
 	"conceal": {
@@ -703,6 +976,10 @@
 		"battleStates": [
 			"postresults"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
 		"description": "SPD% chance to reduce damage by 5 and deal 10 extra damage.",
 		"duration": null
 	},
@@ -714,7 +991,810 @@
 		"battleStates": [
 			"final"
 		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
 		"description": "0.7% chance to permanently increase a random stat by 1. Does not activate against bosses.",
+		"duration": null
+	},
+	"double_attack": {
+		"gameId": 70049,
+		"id": "double_attack",
+		"name": "Double Attack",
+		"classId": "rogue",
+		"effect": "good",
+		"battleStates": [
+			"prebattle",
+			"preresults"
+		],
+    "turn_prebattle": "character",
+    "turn_preresults": "character",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "SPD/2.5 % chance to increase chance of victory by SPD/5 and double your damage dealt before any other damage increases (raw damage from your POW or WIS).",
+		"duration": null
+	},
+	"for_honor": {
+		"gameId": 70050,
+		"id": "for_honor",
+		"name": "For Honor",
+		"classId": "knight",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "boss",
+		"description": "If your HP were to be reduced below 2, remain alive with 2 HP. The next 2 attacks you receive will do 1 damage. Only activates once per battle.",
+		"duration": null
+	},
+	"roll": {
+		"gameId": 70051,
+		"id": "roll",
+		"name": "Roll",
+		"effect": "good",
+		"classId": "archer",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Reduce damage received by 4% of max HP if you win the battle/phase/turn. Can heal.",
+		"duration": null
+	},
+	"sureshot": {
+		"gameId": 70052,
+		"id": "sureshot",
+		"name": "Sureshot",
+		"classId": "archer",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "SKL/7.5 % chance to increase non-battle chance of victory by 20%.",
+		"duration": null
+	},
+	"headshot": {
+		"gameId": 70052,
+		"id": "headshot",
+		"name": "Headshot",
+		"classId": "archer",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "SKL/6 % chance to deal 1.5x damage on phase victory. In regular battles, SKL/7% chance to increase gold gained by 10%",
+		"duration": null
+	},
+	"wallop": {
+		"gameId": 70053,
+		"id": "wallop",
+		"name": "Wallop",
+		"effect": "neutral",
+		"target": "single",
+		"battleStates": [
+			"preresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Deals damage equal to the difference between Dumbo's POW and the target's DEF. Minimum damage is 10. SPD*0.8 % chance that it misses completely. Target is chosen randomly based on Aggro.",
+		"duration": null
+	},
+	"mini_magnet": {
+		"gameId": 70054,
+		"id": "mini_magnet",
+		"name": "Mini Magnet",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Gain 20 gold after every battle/phase regardless of outcome. Use to activate indefinitely. Use again to deactivate.",
+		"duration": null
+	},
+	"dumb_down": {
+		"gameId": 70055,
+		"id": "dumb_down",
+		"name": "Dumb Down",
+		"effect": "neutral",
+		"target": "multiple",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Deals 12 damage to all raid members. Reduces all raid members WIS by 100 for 2 turns. Can be resisted.",
+		"duration": 2
+	},
+	"blood_potion": {
+		"gameId": 10056,
+		"id": "blood_potion",
+		"name": "Blood Potion",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+		"turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "For 2 battles/phases/turns, increases chance of victory by 5-10%",
+		"duration": 2
+	},
+	"i_am_smart": {
+		"gameId": 70057,
+		"id": "i_am_smart",
+		"name": "I am Smart",
+		"effect": "neutral",
+		"battleStates": [
+			"preresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "character",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "When attacked, if Dumbo's WIS is higher than the attacking character, reduces damage by the WIS difference.",
+		"duration": null
+	},
+	"heal": {
+		"gameId": 70058,
+		"id": "heal",
+		"name": "Heal",
+		"classId": "cleric",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Raid only. On your turn, RES/3 % chance to heal the ally with the lowest % HP for 15% of their max HP. Can not heal yourself or dead allies.",
+		"duration": null
+	},
+	"guardian": {
+		"gameId": 70059,
+		"id": "guardian",
+		"name": "Guardian",
+		"classId": "knight",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Raid only. Every 5th user turn, apply the Defense Up active on all your allies.",
+		"duration": null
+	},
+	"defense_up": {
+		"gameId": 70060,
+		"id": "defense_up",
+		"name": "Defense Up",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "boss",
+		"description": "For 2 turns, increase your DEF by 8% of the caster's DEF. If you already have this active, it will not reapply.",
+		"duration": 2
+	},
+	"haste": {
+		"gameId": 70061,
+		"id": "haste",
+		"name": "Haste",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Raid only. SPD/3 % chance to increase a random ally's (or your) turn speed, making them likely to act soon.",
+		"duration": null
+	},
+	"warcry": {
+		"gameId": 70062,
+		"id": "warcry",
+		"name": "Warcry",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Raid only. Every 5th user turn, apply the Strength Up active on all your allies.",
+		"duration": null
+	},
+	"strength_up": {
+		"gameId": 70063,
+		"id": "strength_up",
+		"name": "Strength Up",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "boss",
+		"description": "For 2 turns, increase your POW and WIS by 7% of the caster's POW. If you already have this active, it will not reapply.",
+		"duration": 2
+	},
+	"mark": {
+		"gameId": 70064,
+		"id": "mark",
+		"name": "Mark",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Raid only. SKL/8 % chance to apply the Chance Up active on all your allies.",
+		"duration": null
+	},
+	"chance_up": {
+		"gameId": 70065,
+		"id": "chance_up",
+		"name": "Chance Up",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Increase your chance of victory by 10% in the next battle/phase/turn. If you already have this active, it will not reapply.",
+		"duration": 1
+	},
+	"rune_cast": {
+		"gameId": 70066,
+		"id": "rune_cast",
+		"name": "Rune Cast",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Raid only. WIS/10 % chance to apply the Blast Rune active on a random ally. Cannot be applied to yourself.",
+		"duration": null
+	},
+	"blast_rune": {
+		"gameId": 70067,
+		"id": "blast_rune",
+		"name": "Blast Rune",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Increase damage dealt by 25% in the next battle/phase/turn if your damage is above 0. If you already have this active, it will not reapply.",
+		"duration": 1
+	},
+	"profit": {
+		"gameId": 70068,
+		"id": "profit",
+		"name": "Profit",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Raid only. If you win a raid, increase all raid members gold reward by 40%. Does not stack.",
+		"duration": null
+	},
+	"reflection": {
+		"gameId": 70069,
+		"id": "reflection",
+		"name": "Reflection",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Raid only. Every other turn, RES/6 % chance to apply the Reflect active on all your allies. If you already have this active, it will not reapply. Cannot be applied to Clerics.",
+		"duration": null
+	},
+	"reflect": {
+		"gameId": 70070,
+		"id": "reflect",
+		"name": "Reflect",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "boss",
+		"description": "Reduce damage received to 0 and return the damage to the enemy. Will activate and consume even if damage is less than or equal to 0.",
+		"duration": 1
+	},
+	"multi_cast": {
+		"gameId": 70071,
+		"id": "multi_cast",
+		"name": "Multi Cast",
+		"effect": "good",
+		"battleStates": [
+			"prebattle",
+			"final"
+		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "character",
+		"description": "Increase chance of victory by amount of actives divided by 3 (rounded down). Every time a natural Magician class active (Outsmart, Explosion, etc. ) activates, add a multi cast stack. If you dealt over 0 damage at the end of your turn, consume all multi cast stacks and increase your damage dealt by 10% for every multi cast stack that is consumed.",
+		"duration": null
+	},
+	"rampage": {
+		"gameId": 70072,
+		"id": "rampage",
+		"name": "Rampage",
+		"effect": "good",
+		"battleStates": [
+			"prebattle",
+			"final"
+		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "character",
+		"description": "At the beginning of your turn, add 2 rampage stacks. Increase chance of victory by amount of rampage stacks divided by 2. If you dealt over 0 damage at the end of your turn, increase your damage dealt by 1% for every rampage stack you have. Max rampage stacks is 30.",
+		"duration": null
+	},
+	"pierce": {
+		"gameId": 70073,
+		"id": "pierce",
+		"name": "Pierce",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "character",
+		"description": "SKL/10 % chance to deal an extra POW/5 damage. This damage cannot be mitigated.",
+		"duration": null
+	},
+	"mastercraft": {
+		"gameId": 70074,
+		"id": "mastercraft",
+		"name": "Mastercraft",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "If your current class level is below 6, Master Grumbo deals x2 damage.",
+		"duration": null
+	},
+	"one_with_the_blade": {
+		"gameId": 70075,
+		"id": "one_with_the_blade",
+		"name": "One with the Blade",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "If your SKL is less than Demonblade Grumbo's SKL, that difference/1.5 % chance to negate your damage.",
+		"duration": null
+	},
+	"slice": {
+		"gameId": 70076,
+		"id": "slice",
+		"name": "Slice",
+		"effect": "neutral",
+		"battleStates": [
+			"preresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Demonblade Grumbo's regular attack every phase. Deal about 5 damage plus extra damage equal to the difference between Demonblade Grumbo's POW and your DEF divided by 2.75. Does a minimum of 10 damage.",
+		"duration": null
+	},
+	"siphon": {
+		"gameId": 70077,
+		"id": "siphon",
+		"name": "Siphon",
+		"effect": "neutral",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "(100 - RES)/1.5 % chance for Demonblade Grumbo to reduce your damage dealt by the amount of damage you received. Demonblade Grumbo's POW increases by that same amount divided by 8.",
+		"duration": null
+	},
+	"unleash": {
+		"gameId": 70078,
+		"id": "unleash",
+		"name": "Unleash",
+		"effect": "neutral",
+		"battleStates": [
+			"prebattle"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "When Demonblade Grumbo reaches below 420 HP, the Demonblade unleashes and increases his SKL by 40.",
+		"duration": null
+	},
+	"judgment": {
+		"gameId": 70079,
+		"id": "judgment",
+		"name": "Judgment",
+		"effect": "neutral",
+		"target": "single",
+		"battleStates": [
+			"preresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "boss",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Grumboracle is likely to act first with this active. Grumboracle will judge a random target, either dealing damage equal to the difference between his WIS and the target's DEF divided by 5 or dealing damage equal to the difference between his POW and the target's RES divided by 4. His next action will then come in quick succession and he will repeat this active but the damage dealt will be cut in half. Does a minimum of 10 damage.",
+		"duration": null
+	},
+	"destiny": {
+		"gameId": 70080,
+		"id": "destiny",
+		"name": "Destiny",
+		"effect": "neutral",
+		"target": "multiple",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Grumboracle will apply this on all raid members on his 3rd turn and every 6 turns after that (unless he needs to cast his second Judgment). After 4 turns, receive damage equal to the highest RES among the raid group. If you already have this active, it will not reapply. Can be resisted.",
+		"duration": 4
+	},
+	"seek_the_truth": {
+		"gameId": 70081,
+		"id": "seek_the_truth",
+		"name": "Seek the Truth",
+		"effect": "neutral",
+		"target": "multiple",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "both",
+    "turn_final": "",
+		"description": "When Grumboracle reaches below 7000 HP and again when he reaches below 2000 HP, Grumboracle will deal 20 damage to all raid members and significantly decrease his turn speed until his next action. Until his next action, he will receive 0 damage. On his next action, if the damage that would have been done to Grumboracle exceeds 1600, he will heal all raid members by the highest WIS among your raid group divided by 20. Otherwise, he will deal damage to all raid members by the highest WIS among your raid group divided by 8.",
+		"duration": null
+	},
+	"smokescreen": {
+		"gameId": 70082,
+		"id": "smokescreen",
+		"name": "Smokescreen",
+		"effect": "neutral",
+		"battleStates": [
+			"prebattle"
+		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Difference between your SPD and Ninja Grumbo's SPD % chance to reduce your chance of victory by 100%.",
+		"duration": null
+	},
+	"shuriken": {
+		"gameId": 70083,
+		"id": "shuriken",
+		"name": "Shuriken",
+		"effect": "neutral",
+		"target": "single",
+		"battleStates": [
+			"preresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Deals 5 damage plus extra damage equal to the difference between Dumbo's POW and the target's DEF divided by 1.5. Minimum damage is 15. Inflicts bleed. Target is chosen randomly based on Aggro. If there are multiple possible targets, Ninja Grumbo will never target the same person twice in a row with this active.",
+		"duration": null
+	},
+	"shadow_step": {
+		"gameId": 70084,
+		"id": "shadow_step",
+		"name": "Shadow Step",
+		"effect": "neutral",
+		"target": "single",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "both",
+    "turn_final": "",
+		"description": "Deals 5 damage plus extra damage equal to the difference between Dumbo's SPD and (target's SPD - 10) and slightly increases Ninja Grumbo's turn speed, making him act again sooner. Minimum damage is 15. On the target's next turn, they will deal 0 damage to Ninja Grumbo. Ninja Grumbo is 4x less likely to use this active over Shuriken. Target is chosen randomly based on Aggro.",
+		"duration": null
+	},
+	"paralyze": {
+		"gameId": 70085,
+		"id": "paralyze",
+		"name": "Paralyze",
+		"effect": "bad",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Lowers your RES by your current RES and reduces your damage to 0. Other actives may increase your damage above 0 after being reduced by Paralyze. Lasts 2 turns.",
+		"duration": 2
+	},
+	"shock_trap": {
+		"gameId": 70086,
+		"id": "shock_trap",
+		"name": "Shock Trap",
+		"effect": "neutral",
+		"target": "multiple",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "boss",
+    "turn_final": "",
+		"description": "Ninja Grumbo will activate Shock Trap on all raid members every 5 turns. Deals 15 damage and inflicts Paralyze. The Paralyze can be resisted. If not resisted, SPD*1.5 % chance to avoid it.",
+		"duration": null
+	},
+	"curse": {
+		"gameId": 70086,
+		"id": "curse",
+		"name": "Curse",
+		"effect": "bad",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Reduces your max HP by half of your current max HP. Lasts 4 turns.",
+		"duration": 4
+	},
+	"doom": {
+		"gameId": 70087,
+		"id": "doom",
+		"name": "Doom",
+		"effect": "neutral",
+		"target": "single",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "boss",
+    "turn_final": "",
+		"description": "On turn 4, Grumboracle inflicts curse on a random target then significantly increases his turn speed, making him act again very soon. Cannot be resisted.",
+		"duration": null
+	},
+	"blind": {
+		"gameId": 70088,
+		"id": "blind",
+		"name": "Blind",
+		"effect": "bad",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Reduces your SKL by 30. Lasts 3 turns.",
+		"duration": 3
+	},
+	"demonblade": {
+		"gameId": 70089,
+		"id": "demonblade",
+		"name": "Demonblade",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "boss",
+		"description": "SKL/11 % chance to negate all damage.",
+		"duration": null
+	},
+	"growth_pill": {
+		"gameId": 70090,
+		"id": "growth_pill",
+		"name": "Growth Pill",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Increases your max HP by 20.",
+		"duration": 5
+	},
+	"hourglass": {
+		"gameId": 70091,
+		"id": "hourglass",
+		"name": "Hourglass",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "Raid only. 12% chance to slightly decrease the boss' turn speed.",
+		"duration": null
+	},
+	"chained": {
+		"gameId": 70092,
+		"id": "chained",
+		"name": "Chained",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "boss",
+    "turn_final": "",
+		"description": "33% chance to deal damage equal to your SPD when attacked. In Raids, will also slightly decrease the enemy and your turn speed.",
+		"duration": null
+	},
+	"mantle": {
+		"gameId": 70093,
+		"id": "mantle",
+		"name": "Mantle",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "character",
+		"description": "Increases minimum experience gain to 10.",
+		"duration": null
+	},
+	"feather_hat": {
+		"gameId": 70094,
+		"id": "feather_hat",
+		"name": "Feather Hat",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Prevents Petrify.",
+		"duration": null
+	},
+	"bloody": {
+		"gameId": 70095,
+		"id": "bloody",
+		"name": "Bloody",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "character",
+    "turn_final": "",
+		"description": "SPD/2 % chance to deal extra damage equal to 1% of a boss' current HP.",
+		"duration": null
+	},
+	"sunglasses": {
+		"gameId": 70096,
+		"id": "sunglasses",
+		"name": "Sunglasses",
+		"effect": "good",
+		"battleStates": [
+			"postresults"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "Prevents Blind. Blind that is already active will remain active. Use to activate indefinitely. Use again to deactivate.",
+		"duration": null
+	},
+	"alphav": {
+		"gameId": 70097,
+		"id": "alphav",
+		"name": "AlphaV",
+		"effect": "good",
+		"battleStates": [
+			"prebattle"
+		],
+    "turn_prebattle": "character",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "",
+		"description": "While active, increase chance of victory by 1% in regular battles. Otherwise, increase chance of victory by 5%. Use to activate indefinitely. Use again to deactivate.",
+		"duration": null
+	},
+	"freebie": {
+		"gameId": 70098,
+		"id": "freebie",
+		"name": "Freebie",
+		"effect": "good",
+		"battleStates": [
+			"final"
+		],
+    "turn_prebattle": "",
+    "turn_preresults": "",
+    "turn_postresults": "",
+    "turn_final": "character",
+		"description": "In a regular battle, 10% chance to give you 1 battle stock.",
 		"duration": null
 	}
 }

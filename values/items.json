@@ -9,7 +9,7 @@
 		"description": "Replenishes 1 battle stock. Consumed after use.",
 		"effect": "good",
 		"duration": null,
-		"price": 500,
+		"price": 800,
 		"value": 80,
 		"max": 5,
 		"stock": null,
@@ -39,14 +39,14 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases chance of victory for the next battle. Scales depending on level difference from +1 for Grumbos who are 20 levels higher than you to +5 if the same level or lower. Can have multiple active at the same time but only 1 will be used up every battle. Unaffected by level difference modifiers. Against bosses, deal an extra 3 damage. Consumed after use.",
+		"description": "Increases chance of victory for the next battle/phase/turn. Scales depending on level difference from +1 for Grumbos who are 20 levels higher than you to +5 if the same level or lower. Can have multiple active at the same time but only 1 will be used up every battle. Against bosses, deal an extra 3 damage. Consumed after use.",
 		"effect": "good",
 		"duration": 1,
-		"price": 175,
-		"value": 20,
+		"price": 220,
+		"value": 40,
 		"max": 10,
-		"stock": null,
-		"weight": null
+		"stock": 12,
+		"weight": 17
 	},
 	"antidote": {
 		"gameId": 10003,
@@ -77,11 +77,11 @@
 		"description": "Only 1 time, if you were to lose gold in battle (not challenge), the Fools Gold will be lost instead. Can only have one active at a time. Consumed after use.",
 		"effect": "good",
 		"duration": null,
-		"price": 7,
+		"price": 10,
 		"value": 1,
 		"max": 3,
-		"stock": 2,
-		"weight": 20
+		"stock": 3,
+		"weight": 15
 	},
 	"grumbo_ticket": {
 		"gameId": 10005,
@@ -176,14 +176,14 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "Increases victory chance by 5%. Every battle, the victory chance increased goes down by 1%, all the way down to -5% in the last battle. The same chance modifier is also applied to extra (or loss) damage done against bosses. Can only have 1 active at a time.",
+		"description": "Increases victory chance by 5%. Every battle/phase/turn, the victory chance increased goes down by 1%, all the way down to -5% in the last battle. The same chance modifier is also applied to extra (or loss) damage done against bosses. Can only have 1 active at a time.",
 		"effect": "good",
 		"duration": 10,
 		"price": 225,
 		"value": 70,
 		"max": 1,
-		"stock": 1,
-		"weight": 10
+		"stock": 3,
+		"weight": 8
 	},
 	"poison_charm": {
 		"gameId": 10011,
@@ -210,7 +210,7 @@
 		"command": "!grumbo items use medicine",
 		"type": "immediate",
 		"battleStates": [],
-		"description": "Heals 40 HP. Max HP is 100.",
+		"description": "Heals 40 HP.",
 		"effect": "good",
 		"duration": null,
 		"price": 70,
@@ -229,11 +229,11 @@
 		"description": "Removes the 'Bleed' active. Consumed after use.",
 		"effect": "good",
 		"duration": null,
-		"price": 180,
+		"price": 175,
 		"value": 10,
-		"max": 10,
-		"stock": 5,
-		"weight": 20
+		"max": 6,
+		"stock": 6,
+		"weight": 16
 	},
 	"master_grumbos_blessing": {
 		"gameId": 10014,
@@ -245,7 +245,7 @@
 		"description": "Use it to receive Master Grumbo's Blessing. It's random. But it's good.",
 		"effect": "good",
 		"duration": null,
-		"price": 1994,
+		"price": 3994,
 		"value": 500,
 		"max": 1,
 		"stock": 1,
@@ -263,9 +263,9 @@
 		"duration": null,
 		"price": 175,
 		"value": 35,
-		"max": 10,
-		"stock": 5,
-		"weight": 20
+		"max": 6,
+		"stock": 6,
+		"weight": 16
 	},
 	"grumbot_miner": {
 		"gameId": 10015,
@@ -276,10 +276,10 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "Grumbot mines for 10 battles, retrieving 90-150 gold after each battle.",
+		"description": "Grumbot mines for 10 battles/phases/turns, retrieving 90-150 gold after each one.",
 		"effect": "good",
 		"duration": 10,
-		"price": 1000,
+		"price": 1100,
 		"value": 100,
 		"max": 1,
 		"stock": 1,
@@ -297,10 +297,10 @@
 		"description": "Throw a shield at an enemy in battle. Increases chance of victory by DEF/3. Against bosses, deals an extra 6 damage.",
 		"effect": "good",
 		"duration": 1,
-		"price": 820,
-		"value": 180,
+		"price": 700,
+		"value": 150,
 		"max": 1,
-		"stock": 1,
+		"stock": 2,
 		"weight": 4
 	},
 	"mini_magnet": {
@@ -312,11 +312,11 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "Gain 20 gold after every battle/phase regardless of outcome. Use to activate indefinitely. Use again to deactivate.",
+		"description": "Gain 20 gold after every battle/phase/turn regardless of outcome. Use to activate indefinitely. Use again to deactivate.",
 		"effect": "good",
 		"duration": null,
 		"price": 1,
-		"value": 1,
+		"value": 20,
 		"max": 1,
 		"stock": null,
 		"weight": null
@@ -330,14 +330,14 @@
 		"battleStates": [
 			"prebattle"
 		],
-		"description": "For 2 battles, increases chance of victory by 5-10%",
+		"description": "For 2 battles/phases/turns, increases chance of victory by 5-10%",
 		"effect": "good",
 		"duration": 2,
 		"price": 700,
 		"value": 100,
 		"max": 3,
-		"stock": 1,
-		"weight": 5
+		"stock": 3,
+		"weight": 3
 	},
 	"iron_pendant": {
 		"gameId": 10018,
@@ -372,8 +372,8 @@
 		"price": 201,
 		"value": 49,
 		"max": 10,
-		"stock": 4,
-		"weight": 9
+		"stock": 8,
+		"weight": 10
 	},
 	"grumbo_whistle": {
 		"gameId": 10020,
@@ -387,8 +387,8 @@
 		"description": "Pay 94 gold every activation to either reduce damage received by 5 or deal an extra 20 damage. Does nothing if you don't have enough gold. Still activates in regular battles. Use to activate indefinitely. Use again to deactivate.",
 		"effect": "good",
 		"duration": null,
-		"price": 1737,
-		"value": 777,
+		"price": 1437,
+		"value": 333,
 		"max": 1,
 		"stock": 1,
 		"weight": 3
@@ -418,13 +418,13 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "If you have less than or equal to 10 HP at the beginning of the battle/phase, recover 20 HP at the end of it. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per boss battle.",
+		"description": "If you have less than or equal to 10 HP at the beginning of the battle/phase/turn, recover 20 HP at the end of it. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per battle.",
 		"effect": "good",
 		"duration": null,
 		"price": 499,
 		"value": 75,
 		"max": 2,
-		"stock": 5,
+		"stock": 6,
 		"weight": 7
 	},
 	"stimulus": {
@@ -436,13 +436,193 @@
 		"battleStates": [
 			"postresults"
 		],
-		"description": "If you have less than or equal to 20 HP at the beginning of the battle/phase, deal 40 damage at the end of it. Damage is not reduced by phase loss. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per boss battle.",
+		"description": "If you have less than or equal to 20 HP at the beginning of the battle/phase/turn, deal 40 damage at the end of it. Damage is not reduced by phase loss. Item is consumed after use but the active doesn't get used up until it activates. Activates only once per battle.",
 		"effect": "good",
 		"duration": null,
 		"price": 549,
 		"value": 75,
 		"max": 2,
-		"stock": 5,
+		"stock": 6,
 		"weight": 6
+	},
+	"boss_ticket": {
+		"gameId": 10024,
+		"id": "boss_ticket",
+		"name": "Boss Ticket",
+		"command": "!grumbo items use boss_ticket",
+		"type": "immediate",
+		"battleStates": [],
+		"description": "Allows you to boss immediately after using this ticket. Consumed after use.",
+		"effect": "good",
+		"duration": null,
+		"price": 1000,
+		"value": 200,
+		"max": 1,
+		"stock": 2,
+		"weight": 2
+	},
+	"medicine_ex": {
+		"gameId": 10025,
+		"id": "medicine_ex",
+		"name": "Medicine EX",
+		"command": "!grumbo items use medicine_ex",
+		"type": "immediate",
+		"battleStates": [],
+		"description": "Heals 100 HP.",
+		"effect": "good",
+		"duration": null,
+		"price": 160,
+		"value": 32,
+		"max": 10,
+		"stock": null,
+		"weight": null
+	},
+	"shock_tablet": {
+		"gameId": 10026,
+		"id": "shock_tablet",
+		"name": "Shock Tablet",
+		"command": "!grumbo items use shock_tablet",
+		"type": "immediate",
+		"battleStates": [],
+		"description": "Removes the 'Paralyze' active. Consumed after use.",
+		"effect": "good",
+		"duration": null,
+		"price": 225,
+		"value": 40,
+		"max": 10,
+		"stock": 4,
+		"weight": 12
+	},
+	"eyedrops": {
+		"gameId": 10027,
+		"id": "eyedrops",
+		"name": "Eyedrops",
+		"command": "!grumbo items use eyedrops",
+		"type": "immediate",
+		"battleStates": [],
+		"description": "Removes the 'Blind' active. Consumed after use.",
+		"effect": "good",
+		"duration": null,
+		"price": 250,
+		"value": 50,
+		"max": 10,
+		"stock": 6,
+		"weight": 13
+	},
+	"scissors": {
+		"gameId": 10028,
+		"id": "scissors",
+		"name": "Scissors",
+		"command": "!grumbo items use scissors",
+		"type": "immediate",
+		"battleStates": [],
+		"description": "Removes the 'Root' active. Consumed after use.",
+		"effect": "good",
+		"duration": null,
+		"price": 550,
+		"value": 95,
+		"max": 5,
+		"stock": 3,
+		"weight": 9
+	},
+	"growth_pill": {
+		"gameId": 10029,
+		"id": "growth_pill",
+		"name": "Growth Pill",
+		"command": "!grumbo items use growth_pill",
+		"type": "immediate",
+		"battleStates": [],
+		"description": "Increases your max HP by 20 for 5 turns. Consumed after use.",
+		"effect": "good",
+		"duration": null,
+		"price": 660,
+		"value": 100,
+		"max": 2,
+		"stock": 3,
+		"weight": 6
+	},
+	"old_coin": {
+		"gameId": 10030,
+		"id": "old_coin",
+		"name": "Old Coin",
+		"command": "!grumbo items use old_coin",
+		"type": "nonconsume",
+		"battleStates": [],
+		"description": "Sell for 100 gold.",
+		"effect": "good",
+		"duration": null,
+		"price": 0,
+		"value": 100,
+		"max": 20,
+		"stock": 0,
+		"weight": 0
+	},
+	"coin_pouch": {
+		"gameId": 10031,
+		"id": "coin_pouch",
+		"name": "Coin Pouch",
+		"command": "!grumbo items use coin_pouch",
+		"type": "nonconsume",
+		"battleStates": [],
+		"description": "Sell for 200 gold.",
+		"effect": "good",
+		"duration": null,
+		"price": 0,
+		"value": 200,
+		"max": 20,
+		"stock": 0,
+		"weight": 0
+	},
+	"sunglasses": {
+		"gameId": 10032,
+		"id": "sunglasses",
+		"name": "Sunglasses",
+		"command": "!grumbo items use sunglasses",
+		"type": "toggle",
+		"battleStates": [
+			"postresults"
+		],
+		"description": "Prevents Blind. Blind that is already active will remain active. Use to activate indefinitely. Use again to deactivate.",
+		"effect": "good",
+		"duration": null,
+		"price": 0,
+		"value": 400,
+		"max": 1,
+		"stock": null,
+		"weight": null
+	},
+	"chauder_powder": {
+		"gameId": 10033,
+		"id": "chauder_powder",
+		"name": "Chauder Powder",
+		"command": "!grumbo items use chauder_powder",
+		"type": "immediate",
+		"battleStates": [],
+		"description": "20% chance to permanently increase your WIS by 1. 10% chance to permanently decrease your WIS by 1.",
+		"effect": "good",
+		"duration": null,
+		"price": 0,
+		"value": 50,
+		"max": 1,
+		"stock": null,
+		"weight": null
+	},
+	"alphav": {
+		"gameId": 10034,
+		"id": "alphav",
+		"name": "AlphaV",
+		"command": "!grumbo items use alphav",
+		"type": "toggle",
+		"battleStates": [
+			"prebattle"
+		],
+		"description": "Achoo! *****! While active, increase chance of victory by 1% in regular battles. Otherwise, increase chance of victory by 5%. Use to activate indefinitely. Use again to deactivate.",
+		"effect": "good",
+		"duration": null,
+		"price": 2007,
+		"value": 207,
+		"max": 1,
+		"stock": null,
+		"weight": null
 	}
 }

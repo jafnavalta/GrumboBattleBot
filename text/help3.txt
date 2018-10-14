@@ -1,0 +1,9 @@
+SHOP
+!grumbo shop  |  Display the shop.
+!grumbo shop buy <shop_item_command> [amount]  |  Buy the specified item [amount] times if possible.
+!grumbo shop sell <shop_item_command> [amount]  |  Sell a specified item [amount] times if possible.
+|
+INFORMATION
+!grumbo help -d  |  Show this help menu
+!grumbo guide -d  |  Show guide about game mechanics like battles, experience and gold scaling, etc.
+!grumbo patchnotes -d  |  Show the recent patch notes

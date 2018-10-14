@@ -9,7 +9,7 @@ let equipList = JSON.parse(fs.readFileSync("./values/equips.json", "utf8"));
 let activeList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 
 //Initialize state for state constants and functions
-let state = require('../state.js');
+let state = require('../state/state.js');
 
 //Classes
 let classes = require('../character/classes.js').classes;
@@ -65,11 +65,11 @@ exports.commandEquip = function(message, args, character){
 
           equipClassName = classes[equipObj.classId].className;
         }
-		if(equipsString.length >= 1500){
+				if(equipsString.length >= 1500){
 
-			sender.send(equipsString);
-			equipsString = "";
-		}
+					sender.send(equipsString);
+					equipsString = "";
+				}
         equipsString += equipObj.name + "  |  Lv Req:  " + equipObj.level + "  |  Type: " + equipObj.type.charAt(0).toUpperCase() + equipObj.type.substr(1) + "  |  Class: " + equipClassName + "  |  Command: " + equipObj.id + "\n";
       });
 

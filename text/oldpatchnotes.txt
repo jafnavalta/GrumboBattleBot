@@ -1,6 +1,23 @@
 GRUMBO OLD PATCH NOTES
 Most recent from the top
 
+- Sep 25: Nerfed Holy activation rate.
+- Sep 25: Nerfed Miracle activation rate to RES*1.5 from *2. Damage reduction to 7 from 12.
+- Sep 25: Fixed long equip/item list bug.
+
+- Sep 23: Added Boss timer. Bosses now only require 2 battle stock instead of 3.
+- Sep 23: Added 2 Bosses, 1 Grumbo, 6 Items, 12 Equips.
+- Sep 23: Adventurer Lv 6. Gets nothing new except the stat boost.
+- Sep 23: Increased the drop rate of boss exclusive drops.
+- Sep 23: Recoil now scales off difference between WIS/DEF instead of POW/DEF.
+- Sep 23: Small buff to Revenge's activation rate from missing HP/2 to missing HP/1.5.
+- Sep 23: Crimson nerfed so max chance and regular chance increase is now 4 instead of 5.
+- Sep 23: Buffed Vision, Stand Your Ground, Dodge, Safety Hat so that their calculations happen at the very end.
+- Sep 21: Hotfixed Flimsy Rope.
+
+- Sep 15: Added Cleric and Knight classes. All classes now go to class level 5.
+- Sep 15: Added boss command and boss loot. 2 Bosses added to start.
+
 - Sep 9: Added new Grumbos, Items, Actives.
 - Sep 9: Increased Rotation/Special rotation to 3 items.
 - Sep 9: Added Equip section to Shop. Has 3 equips on rotation.

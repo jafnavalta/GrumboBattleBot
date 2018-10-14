@@ -14,28 +14,39 @@ let activesList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 //ALL classes should have these.
 exports.className = "Adventurer";
 
-exports.CLASS_LEVEL_MAX = 6;
+exports.CLASS_LEVEL_MAX = 7;
 
 //Actives
 const LEVEL_2_ACTIVE = 'observation';
 const LEVEL_5_ACTIVE = 'grab_bag';
+const LEVEL_7_ACTIVE = 'profit';
 
+const BASE_HP_EQ = 0;
 const BASE_POW_EQ = 1;
 const BASE_WIS_EQ = -1;
+const BASE_SKL_EQ = 0;
 const BASE_DEF_EQ = -1;
 const BASE_RES_EQ = 0;
 const BASE_SPD_EQ = 0;
 const BASE_LUK_EQ = 0;
+const BASE_TURN_EQ = 0;
+const BASE_AGGRO_EQ = 0;
 
+exports.BASE_HP_EQ = BASE_HP_EQ;
 exports.BASE_POW_EQ = BASE_POW_EQ;
 exports.BASE_WIS_EQ = BASE_WIS_EQ;
+exports.BASE_SKL_EQ = BASE_SKL_EQ;
 exports.BASE_DEF_EQ = BASE_DEF_EQ;
 exports.BASE_RES_EQ = BASE_RES_EQ;
 exports.BASE_SPD_EQ = BASE_SPD_EQ;
 exports.BASE_LUK_EQ = BASE_LUK_EQ;
+exports.BASE_TURN_EQ = BASE_TURN_EQ;
+exports.BASE_AGGRO_EQ = BASE_AGGRO_EQ;
 
+exports.hpX = 1;
 exports.powX = 0.97;
 exports.wisX = 0.97;
+exports.sklX = 1;
 exports.defX = 0.97;
 exports.resX = 1;
 exports.spdX = 1;
@@ -172,6 +183,14 @@ exports.setClassLevelFunc.adventurer6 = function(character){
 
 exports.setClassLevelFunc.adventurer7 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_7_ACTIVE);
+  dbfunc.pushToState(character, active.id, active, active.battleStates, 1);
+  character.powEq += 2;
+  character.wisEq += 2;
+  character.defEq += 2;
+  character.resEq += 1;
+  character.spdEq += 1;
+  character.lukEq += 1;
 }
 
 exports.setClassLevelFunc.adventurer8 = function(character){
@@ -229,6 +248,14 @@ exports.removeClassLevelFunc.adventurer6 = function(character){
 
 exports.removeClassLevelFunc.adventurer7 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_7_ACTIVE);
+  dbfunc.spliceFromState(character, active.id, active, active.battleStates, active);
+  character.powEq += 2;
+  character.wisEq += 2;
+  character.defEq += 2;
+  character.resEq += 1;
+  character.spdEq += 1;
+  character.lukEq += 1;
 }
 
 exports.removeClassLevelFunc.adventurer8 = function(character){

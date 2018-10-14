@@ -1,0 +1,16 @@
+- Scaled Miracle, Regen and Lifesteal.
+- Capped Power of Wealth chance at 20% and damage at 200.
+- Buffed/Reworked Knight skills and a little bit of stats.
+- Buffed Second Chance activation rate.
+- Buffed Quick Step to 5 from 4.
+- Nerfed Observation activation rate.
+- Nerfed Revenge activation rate and capped increased chance at 20.
+- Nerfed Barrier damage reduction and activation rate.
+- Nerfed Crimson again down to 3 from 4 and lowered the activation rate significantly.
+- Nerfed Equalizer activation thresholds.
+- Nerfed Outsmart activation rate.
+- Nerfed Vision activation rate to 12 from 20.
+
+Consult help/guide for more information
+!grumbo help
+!grumbo guide

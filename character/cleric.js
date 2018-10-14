@@ -14,31 +14,43 @@ let activesList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 //ALL classes should have these.
 exports.className = "Cleric";
 
-exports.CLASS_LEVEL_MAX = 5;
+exports.CLASS_LEVEL_MAX = 7;
 
 //Actives
 const LEVEL_1_ACTIVE = 'regen';
 const LEVEL_3_ACTIVE = 'miracle';
 const LEVEL_4_ACTIVE = 'holy';
+const LEVEL_5_ACTIVE = 'heal';
+const LEVEL_7_ACTIVE = 'reflection';
 
+const BASE_HP_EQ = 0;
 const BASE_POW_EQ = -6;
 const BASE_WIS_EQ = 2;
+const BASE_SKL_EQ = 0;
 const BASE_DEF_EQ = -6;
 const BASE_RES_EQ = 7;
 const BASE_SPD_EQ = 3;
 const BASE_LUK_EQ = 0;
+const BASE_TURN_EQ = 0;
+const BASE_AGGRO_EQ = -1;
 
+exports.BASE_HP_EQ = BASE_HP_EQ;
 exports.BASE_POW_EQ = BASE_POW_EQ;
 exports.BASE_WIS_EQ = BASE_WIS_EQ;
+exports.BASE_SKL_EQ = BASE_SKL_EQ;
 exports.BASE_DEF_EQ = BASE_DEF_EQ;
 exports.BASE_RES_EQ = BASE_RES_EQ;
 exports.BASE_SPD_EQ = BASE_SPD_EQ;
 exports.BASE_LUK_EQ = BASE_LUK_EQ;
+exports.BASE_TURN_EQ = BASE_TURN_EQ;
+exports.BASE_AGGRO_EQ = BASE_AGGRO_EQ;
 
+exports.hpX = 0.82;
 exports.powX = 0.78;
-exports.wisX = 1.16;
-exports.defX = 0.75;
-exports.resX = 1.4;
+exports.wisX = 1.17;
+exports.sklX = 0.96;
+exports.defX = 0.73;
+exports.resX = 1.36;
 exports.spdX = 1;
 exports.lukX = 1;
 
@@ -137,16 +149,24 @@ exports.setClassLevelFunc.cleric4 = function(character){
 
 exports.setClassLevelFunc.cleric5 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_5_ACTIVE);
+  dbfunc.pushToState(character, active.id, active, active.battleStates, 1);
   character.resEq += 1;
   character.wisEq += 8;
 }
 
 exports.setClassLevelFunc.cleric6 = function(character){
 
+  character.resEq += 1;
+  character.wisEq += 6;
+  character.sklEq += 2;
 }
 
 exports.setClassLevelFunc.cleric7 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_7_ACTIVE);
+  dbfunc.pushToState(character, active.id, active, active.battleStates, 1);
+  character.defEq += 2;
 }
 
 exports.setClassLevelFunc.cleric8 = function(character){
@@ -189,16 +209,24 @@ exports.removeClassLevelFunc.cleric4 = function(character){
 
 exports.removeClassLevelFunc.cleric5 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_5_ACTIVE);
+  dbfunc.spliceFromState(character, active.id, active, active.battleStates, active);
   character.resEq -= 1;
   character.wisEq -= 8;
 }
 
 exports.removeClassLevelFunc.cleric6 = function(character){
 
+  character.resEq -= 1;
+  character.wisEq -= 6;
+  character.sklEq -= 2;
 }
 
 exports.removeClassLevelFunc.cleric7 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_7_ACTIVE);
+  dbfunc.spliceFromState(character, active.id, active, active.battleStates, active);
+  character.defEq -= 2;
 }
 
 exports.removeClassLevelFunc.cleric8 = function(character){

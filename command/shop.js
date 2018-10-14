@@ -13,7 +13,7 @@ let activeList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 let LR = JSON.parse(fs.readFileSync("./values/shop_lastrotation.json", "utf8")); //Set value in this file to 0 to force shop rotation
 
 //Initialize state for state constants and functions
-let state = require('../state.js');
+let state = require('../state/state.js');
 
 //Weighted Arrays for randomly choosig items for rotation/special/equip shop
 let weighedRotation = [];
@@ -29,9 +29,9 @@ const EQUIP_LIMIT = 3;
 let standardShop = JSON.parse(fs.readFileSync("./values/shop_standard.json", "utf8"));
 let shop = {
 	standard: [],
-	rotation: [],
-	special: [],
-	equip: []
+	rotation: {},
+	special: {},
+	equip: {}
 }
 
 /**
@@ -71,14 +71,14 @@ exports.commandShop = function(message, args, character){
 	if(args.length == 2 || (args.length == 3 && args[2] == '-d')){
 
 		//Update then display
-		updateShop(function(){ displayShop(message, args, character) });
+		updateShop(message, function(){ displayShop(message, args, character) });
 	}
 
 	//Buy an item
 	else if(args[2] == 'buy' && (args.length == 4 || (args.length == 5 && isInteger(args[4])))){
 
 		//Update then buy
-		updateShop(function(){ buy(message, args, character) });
+		updateShop(message, function(){ buy(message, args, character) });
 	}
 
 	//Sell an item
@@ -99,58 +99,61 @@ exports.commandShop = function(message, args, character){
 * If shop is empty, initialize shop.
 * Update rotation/special based on timed intervals.
 */
-function updateShop(shopFunction){
+function updateShop(message, shopFunction){
 
 	//Init shop if empty
-	if(shop.standard.length == 0){
+	if(shop.rotation[message.guild.id] == null){
 
-		initShop(function(){ shopFunction() });
+		initShop(message, function(){ shopFunction() });
 	}
 	else{
 
-		updateRotationSpecialEquip(function(){ shopFunction() });
+		updateRotationSpecialEquip(message, function(){ shopFunction() });
 	}
 }
 
 /**
 * Initialize shop.
 */
-function initShop(shopFunction){
+function initShop(message, shopFunction){
 
-	shop.standard = standardShop;
-	dbfunc.getDB().collection("shop_equip").find().toArray(function(err, equip){
+	if(shop.standard.length == 0) shop.standard = standardShop;
+	dbfunc.getDB().collection("shop_equip" + message.guild.id).find().toArray(function(err, equip){
 
+		shop.equip[message.guild.id] = [];
 		if(equip != null){
 
 			for(var i = 0; i < equip.length; i++){
 
 				var equipItem = equip[i];
-				shop.equip.push(equipItem);
+				shop.equip[message.guild.id].push(equipItem);
 			}
 		}
-		dbfunc.getDB().collection("shop_rotation").find().toArray(function(err, rotation){
+		dbfunc.getDB().collection("shop_rotation" + message.guild.id).find().toArray(function(err, rotation){
 
+			shop.rotation[message.guild.id] = [];
 			if(rotation != null){
 
 				for(var i = 0; i < rotation.length; i++){
 
 					var rotationItem = rotation[i];
 
-					shop.rotation.push(rotationItem);
+					shop.rotation[message.guild.id].push(rotationItem);
 				}
 			}
-			dbfunc.getDB().collection("shop_special").find().toArray(function(err, special){
+			dbfunc.getDB().collection("shop_special" + message.guild.id).find().toArray(function(err, special){
 
+				shop.special[message.guild.id] = [];
 				if(special != null){
 
 					for(var i = 0; i < special.length; i++){
 
 						var specialItem = special[i];
 
-						shop.special.push(specialItem);
+						shop.special[message.guild.id].push(specialItem);
 					}
 				}
-				updateRotationSpecialEquip(function(){ shopFunction() });
+				updateRotationSpecialEquip(message, function(){ shopFunction() });
 			});
 		});
 	})
@@ -159,40 +162,44 @@ function initShop(shopFunction){
 /**
 * Update shop rotation/special/equip based on timed intervals.
 */
-function updateRotationSpecialEquip(shopFunction){
+function updateRotationSpecialEquip(message, shopFunction){
 
 	var date = new Date();
 	var currentTime = date.getTime();
 	var currentRotation = Math.floor(currentTime/INTERVAL);
-	if(currentRotation > LR.lastRotation || shop.equip.length <= 0){ //Equip shop check for DB version 6+ when equips were added
+	if(LR[message.guild.id] == null){
+
+		LR[message.guild.id] = 0;
+	}
+	if(currentRotation > LR[message.guild.id] || shop.equip[message.guild.id].length <= 0){ //Equip shop check for DB version 6+ when equips were added
 
 		itemList = JSON.parse(fs.readFileSync("./values/items.json", "utf8"));
 		rotationList = JSON.parse(fs.readFileSync("./values/rotation_items_list.json", "utf8"));
 		specialList = JSON.parse(fs.readFileSync("./values/special_items_list.json", "utf8"));
 		equipList = JSON.parse(fs.readFileSync("./values/equips.json", "utf8"));
-		LR.lastRotation = currentRotation;
+		LR[message.guild.id] = currentRotation;
 		fs.writeFileSync("./values/shop_lastrotation.json", JSON.stringify(LR, null, 4));
 
 		//Randomize new rotation/special/equip shops
-		dbfunc.getDB().collection("shop_rotation").deleteMany({}, function(err, result){
+		dbfunc.getDB().collection("shop_rotation" + message.guild.id).deleteMany({}, function(err, result){
 
-			dbfunc.getDB().collection("shop_special").deleteMany({}, function(err, result){
+			dbfunc.getDB().collection("shop_special" + message.guild.id).deleteMany({}, function(err, result){
 
-				dbfunc.getDB().collection("shop_equip").deleteMany({}, function(err, result){
+				dbfunc.getDB().collection("shop_equip" + message.guild.id).deleteMany({}, function(err, result){
 
-					shop.rotation = [];
-					shop.special = [];
-					shop.equip = [];
+					shop.rotation[message.guild.id] = [];
+					shop.special[message.guild.id] = [];
+					shop.equip[message.guild.id] = [];
 
 					//Populate rotation
-					while(shop.rotation.length < ROTATION_LIMIT){
+					while(shop.rotation[message.guild.id].length < ROTATION_LIMIT){
 
 						var random = Math.floor(Math.random() * (weighedRotation.length - 1));
 						var rotationId = weighedRotation[random];
 						var included = false;
-						for(var i = 0; i < shop.rotation.length; i++){
+						for(var i = 0; i < shop.rotation[message.guild.id].length; i++){
 
-							if(shop.rotation[i].id == rotationId){
+							if(shop.rotation[message.guild.id][i].id == rotationId){
 
 								included = true;
 								break;
@@ -202,19 +209,19 @@ function updateRotationSpecialEquip(shopFunction){
 
 							var item = rotationList[rotationId];
 							item.shop = "rotation";
-							shop.rotation.push(item);
+							shop.rotation[message.guild.id].push(item);
 						}
 					}
 
 					//Populate special
-					while(shop.special.length < SPECIAL_LIMIT){
+					while(shop.special[message.guild.id].length < SPECIAL_LIMIT){
 
 						var random = Math.floor(Math.random() * (weighedSpecial.length - 1));
 						var specialId = weighedSpecial[random];
 						var included = false;
-						for(var i = 0; i < shop.special.length; i++){
+						for(var i = 0; i < shop.special[message.guild.id].length; i++){
 
-							if(shop.special[i].id == specialId){
+							if(shop.special[message.guild.id][i].id == specialId){
 
 								included = true;
 								break;
@@ -224,19 +231,19 @@ function updateRotationSpecialEquip(shopFunction){
 
 							var item = specialList[specialId];
 							item.shop = "special";
-							shop.special.push(item);
+							shop.special[message.guild.id].push(item);
 						}
 					}
 
 					//Populate equip
-					while(shop.equip.length < EQUIP_LIMIT){
+					while(shop.equip[message.guild.id].length < EQUIP_LIMIT){
 
 						var random = Math.floor(Math.random() * (weighedEquip.length - 1));
 						var equipId = weighedEquip[random];
 						var included = false;
-						for(var i = 0; i < shop.equip.length; i++){
+						for(var i = 0; i < shop.equip[message.guild.id].length; i++){
 
-							if(shop.equip[i].id == equipId){
+							if(shop.equip[message.guild.id][i].id == equipId){
 
 								included = true;
 								break;
@@ -246,12 +253,13 @@ function updateRotationSpecialEquip(shopFunction){
 
 							var item = equipList[equipId];
 							item.shop = "equip";
-							shop.equip.push(item);
+							shop.equip[message.guild.id].push(item);
 						}
 					}
 
 					//Update db with new rotation/special/equip and then perform shop function
-					dbfunc.updateRotationSpecialEquip(shop.rotation, shop.special, shop.equip, function(){ shopFunction() });
+					dbfunc.updateRotationSpecialEquip(message, shop.rotation[message.guild.id], shop.special[message.guild.id],
+						shop.equip[message.guild.id], function(){ shopFunction() });
 				});
 			});
 		});
@@ -297,12 +305,12 @@ function displayShop(message, args, character){
 	sender.send(shopString);
 
 	var currentTime = new Date().getTime();
-	var timeUntilRotationInMillis = (INTERVAL * (LR.lastRotation + 1)) - currentTime;
+	var timeUntilRotationInMillis = (INTERVAL * (LR[message.guild.id] + 1)) - currentTime;
 	var hours = Math.floor(timeUntilRotationInMillis/3600000);
 	var minutes = Math.ceil((timeUntilRotationInMillis % 3600000) / 60000);
 
 	var shopString2 = "|\n[--- ROTATING ITEMS ---]\nThe next rotation is in " + hours + " hours " + minutes + " minutes";
-	shop.rotation.forEach(function(item){
+	shop.rotation[message.guild.id].forEach(function(item){
 
 		shopString2 += "\n|\n" + item.name + "  |  Buy:  " + item.id + "\n"
 			+ item.description + "\n";
@@ -321,7 +329,7 @@ function displayShop(message, args, character){
 	sender.send(shopString2);
 
 	var shopString3 = "|\n[--- SPECIALS ---]\nThe next rotation is in " + hours + " hours " + minutes + " minutes";
-	shop.special.forEach(function(special){
+	shop.special[message.guild.id].forEach(function(special){
 
 		shopString3 += "\n|\n" + special.name + "  |  Buy:  " + special.id + "\n"
 			+ special.description + "\n";
@@ -345,7 +353,7 @@ function displayShop(message, args, character){
 	sender.send(shopString3);
 
 	var shopString4 = "|\n[--- EQUIPS ---]\nThe next rotation is in " + hours + " hours " + minutes + " minutes";
-	shop.equip.forEach(function(equipItem){
+	shop.equip[message.guild.id].forEach(function(equipItem){
 
 		shopString4 += "\n|\n" + equipItem.name + "  |  Lv Req: " + equipItem.level + "  |  Buy:  " + equipItem.id + "\n"
 			+ equipItem.description + "\nActive: ";
@@ -381,9 +389,9 @@ function buy(message, args, character){
 	else{
 
 		var rotationIncluded = false;
-		for(var i = 0; i < shop.rotation.length; i++){
+		for(var i = 0; i < shop.rotation[message.guild.id].length; i++){
 
-			var rotationItem = shop.rotation[i];
+			var rotationItem = shop.rotation[message.guild.id][i];
 			if(rotationItem.id == buyItem){
 
 				item = rotationItem;
@@ -398,9 +406,9 @@ function buy(message, args, character){
 		else{
 
 			var specialIncluded = false;
-			for(var i = 0; i < shop.special.length; i++){
+			for(var i = 0; i < shop.special[message.guild.id].length; i++){
 
-				var specialItem = shop.special[i];
+				var specialItem = shop.special[message.guild.id][i];
 				if(specialItem.id == buyItem){
 
 					item = specialItem;
@@ -415,9 +423,9 @@ function buy(message, args, character){
 			else{
 
 				var equipIncluded = false;
-				for(var i = 0; i < shop.equip.length; i++){
+				for(var i = 0; i < shop.equip[message.guild.id].length; i++){
 
-					var equipItem = shop.equip[i];
+					var equipItem = shop.equip[message.guild.id][i];
 					if(equipItem.id == buyItem){
 
 						item = equipItem;
@@ -509,7 +517,7 @@ function buyRotationItem(message, character, item, amount){
 			dbfunc.updateCharacter(character);
 
 			item.stock -= amount;
-			dbfunc.updateRotationItem(item);
+			dbfunc.updateRotationItem(message, item);
 
 			message.channel.send(message.member.displayName + " has bought x" + amount + " " + item.name + "(s) with " + spent + " gold!\n"
 				+ "You now have " + character.gold + " gold");
@@ -580,7 +588,7 @@ function buySpecialItem(message, character, special, amount){
 				dbfunc.updateCharacter(character);
 
 				special.stock -= amount;
-				dbfunc.updateSpecialItem(special);
+				dbfunc.updateSpecialItem(message, special);
 
 				message.channel.send(message.member.displayName + " has bought x" + amount + " " + special.name + "(s) with " + spent + " gold!\n"
 					+ "You now have " + character.gold + " gold");
@@ -627,7 +635,7 @@ function buyEquipItem(message, character, equip){
 				if(equip.stock != null){
 
 					equip.stock -= 1;
-					dbfunc.updateEquipItem(equip);
+					dbfunc.updateEquipItem(message, equip);
 				}
 
 				message.channel.send(message.member.displayName + " has bought " + equip.name + " with " + spent + " gold!\n"

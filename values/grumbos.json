@@ -212,5 +212,59 @@
 		"victory": "$name cut down the Grumbo Tree!",
 		"loss": "$name got knocked over by a stray apple from the Grumbo Tree!",
 		"weight": 9
+	},
+	"grumbolt": {
+		"gameId": 1011,
+		"id": "grumbolt",
+		"name": "Grumbolt",
+		"powBase": 40,
+		"wisBase": 40,
+		"powX": 0.95,
+		"wisX": 1.10,
+		"description": "Zip Zap Zippity Zoo!",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"paralyze"
+		],
+		"victory": "Grumbolt was shook",
+		"loss": "$name was shook!",
+		"weight": 9
+	},
+	"accursed_grumbo": {
+		"gameId": 1012,
+		"id": "accursed_grumbo",
+		"name": "Accursed Grumbo",
+		"powBase": 30,
+		"wisBase": 28,
+		"powX": 1.1,
+		"wisX": 1.15,
+		"description": "This Grumbo is under a curse! Perhaps you will be to...",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"curse"
+		],
+		"victory": "$name undid the curse!",
+		"loss": "The Accursed Grumbo has cursed $name to the grave!",
+		"weight": 7
+	},
+	"sandy_grumbo": {
+		"gameId": 1013,
+		"id": "sandy_grumbo",
+		"name": "Sandy Grumbo",
+		"powBase": 27,
+		"wisBase": 46,
+		"powX": 1.00,
+		"wisX": 1.08,
+		"description": "Careful not to get sand in your eyes while battling against this grainy Grumbo!",
+		"prebattle": [],
+		"preresults": [],
+		"postresults": [
+			"blind"
+		],
+		"victory": "$name shows that they definitely hate sand!",
+		"loss": "Oh no! Not Sand Attack!",
+		"weight": 10
 	}
 }

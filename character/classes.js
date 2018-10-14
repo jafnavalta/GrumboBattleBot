@@ -5,6 +5,7 @@ let classMagician = require('./magician.js');
 let classRogue = require('./rogue.js');
 let classCleric = require('./cleric.js');
 let classKnight = require('./knight.js');
+let classArcher = require('./archer.js');
 
 exports.classes = {
   adventurer: classAdventurer,
@@ -12,5 +13,6 @@ exports.classes = {
   magician: classMagician,
   rogue: classRogue,
   cleric: classCleric,
-  knight: classKnight
+  knight: classKnight,
+  archer: classArcher
 }

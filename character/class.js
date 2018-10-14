@@ -12,9 +12,9 @@ let classes = require('./classes.js').classes;
 
 //Character/state functions
 let charfunc = require('./character.js');
-let state = require('../state.js');
+let state = require('../state/state.js');
 
-const CLASS_EXP_TO_LEVEL = 25;
+const CLASS_EXP_TO_LEVEL = 30; //Should be 30
 const CLASS_CHANGE_WAIT_TIME = 43200000; //12 hours
 
 exports.CLASS_CHANGE_WAIT_TIME = CLASS_CHANGE_WAIT_TIME;
@@ -132,12 +132,16 @@ function setClass(character, classFromDB, newClass){
   character.classId = newClass;
   character.classLevel = classFromDB.classLevel;
   character.classExp = classFromDB.classExp;
+  character.hpEq += classfunc.BASE_HP_EQ;
   character.powEq += classfunc.BASE_POW_EQ;
   character.wisEq += classfunc.BASE_WIS_EQ;
+  character.sklEq += classfunc.BASE_SKL_EQ;
   character.defEq += classfunc.BASE_DEF_EQ;
   character.resEq += classfunc.BASE_RES_EQ;
   character.spdEq += classfunc.BASE_SPD_EQ;
   character.lukEq += classfunc.BASE_LUK_EQ;
+  character.turnEq += classfunc.BASE_TURN_EQ;
+  character.aggroEq += classfunc.BASE_AGGRO_EQ;
 
   //If classLevel is 0, level up to 1
   if(character.classLevel <= 0){
@@ -177,12 +181,16 @@ function setClass(character, classFromDB, newClass){
 function removeClass(message, character){
 
   var classfunc = classes[character.classId];
+  character.hpEq -= classfunc.BASE_HP_EQ;
   character.powEq -= classfunc.BASE_POW_EQ;
   character.wisEq -= classfunc.BASE_WIS_EQ;
+  character.sklEq -= classfunc.BASE_SKL_EQ;
   character.defEq -= classfunc.BASE_DEF_EQ;
   character.resEq -= classfunc.BASE_RES_EQ;
   character.spdEq -= classfunc.BASE_SPD_EQ;
   character.lukEq -= classfunc.BASE_LUK_EQ;
+  character.turnEq -= classfunc.BASE_TURN_EQ;
+  character.aggroEq -= classfunc.BASE_AGGRO_EQ;
   removeClassEquips(message, character);
 
   //Start at level 1

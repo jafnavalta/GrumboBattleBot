@@ -3,8 +3,8 @@ var Discord = require('discord.js');
 var auth = require('./auth.json');
 const client = new Discord.Client();
 
-//THIS SHOULD BE THE SAME AS THE VALUE IN CLASS
-const CLASS_CHANGE_WAIT_TIME = 43200000; //12 hours
+//TIME BETWEEN CHANGING SERVERS
+const SERVER_CHANGE_WAIT_TIME = 86400000; //24 hours
 
 //Config
 let config = require('./config.js');
@@ -15,6 +15,7 @@ let dbfunc = require('./data/db.js');
 //Initialize game functions
 let battlefunc = require('./command/battle.js');
 let bossfunc = require('./command/boss.js');
+let raidfunc = require('./command/raid.js');
 let challengefunc = require('./command/challenge.js');
 let itemsfunc = require('./command/items.js');
 let shopfunc = require('./command/shop.js');
@@ -29,12 +30,15 @@ let classForTime = require('./character/class.js');
 let fs = require('fs');
 let help = fs.readFileSync("./text/help.txt", "utf8");
 let help2 = fs.readFileSync("./text/help2.txt", "utf8");
+let help3 = fs.readFileSync("./text/help3.txt", "utf8");
 let guide = fs.readFileSync("./text/guide.txt", "utf8");
 let guide2 = fs.readFileSync("./text/guide2.txt", "utf8");
 let guide3 = fs.readFileSync("./text/guide3.txt", "utf8");
 let guide4 = fs.readFileSync("./text/guide4.txt", "utf8");
 let guide5 = fs.readFileSync("./text/guide5.txt", "utf8");
+let guide6 = fs.readFileSync("./text/guide6.txt", "utf8");
 let patchnotes = fs.readFileSync("./text/patchnotes.txt", "utf8");
+let patchnotes2 = fs.readFileSync("./text/patchnotes2.txt", "utf8");
 let classList = JSON.parse(fs.readFileSync("./values/classes.json", "utf8"));
 let equipList = JSON.parse(fs.readFileSync("./values/equips.json", "utf8"));
 
@@ -89,7 +93,56 @@ function listen(){
 					}
 					else{
 
-						parseCommand(message);
+						if(character.server == null){
+
+							//For people who started on Version 8
+							character.server = message.guild.id;
+							character.serverareyousure = false;
+							character.servertime = 0;
+						}
+						var date = new Date();
+						var currentTime = date.getTime();
+						var timeSinceLastChange = currentTime - character.servertime;
+						//Same server
+						if(character.server == message.guild.id){
+
+							//Reset server change confirmation
+							character.serverareyousure = false;
+							dbfunc.updateCharacter(character);
+							if(timeSinceLastChange/SERVER_CHANGE_WAIT_TIME >= 1){
+
+								//Carry on as usual if they've been on their new server for over 24 hours
+								parseCommand(message);
+							}
+							else{
+
+								//Class changed too recently
+								var hours = Math.floor((SERVER_CHANGE_WAIT_TIME - timeSinceLastChange)/3600000);
+								var minutes = Math.ceil(((SERVER_CHANGE_WAIT_TIME - timeSinceLastChange) % 3600000) / 60000);
+								message.channel.send("You've changed servers too recently " + message.member.displayName + "!"
+									+ "\nYou can issue commands again to GrumboBattleBot in " + hours + " hours " + minutes + " minutes");
+							}
+						}
+						//Different server
+						else{
+
+							//Already asked for confirmation, proceed with server change
+							if(character.serverareyousure == true){
+
+								character.server = message.guild.id;
+								character.serverareyousure = false;
+								character.servertime = currentTime;
+								message.channel.send("You've changed servers! You must wait 24 hours before you are able to issue commands again to GrumboBattleBot.");
+							}
+							//Ask for confirmation
+							else{
+
+								character.serverareyousure = true;
+								message.channel.send("You've issued a GrumboBattleBot command in a different server. If you want to proceed with changing servers, "
+									+ "issue another command in this server. You must wait 24 hours before you are able to issue commands again to GrumboBattleBot after changing servers.");
+							}
+							dbfunc.updateCharacter(character);
+						}
 					}
 				});
 			}
@@ -131,6 +184,7 @@ function parseCommand(message){
 			}
 			sender.send(help);
 			sender.send(help2);
+			sender.send(help3);
 		}
 
 		///////////////////////
@@ -146,6 +200,7 @@ function parseCommand(message){
 				sender = message.channel;
 			}
 			sender.send(patchnotes);
+			sender.send(patchnotes2);
 		}
 
 		/////////////////
@@ -165,6 +220,7 @@ function parseCommand(message){
 			sender.send(guide3);
 			sender.send(guide4);
 			sender.send(guide5);
+			sender.send(guide6);
 		}
 
 		/////////////////
@@ -239,12 +295,20 @@ function parseCommand(message){
 			battlefunc.commandBattle(message, args, character);
 		}
 
-		//////////////////
-		// !! BATTLE !! //
-		//////////////////
+		////////////////
+		// !! BOSS !! //
+		////////////////
 		else if(args[1] == 'boss'){
 
 			bossfunc.commandBoss(message, args, character);
+		}
+
+		////////////////
+		// !! RAID !! //
+		////////////////
+		else if(args[1] == 'raid'){
+
+			raidfunc.commandRaid(message, args, character);
 		}
 
 		/////////////////////
@@ -301,9 +365,10 @@ function displayStats(character, message, args){
 		else weapon = "-----";
 		var statsString = username + " Lv" + character.level + " with " + character.experience + " EXP  |  " + character.gold + " Gold"
 						+ "\n" + classList[character.classId].className + " Lv" + character.classLevel + " with " + character.classExp + " EXP"
-						+ "\nHP " + character.hp + "/100"
-						+ "\nPOW " + character.pow + "  |  WIS " + character.wis + "  |  DEF " + character.def
-						+ "\nRES " + character.res + "  |  SPD " + character.spd + "  |  LUK " + character.luk
+						+ "\nHP " + character.hp + "/" + character.maxHP
+						+ "\nPOW " + character.pow + "  |  WIS " + character.wis + "  |  SKL " + character.skl
+						+ "\nDEF " + character.def + "  |  RES " + character.res
+						+ "\nSPD " + character.spd + "  |  LUK " + character.luk
 						+ "\nHead: " + head
 						+ "\nArmor: " + armor
 						+ "\nBottom: " + bottom
@@ -335,6 +400,13 @@ function displayStats(character, message, args){
 			var hours = Math.floor((bossfunc.BOSS_WAIT_TIME - timeSinceLastBoss)/3600000);
     	var minutes = Math.ceil(((bossfunc.BOSS_WAIT_TIME - timeSinceLastBoss) % 3600000) / 60000);
 			statsString = statsString + "\nYou can boss again in " + hours + " hours " + minutes + " minutes";
+		}
+		var timeSinceLastRaid = currentTime - character.raidtime;
+		if(timeSinceLastRaid/raidfunc.RAID_WAIT_TIME < 1){
+
+			var hours = Math.floor((raidfunc.RAID_WAIT_TIME - timeSinceLastRaid)/3600000);
+    	var minutes = Math.ceil(((raidfunc.RAID_WAIT_TIME - timeSinceLastRaid) % 3600000) / 60000);
+			statsString = statsString + "\nYou can raid again in " + hours + " hours " + minutes + " minutes";
 		}
 		sender.send(statsString);
 

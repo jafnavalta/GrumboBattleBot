@@ -1,5 +1,5 @@
 //Initialize DB
-let dbfunc = require('./data/db.js');
+let dbfunc = require('../data/db.js');
 
 //Initialize items
 const fs = require("fs");
@@ -31,17 +31,30 @@ const PRERESULTS = "preresults"; //After battle ends but before results are calc
 const POSTRESULTS = "postresults"; //After results are calculated
 const FINAL = "final"; //Final character state after everything else
 
+//Battle types
+const BATTLE = "battle";
+const BOSS = "boss";
+const RAID = "raid";
+
+//Turn types
+const CHARACTER = "character";
+const BOTH = "both";
+//Other turn type would be BOSS above
+
+//Target types
+const MULTIPLE = "multiple";
+const SINGLE = "single";
+
 //Battle functions
-let battlefunc = require('./command/battle.js');
+let battlefunc = require('../command/battle.js');
 
 //Active functions
-let characterfunc = require('./actives/active_character.js');
-let grumbofunc = require('./actives/active_grumbo.js');
-let usefunc = require('./actives/active_use.js');
+let characterfunc = require('../actives/active_character.js');
+let grumbofunc = require('../actives/active_grumbo.js');
+let usefunc = require('../actives/active_use.js');
 
 //Character functions, not to be confused with the active character functions, characterfunc
-let charfunc = require('./character/character.js');
-let classfunc = require('./character/class.js');
+let charfunc = require('../character/character.js');
 
 //EXPORTS
 exports.IMMEDIATE = IMMEDIATE;
@@ -58,6 +71,16 @@ exports.PREBATTLE = PREBATTLE;
 exports.PRERESULTS = PRERESULTS;
 exports.POSTRESULTS = POSTRESULTS;
 
+exports.BATTLE = BATTLE;
+exports.BOSS = BOSS;
+exports.RAID = RAID;
+
+exports.CHARACTER = CHARACTER;
+exports.BOTH = BOTH;
+
+exports.MULTIPLE = MULTIPLE;
+exports.SINGLE = SINGLE;
+
 ///////////
 // ITEMS //
 ///////////
@@ -68,14 +91,18 @@ exports.immediate = function(message, character, eventId, event, amount){
 
 	var state = {
 
-		result: message.member.displayName + " has used " + event.name + " x" + amount
+		result: message.member.displayName + " has used " + event.name + " x" + amount,
+		save: true
 	}
 	usefunc.immediate[eventId](message, character, state, eventId, event, amount);
 
 	message.channel.send(state.result);
 
 	//Save character
-	dbfunc.updateCharacter(character);
+	if(state.save){
+
+		dbfunc.updateCharacter(character);
+	}
 }
 
 /**
@@ -196,12 +223,16 @@ exports.indefinite = function(message, character, eventId, event, amount){
 */
 exports.equip = function(message, character, equip){
 
+	character.hpEq += equip.hp;
 	character.powEq += equip.pow;
 	character.wisEq += equip.wis;
+	character.sklEq += equip.skl;
 	character.defEq += equip.def;
 	character.resEq += equip.res;
 	character.spdEq += equip.spd;
 	character.lukEq += equip.luk;
+	character.turnEq += equip.turn;
+	character.aggroEq += equip.aggro;
 
 	if(equip.active != null){
 
@@ -223,12 +254,16 @@ exports.equip = function(message, character, equip){
 */
 exports.unequip = function(message, character, equip){
 
+	character.hpEq -= equip.hp;
 	character.powEq -= equip.pow;
 	character.wisEq -= equip.wis;
+	character.sklEq -= equip.skl;
 	character.defEq -= equip.def;
 	character.resEq -= equip.res;
 	character.spdEq -= equip.spd;
 	character.lukEq -= equip.luk;
+	character.turnEq -= equip.turn;
+	character.aggroEq -= equip.aggro;
 
 	if(equip.active != null){
 
@@ -243,205 +278,4 @@ exports.unequip = function(message, character, equip){
 	charfunc.calculateStats(character);
 
 	message.channel.send(message.member.displayName + " unequipped " + equip.name + "!");
-}
-
-//////////////////
-// BATTLE STATE //
-//////////////////
-/**
-* Pre battle calculations. dmgMod is used for Bosses.
-*/
-exports.prebattle = function(message, args, character, battleState, actives, grumbo){
-
-	if(!battleState.isBoss){
-		
-		battleState.levelDiffActual = character.level - battleState.enemyLevel;
-	}
-	else{
-		
-		battleState.levelDiffActual = 0;
-	}
-
-	//Prebattle base/modifiers
-	battleState.preMessages = [];
-	battleState.chanceMod = 0;
-	battleState.levelDiffMod = 0;
-	battleState.minMod = 0;
-	battleState.maxMod = 0;
-	battleState.hpMod = 0;
-	battleState.powMod = 0;
-	battleState.wisMod = 0;
-	battleState.dmgMod = 0;
-
-	battlefunc.calculateCharacterMods(message, args, character, battleState, actives, grumbo);
-
-	//Prebattle character active functions
-	for(var i = character.prebattle.length - 1; i >= 0; i--){
-
-		var eventId = character.prebattle[i];
-		if(characterfunc.prebattle[eventId] != null){
-
-			characterfunc.prebattle[eventId](character, battleState, eventId, actives, grumbo);
-		}
-	};
-
-	//Prebattle Grumbo effects
-	for(var i = grumbo.prebattle.length - 1; i >= 0; i--){
-
-		var eventId = grumbo.prebattle[i];
-		var eventActive = activesList[eventId];
-		if(grumbofunc.prebattle[eventId] != null){
-
-			var random = Math.random() * 100;
-			if(random < character.res && eventActive.effect == exports.BAD){
-
-				battleState.preMessages.push(charfunc.resistMessage(eventActive.name));
-			}
-			else{
-
-				grumbofunc.prebattle[eventId](character, battleState, eventId, actives, grumbo);
-			}
-		}
-	};
-
-	//Calculate prebattle variables
-	battleState.levelDiff = character.level - battleState.enemyLevel + battleState.levelDiffMod;
-	battleState.chance = Math.floor(Math.random() * 4) - 2 + battleState.chanceMod + battleState.powMod + battleState.wisMod + battleState.hpMod;
-	if(!battleState.isBoss){
-
-		battleState.chance += 50 + (battleState.levelDiff * 2);
-	}
-	else{
-
-		battleState.chance += grumbo.base_chance;
-		var charDmg = character.pow;
-		if(charDmg < character.wis) charDmg = Math.ceil(character.wis * (0.95));
-		battleState.dmgMod += Math.ceil(charDmg * 0.8) + Math.floor((Math.random()*15) - 7);
-	}
-	var max = 95 + battleState.maxMod;
-	var min = 5 + battleState.minMod;
-	if(battleState.levelDiff < -15){
-
-		battleState.chance -= (Math.floor(Math.random() * 3) + 1);
-	}
-	if(battleState.chance > max){
-
-		battleState.chance = max;
-	}
-	else if(battleState.chance < min){
-
-		battleState.chance = min;
-	}
-}
-
-/**
-* Pre results calculations. Bosses use battleState.win for phase calculations.
-*/
-exports.preresults = function(message, character, battleState, actives, grumbo){
-
-	//Preresults base/modifiers
-	battleState.preResMessages = [];
-	battleState.expMod = 0;
-	battleState.win = true;
-	if(battleState.result >= battleState.chance){
-
-		battleState.win = false;
-		battleState.dmgMod = Math.ceil(battleState.dmgMod/1.8);
-	}
-
-	//Preresults character active functions
-	for(var i = character.preresults.length - 1; i >= 0; i--){
-
-		var eventId = character.preresults[i];
-		if(characterfunc.preresults[eventId] != null){
-
-			characterfunc.preresults[eventId](character, battleState, eventId, actives, grumbo);
-		}
-	};
-
-
-	//Preresults Grumbo effects
-	for(var i = grumbo.preresults.length - 1; i >= 0; i--){
-
-		var eventId = grumbo.preresults[i];
-		var eventActive = activesList[eventId];
-		if(grumbofunc.preresults[eventId] != null){
-
-			var random = Math.random() * 100;
-			if(random < character.res && eventActive.effect == exports.BAD){
-
-				battleState.preResMessages.push(charfunc.resistMessage(eventActive.name));
-			}
-			else{
-
-				grumbofunc.preresults[eventId](character, battleState, eventId, actives, grumbo);
-			}
-		}
-	};
-
-	//Calculate preresults variables
-	if(battleState.win && !battleState.isBoss){
-
-		battleState.exp = battlefunc.calculateBattleExp(character, battleState.levelDiff, battleState);
-		battleState.gold = Math.ceil(battlefunc.calculateBattleGold(character, battleState.levelDiff) * (1 + (character.luk / 100)));
-	}
-}
-
-/**
-* Post results calculations. Bosses do not use classExp.
-*/
-exports.postresults = function(message, character, battleState, actives, grumbo){
-
-	//Postresults base/modifiers
-	battleState.endMessages = [];
-	battleState.avoidPostResults = false;
-	battleState.noDmgTaken = false;
-	battleState.hpLoss = 3;
-	battleState.classExp = 1;
-
-	battlefunc.calculateHPLoss(message, character, battleState, actives, grumbo);
-
-	if(battleState.isBoss){
-
-		battleState.bossHp = grumbo.hp;
-	}
-
-	//Postresults character active functions
-	for(var i = character.postresults.length - 1; i >= 0; i--){
-
-		var eventId = character.postresults[i];
-		if(characterfunc.postresults[eventId] != null){
-
-			characterfunc.postresults[eventId](character, battleState, eventId, actives, grumbo);
-		}
-	}
-
-	//Postresults Grumbo effects
-	for(var i = grumbo.postresults.length - 1; i >= 0; i--){
-
-		var eventId = grumbo.postresults[i];
-		var eventActive = activesList[eventId];
-		if(grumbofunc.postresults[eventId] != null && !battleState.avoidPostResults){
-
-			var random = Math.random() * 100;
-			if(random < character.res && eventActive.effect == exports.BAD){
-
-				battleState.endMessages.push(charfunc.resistMessage(eventActive.name));
-			}
-			else{
-
-				grumbofunc.postresults[eventId](character, battleState, eventId, actives, grumbo);
-			}
-		}
-	}
-
-	//FINAL character active functions after all other actives
-	for(var i = character.final.length - 1; i >= 0; i--){
-
-		var eventId = character.final[i];
-		if(characterfunc.final[eventId] != null){
-
-			characterfunc.final[eventId](character, battleState, eventId, actives, grumbo);
-		}
-	}
 }

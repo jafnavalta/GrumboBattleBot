@@ -5,7 +5,8 @@ let dbfunc = require('../data/db.js');
 const fs = require("fs");
 
 //Initialize functions
-let state = require('../state.js');
+let state = require('../state/state_battle.js');
+let statefunc = require('../state/state.js');
 let charfunc = require('../character/character.js');
 let classfunc = require('../character/class.js');
 
@@ -49,7 +50,7 @@ exports.commandBattle = function(message, args, character){
 			//Character is already in a battle
 			if(character.battleLock){
 
-				message.channel.send("You are already in battle " + message.member.displayName + "!");
+				message.channel.send("You are currently locked from battle " + message.member.displayName + "!");
 			}
 			//User tried to fight a Grumbo who has a level lower than 1
 			else if(args[3] < 1){
@@ -130,7 +131,7 @@ function doBattle(message, args, character, currentTime, actives){
 		//Prebattle determinations
 		var grumbo = getRandomGrumbo(args[3]);
 		var battleState = {};
-		battleState.isBoss = false;
+		battleState.state = statefunc.BATTLE;
 		battleState.enemyLevel = args[3];
 		state.prebattle(message, args, character, battleState, actives, grumbo);
 
@@ -228,14 +229,16 @@ function doBattle(message, args, character, currentTime, actives){
 				});
 			}
 
+			var preHpLoss = character.hp;
 			character.hp -= battleState.hpLoss;
 			if(character.hp < 0) character.hp = 0;
-			else if(character.hp > charfunc.MAX_HP) character.hp = charfunc.MAX_HP;
+			else if(character.hp > character.maxHP) character.hp = character.maxHP;
 			character.classExp += battleState.classExp;
+			if(character.hp <= 0 && preHpLoss > 0) character.experience = 0;
 			classfunc.levelUpClass(character, battleState);
 
 			endMessageString += "Here are your current stats:\n" + username + " Lv" + character.level + "  |  "
-					+ character.experience + " EXP  |  " + character.hp + " HP  |  " + character.gold + " Gold  |  Wins " + character.wins
+					+ character.experience + " EXP  |  " + character.hp + "/" + character.maxHP + " HP  |  " + character.gold + " Gold  |  Wins " + character.wins
 					+ "  |  Losses " + character.losses + "   |   Win% " + character.winrate + "\n"
 					+ classList[character.classId].className + " Lv" + character.classLevel + "  |  " + character.classExp + " Class EXP" + "\n"
 					+ "You have " + character.battlesLeft + "/5 battles left"
@@ -254,7 +257,7 @@ function doBattle(message, args, character, currentTime, actives){
 */
 exports.calculateBattleExp = function(character, levelDiff, battleState){
 
-	var exp = 88;
+	var exp = 90;
 	//Low level Grumbo
 	if(levelDiff > 0){
 
@@ -265,7 +268,7 @@ exports.calculateBattleExp = function(character, levelDiff, battleState){
 
 		exp = calculateHighLevelExp(exp, levelDiff);
 	}
-	exp = exp + Math.floor(Math.random() * 10) - 5 - Math.ceil(character.level/1.5) + 1 + battleState.expMod;
+	exp = exp + Math.floor(Math.random() * 10) - 5 - Math.ceil(character.level/1.33) + 1 + battleState.expMod;
 	if(exp < 3){
 
 		exp = 3;
@@ -377,7 +380,7 @@ exports.calculateCharacterMods = function(message, args, character, battleState,
 */
 exports.calculateHPMod = function(character, battleState){
 
-	if(character.hp >= charfunc.MAX_HP - 5){
+	if(character.hp >= character.maxHP * 0.95){
 
 		battleState.hpMod += 5;
 	}
@@ -385,15 +388,15 @@ exports.calculateHPMod = function(character, battleState){
 
 		battleState.hpMod -= 50;
 	}
-	else if(character.hp <= 5){
+	else if(character.hp <= character.maxHP * 0.05){
 
 		battleState.hpMod -= 25;
 	}
-	else if(character.hp <= 20){
+	else if(character.hp <= character.maxHP * 0.20){
 
 		battleState.hpMod -= 10;
 	}
-	else if(character.hp <= 45){
+	else if(character.hp <= character.maxHP * 0.45){
 
 		battleState.hpMod -= 5;
 	}
@@ -404,7 +407,7 @@ exports.calculateHPMod = function(character, battleState){
 */
 exports.calculatePOWMod = function(character, grumbo, battleState){
 
-	battleState.powMod += Math.ceil((character.pow - grumbo.pow)/4);
+	battleState.powMod += Math.ceil((character.pow - grumbo.pow)/5);
 	if(battleState.powMod > 10)	battleState.powMod = 10;
 }
 
@@ -413,16 +416,16 @@ exports.calculatePOWMod = function(character, grumbo, battleState){
 */
 exports.calculateWISMod = function(character, grumbo, battleState){
 
-	battleState.wisMod += Math.ceil((character.wis - grumbo.wis)/6);
+	battleState.wisMod += Math.ceil((character.wis - grumbo.wis)/7.5);
 	if(battleState.wisMod > 10) battleState.wisMod = 10;
 }
 
 /**
-* Calculates HP Loss. Max 50 before actives.
+* Calculates HP Loss.
 */
 exports.calculateHPLoss = function(message, character, battleState, actives, grumbo){
 
-	if(!battleState.win || battleState.isBoss){
+	if(!battleState.win){
 
 		var dmg = Math.floor((grumbo.pow - character.def)/2.2);
 		if(dmg < 0) dmg = 0;

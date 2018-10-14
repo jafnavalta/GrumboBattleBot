@@ -8,14 +8,22 @@ let dbfunc = require('../data/db.js');
 let charfunc = require('../character/character.js');
 
 //Locks for challenges (PvP)
-var onChallenge = false;
-var onChallengeAccept = false;
-var challengerID = null;
-var opponentID = null;
-var wagerType = null;
-var wager = 0;
+var guildChallenges = {};
 
 exports.commandChallenge = function(message, args, character){
+
+	if(guildChallenges[message.guild.id] == null){
+
+		guildChallenges[message.guild.id] = {
+
+			onChallenge: false,
+			onChallengeAccept: false,
+			challengerID: null,
+			opponentID: null,
+			wagerType: null,
+			wager: 0
+		}
+	}
 
 	//Determine how many challenges they should have left
 	var date = new Date();
@@ -38,7 +46,7 @@ exports.commandChallenge = function(message, args, character){
 
 			message.channel.send("You can't challenge yourself bud.");
 		}
-		else if(!onChallenge && !onChallengeAccept){
+		else if(!guildChallenges[message.guild.id].onChallenge && !guildChallenges[message.guild.id].onChallengeAccept){
 
 			//Exp challenge
 			if(args[4] == 'exp'){
@@ -50,7 +58,7 @@ exports.commandChallenge = function(message, args, character){
 				}
 				else if(args[3] <= totalExp){
 
-					wagerType = 'exp';
+					guildChallenges[message.guild.id].wagerType = 'exp';
 					issueChallenge(message, opponent, args);
 				}
 				else{
@@ -61,13 +69,13 @@ exports.commandChallenge = function(message, args, character){
 			//Gold challenge
 			else if(args[4] == 'gold'){
 
-				if(args[3] > 500 || args[3] < 1){
+				if(args[3] > 1000 || args[3] < 1){
 
-					message.channel.send("A gold wager must be between 1 and 500.");
+					message.channel.send("A gold wager must be between 1 and 1000.");
 				}
 				else if(args[3] <= character.gold){
 
-					wagerType = 'gold';
+					guildChallenges[message.guild.id].wagerType = 'gold';
 					issueChallenge(message, opponent, args);
 				}
 				else{
@@ -89,14 +97,14 @@ exports.commandChallenge = function(message, args, character){
 	//User accepted a challenge
 	else if(args[2] == 'accept' && isInteger(args[3])){
 
-		if(message.author.id == opponentID){
+		if(message.author.id == guildChallenges[message.guild.id].opponentID){
 
-			if(args[4] == 'exp' && wagerType == 'exp'){
+			if(args[4] == 'exp' && guildChallenges[message.guild.id].wagerType == 'exp'){
 
 				var totalExp = ((character.level - 1) * 100) + character.experience;
-				if(args[3] != wager){
+				if(args[3] != guildChallenges[message.guild.id].wager){
 
-					message.channel.send('The wager must match the challenger\'s wager of ' + wager);
+					message.channel.send('The wager must match the challenger\'s wager of ' + guildChallenges[message.guild.id].wager);
 				}
 				else if(args[3] > totalExp){
 
@@ -107,11 +115,11 @@ exports.commandChallenge = function(message, args, character){
 					doChallenge(message, character, currentTime);
 				}
 			}
-			else if(args[4] == 'gold' && wagerType == 'gold'){
+			else if(args[4] == 'gold' && guildChallenges[message.guild.id].wagerType == 'gold'){
 
-				if(args[3] != wager){
+				if(args[3] != guildChallenges[message.guild.id].wager){
 
-					message.channel.send('The wager must match the challenger\'s wager of ' + wager);
+					message.channel.send('The wager must match the challenger\'s wager of ' + guildChallenges[message.guild.id].wager);
 				}
 				else if(args[3] > character.gold){
 
@@ -171,30 +179,31 @@ exports.restockChallenges = function(currentTime, character){
 function issueChallenge(message, opponent, args){
 
 	//Set challenge locks
-	onChallenge = true;
-	challengerID = message.author.id;
-	opponentID = opponent.id;
-	wager = args[3];
+	guildChallenges[message.guild.id].onChallenge = true;
+	guildChallenges[message.guild.id].challengerID = message.author.id;
+	guildChallenges[message.guild.id].opponentID = opponent.id;
+	guildChallenges[message.guild.id].wager = args[3];
 
-	message.channel.send(message.member.displayName + ' has challenged ' + opponent.displayName + ' to a wager of ' + wager + ' ' + wagerType + '!\n'
+	message.channel.send(message.member.displayName + ' has challenged ' + opponent.displayName + ' to a wager of '
+	+ guildChallenges[message.guild.id].wager + ' ' + guildChallenges[message.guild.id].wagerType + '!\n'
 		+ opponent.displayName + ' has 25 seconds to accept the challenge!');
 
 	setTimeout(function(){
 
-		if(!onChallengeAccept){
+		if(!guildChallenges[message.guild.id].onChallengeAccept){
 
 			//Unlock challenge if not accepted
-			onChallenge = false;
-			challengerID = null;
-			opponentID = null;
-			wagerType = null;
-			wager = 0;
+			guildChallenges[message.guild.id].onChallenge = false;
+			guildChallenges[message.guild.id].challengerID = null;
+			guildChallenges[message.guild.id].opponentID = null;
+			guildChallenges[message.guild.id].wagerType = null;
+			guildChallenges[message.guild.id].wager = 0;
 
 			message.channel.send(message.member.displayName + '\'s challenge was not accepted.');
 		}
 		else{
 
-			onChallengeAccept = false;
+			guildChallenges[message.guild.id].onChallengeAccept = false;
 		}
 	}, 25000);
 }
@@ -204,13 +213,13 @@ function issueChallenge(message, opponent, args){
 */
 function doChallenge(message, character, currentTime){
 
-	onChallengeAccept = true;
-	dbfunc.getDB().collection("characters").findOne({"_id": challengerID}, function(err, challenger){
+	guildChallenges[message.guild.id].onChallengeAccept = true;
+	dbfunc.getDB().collection("characters").findOne({"_id": guildChallenges[message.guild.id].challengerID}, function(err, challenger){
 
 		//Determine how many challenges they should have left
 		exports.restockChallenges(currentTime, challenger);
 
-		if(wagerType == 'exp'){
+		if(guildChallenges[message.guild.id].wagerType == 'exp'){
 
 			doExpChallenge(message, character, challenger, currentTime);
 		}
@@ -239,7 +248,8 @@ function doExpChallenge(message, character, challenger, currentTime){
 	}
 
 	message.channel.send(message.member.displayName + " Lv" + character.level + " is facing off against challenger "
-		+ message.guild.members.get(challengerID).displayName + " Lv" + challenger.level + " for " + wager + " experience!\n"
+		+ message.guild.members.get(guildChallenges[message.guild.id].challengerID).displayName + " Lv" + challenger.level + " for "
+		+ guildChallenges[message.guild.id].wager + " experience!\n"
 		+ message.member.displayName + " has a " + chance + "% chance of winning!\n"
 		+ "The challenge has begun...\n");
 
@@ -254,14 +264,14 @@ function doExpChallenge(message, character, challenger, currentTime){
 
 			//Winner results
 			calculateExpChallengeResults(message, character, challenger, chance,
-				message.member.displayName, message.guild.members.get(challengerID).displayName,
+				message.member.displayName, message.guild.members.get(guildChallenges[message.guild.id].challengerID).displayName,
 				currentTime);
 		}
 		//Challenger wins
 		else{
 
 			calculateExpChallengeResults(message, challenger, character, 100 - chance,
-				message.guild.members.get(challengerID).displayName, message.member.displayName,
+				message.guild.members.get(guildChallenges[message.guild.id].challengerID).displayName, message.member.displayName,
 				currentTime);
 		}
 
@@ -270,11 +280,11 @@ function doExpChallenge(message, character, challenger, currentTime){
 		dbfunc.updateCharacter(challenger);
 
 		//Release challenge locks
-		onChallenge = false;
-		challengerID = null;
-		opponentID = null;
-		wagerType = null;
-		wager = 0;
+		guildChallenges[message.guild.id].onChallenge = false;
+		guildChallenges[message.guild.id].challengerID = null;
+		guildChallenges[message.guild.id].opponentID = null;
+		guildChallenges[message.guild.id].wagerType = null;
+		guildChallenges[message.guild.id].wager = 0;
 	}, 5000);
 }
 
@@ -284,7 +294,7 @@ function doExpChallenge(message, character, challenger, currentTime){
 function doGoldChallenge(message, character, challenger, currentTime){
 
 	message.channel.send(message.member.displayName + " is facing off against challenger "
-		+ message.guild.members.get(challengerID).displayName + " for " + wager + " gold!\n"
+		+ message.guild.members.get(guildChallenges[message.guild.id].challengerID).displayName + " for " + guildChallenges[message.guild.id].wager + " gold!\n"
 		+ "Gold challenges are 50/50 battles!\n"
 		+ "The challenge has begun...\n");
 
@@ -301,21 +311,21 @@ function doGoldChallenge(message, character, challenger, currentTime){
 		}
 
 		message.channel.send(message.member.displayName + " rolled a " + result +
-			"!\n" + message.guild.members.get(challengerID).displayName + " rolled a " + result2 + "!");
+			"!\n" + message.guild.members.get(guildChallenges[message.guild.id].challengerID).displayName + " rolled a " + result2 + "!");
 
 		//If challenger loses
 		if(result > result2){
 
 			//Winner results
 			calculateGoldChallengeResults(message, character, challenger,
-				message.member.displayName, message.guild.members.get(challengerID).displayName,
+				message.member.displayName, message.guild.members.get(guildChallenges[message.guild.id].challengerID).displayName,
 				currentTime);
 		}
 		//Challenger wins
 		else{
 
 			calculateGoldChallengeResults(message, challenger, character,
-				message.guild.members.get(challengerID).displayName, message.member.displayName,
+				message.guild.members.get(guildChallenges[message.guild.id].challengerID).displayName, message.member.displayName,
 				currentTime);
 		}
 
@@ -324,11 +334,11 @@ function doGoldChallenge(message, character, challenger, currentTime){
 		dbfunc.updateCharacter(challenger);
 
 		//Release challenge locks
-		onChallenge = false;
-		challengerID = null;
-		opponentID = null;
-		wagerType = null;
-		wager = 0;
+		guildChallenges[message.guild.id].onChallenge = false;
+		guildChallenges[message.guild.id].challengerID = null;
+		guildChallenges[message.guild.id].opponentID = null;
+		guildChallenges[message.guild.id].wagerType = null;
+		guildChallenges[message.guild.id].wager = 0;
 	}, 5000);
 }
 
@@ -353,28 +363,28 @@ function calculateExpChallengeResults(message, victor, loser, chance, victorName
 
 		if((victor.level - loser.level) >= 20){
 
-			exp = Math.ceil(wager * (15/chance));
+			exp = Math.ceil(guildChallenges[message.guild.id].wager * (15/chance));
 		}
 		else if((victor.level - loser.level) >= 15){
 
-			exp = Math.ceil(wager * (25/chance));
+			exp = Math.ceil(guildChallenges[message.guild.id].wager * (25/chance));
 		}
 		else if((victor.level - loser.level) >= 9 && chance >= 70){
 
-			exp = Math.ceil(wager * (37/chance));
+			exp = Math.ceil(guildChallenges[message.guild.id].wager * (37/chance));
 		}
 		else if((victor.level - loser.level) >= 5 && chance >= 60){
 
-			exp = Math.ceil(wager * (46/chance));
+			exp = Math.ceil(guildChallenges[message.guild.id].wager * (46/chance));
 		}
 		else{
 
-			exp = Math.ceil(wager * (50/chance));
+			exp = Math.ceil(guildChallenges[message.guild.id].wager * (50/chance));
 		}
 	}
 	else{
 
-		exp = Math.floor(wager * (Math.pow(1.154, ((50 - chance) / 4))));
+		exp = Math.floor(guildChallenges[message.guild.id].wager * (Math.pow(1.154, ((50 - chance) / 4))));
 	}
 	var leftover = (exp + victor.experience) % 100;
 	var gains = Math.floor(((exp + victor.experience)/100));
@@ -385,7 +395,7 @@ function calculateExpChallengeResults(message, victor, loser, chance, victorName
 	victor.experience = leftover;
 
 	//Loser results
-	var loserExp = ((loser.level - 1) * 100) + loser.experience - wager;
+	var loserExp = ((loser.level - 1) * 100) + loser.experience - guildChallenges[message.guild.id].wager;
 	var loserLeftover = loserExp % 100;
 	var loserLevel = 1 + Math.floor(loserExp/100);
 
@@ -404,7 +414,7 @@ function calculateExpChallengeResults(message, victor, loser, chance, victorName
 	message.channel.send("The challenge is over!\n"
 		+ victorName + " is the winner! They earned " + exp + " experience! Their stats:\n"
 		+ victorName + " Lv" + victor.level + "  |  " + victor.experience + " EXP\n\n"
-		+ loserName + " lost " + wager + " experience. Their stats:\n"
+		+ loserName + " lost " + guildChallenges[message.guild.id].wager + " experience. Their stats:\n"
 		+ loserName + " Lv" + loser.level + "  |  " + loser.experience + " EXP");
 }
 
@@ -423,10 +433,21 @@ function calculateGoldChallengeResults(message, victor, loser, victorName, loser
 	}
 
 	//Winner results
-	victor.gold = victor.gold + (wager * 1);
+	victor.gold = victor.gold + (guildChallenges[message.guild.id].wager * 1);
 
 	//Loser results
-	loser.gold = loser.gold - (wager * 1);
+	var loserGold = (guildChallenges[message.guild.id].wager * 1);
+	var gambit = "";
+	if(loser.head == 'the_kids_gambit'){
+
+		var random = Math.random() * 100;
+		if(random < 100){
+
+			loserGold = 0;
+			gambit = "Gambit!\n";
+		}
+	}
+	loser.gold = loser.gold - loserGold;
 
 	victor.challengesLeft -= 1;
 	victor.challengeWins += 1;
@@ -437,8 +458,9 @@ function calculateGoldChallengeResults(message, victor, loser, victorName, loser
 	loser.challengeWinrate = Math.floor(((loser.challengeWins / (loser.challengeWins + loser.challengeLosses)) * 100));
 
 	message.channel.send("The challenge is over!\n"
-		+ victorName + " is the winner! They earned " + wager + " gold!\n"
+		+ victorName + " is the winner! They earned " + guildChallenges[message.guild.id].wager + " gold!\n"
 		+ victorName + " now has " + victor.gold + " gold\n"
+		+ gambit
 		+ loserName + " now has "+ loser.gold + " gold");
 }
 

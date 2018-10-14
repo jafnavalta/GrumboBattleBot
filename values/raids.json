@@ -1,0 +1,111 @@
+{
+  "dumbo": {
+    "gameId": 800,
+    "id": "dumbo",
+    "name": "Dumbo",
+    "level": 50,
+    "hp": 2500,
+    "max_hp": 2500,
+    "base_chance": 50,
+    "powBase": 155,
+    "wisBase": 45,
+    "sklBase": 84,
+    "spdBase": 10,
+    "powX": 1.00,
+		"wisX": 1.00,
+    "sklX": 1.00,
+    "spdX": 1.00,
+    "turn": 0,
+    "char_turn": 0,
+    "description": "It's Dumbo. He's dumb. Very dumb. Dumbo.",
+    "actives": ["wallop", "dumb_down", "i_am_smart"],
+    "prebattle": [],
+		"preresults": [
+      "i_am_smart",
+      "wallop"
+    ],
+		"postresults": [
+      "dumb_down"
+    ],
+    "victory": "Dumbo has finally been taught that he is in fact, incredibly dumb!",
+		"loss": "Your raid group was no match for Dumbo's absolutely insane intellect!",
+    "gold": 210,
+    "lootchance": [80, 60, 40, 40, 20],
+    "loot": ["", "old_coin", "medicine", "battle_potion", "charm_of_wumbo", "berserk_potion", "adrenaline", "stimulus", "growth_pill", "machete", "hourglass", "ghillie_suit", "chauder_powder"],
+    "weights": [20, 9, 56, 25, 10, 10, 7, 7, 5, 6, 5, 5, 3]
+  },
+  "ninja_grumbo": {
+    "gameId": 801,
+    "id": "ninja_grumbo",
+    "name": "Ninja Grumbo",
+    "level": 110,
+    "hp": 7700,
+    "max_hp": 7700,
+    "base_chance": 40,
+    "powBase": 220,
+    "wisBase": 220,
+    "sklBase": 145,
+    "spdBase": 65,
+    "powX": 1.00,
+		"wisX": 1.00,
+    "sklX": 1.00,
+    "spdX": 1.00,
+    "turn": 150,
+    "char_turn": 0,
+    "description": "Ninja Grumbo is a master in sneaky tactics, speedy attacks and of course, being a Samurai. Or a Ninja.",
+    "actives": ["shuriken", "shadow_step", "shock_trap", "smokescreen"],
+    "prebattle": [
+      "smokescreen"
+    ],
+		"preresults": [
+      "shuriken"
+    ],
+		"postresults": [
+      "shadow_step",
+      "shock_trap"
+    ],
+    "victory": "It seems Ninja Grumbo isn't the best Ninja around!",
+		"loss": "Sneaky, sneaky... and you're all dead now.",
+    "gold": 375,
+    "lootchance": [70, 60, 40, 35, 20],
+    "loot": ["", "coin_pouch", "boss_ticket", "medicine_ex", "flimsy_rope", "shock_tablet", "adrenaline", "stimulus", "blood_potion", "throwing_shield", "iron_pendant", "kunai", "slingshot", "sunglasses", "alphav"],
+    "weights": [20, 8, 5, 56, 18, 10, 8, 8, 7, 7, 4, 6, 7, 8, 3]
+  },
+  "grumboracle": {
+    "gameId": 802,
+    "id": "grumboracle",
+    "name": "Grumboracle",
+    "level": 175,
+    "hp": 12000,
+    "max_hp": 13000,
+    "base_chance": 50,
+    "powBase": 232,
+    "wisBase": 464,
+    "sklBase": 180,
+    "spdBase": 20,
+    "powX": 1.00,
+		"wisX": 1.00,
+    "sklX": 1.00,
+    "spdX": 1.00,
+    "turn": 150,
+    "char_turn": 0,
+    "description": "The all knowing Oracle of the Grumbos. Not quite as smart as the Dumbo, but it's close.",
+    "actives": ["judgment", "destiny", "seek_the_truth", "doom"],
+    "prebattle": [
+    ],
+		"preresults": [
+      "judgment"
+    ],
+		"postresults": [
+      "destiny",
+      "seek_the_truth",
+      "doom"
+    ],
+    "victory": "The Grumboracle was not all knowing enough for your raid group!",
+		"loss": "Everyone was erased from history by the Grumboracle...",
+    "gold": 550,
+    "lootchance": [70, 50, 45, 20, 10],
+    "loot": ["", "old_coin", "coin_pouch", "grumbo_ticket", "gamblers_coin", "medicine_ex", "eyedrops", "monocle", "class_ticket", "grumbot_miner", "master_grumbos_blessing", "the_kids_gambit", "machineagrumboots"],
+    "weights": [20, 20, 10, 2, 9, 56, 15, 11, 5, 2, 1, 5, 5]
+  }
+}

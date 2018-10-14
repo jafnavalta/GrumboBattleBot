@@ -6,17 +6,21 @@
     "level": 30,
     "hp": 400,
     "max_hp": 400,
-    "base_chance": 48,
-    "powBase": 90,
+    "base_chance": 44,
+    "powBase": 92,
     "wisBase": 94,
+    "sklBase": 62,
     "powX": 1.00,
 		"wisX": 1.00,
+    "sklX": 1.00,
     "description": "Poisonous. Toxic. But most importantly, Venomous. Venom Grumbo administers poison to its victims and deals extra damage to them as well!",
     "actives": ["venom", "venom_bite", "equalizer"],
     "prebattle": [
       "venom"
     ],
-		"preresults": [],
+		"preresults": [
+      "venom_bite"
+    ],
 		"postresults": [
       "venom_bite",
       "equalizer"
@@ -24,9 +28,9 @@
     "victory": "$name has claimed victory over Eddi-- Venom Grumbo!",
 		"loss": "$name lay defeated in a pool of Venom Grumbo's toxic wasteland!",
     "firstTime": "venom_mask",
-    "lootchance": [100, 60, 20],
-    "loot": ["", "antidote", "medicine", "challenge_ticket", "mini_magnet", "venom_plate", "venom_mask_ex"],
-    "weights": [20, 46, 34, 8, 8, 8, 8]
+    "lootchance": [100, 80, 60, 40, 20],
+    "loot": ["", "old_coin", "boss_ticket", "antidote", "medicine", "challenge_ticket", "mini_magnet", "venom_plate", "venom_mask_ex", "poison_charm"],
+    "weights": [20, 8, 5, 56, 36, 8, 7, 7, 7, 2]
   },
   "mixtape_grumbo": {
     "gameId": 902,
@@ -35,17 +39,21 @@
     "level": 45,
     "hp": 416,
     "max_hp": 416,
-    "base_chance": 41,
-    "powBase": 80,
+    "base_chance": 39,
+    "powBase": 86,
     "wisBase": 146,
+    "sklBase": 65,
     "powX": 1.00,
 		"wisX": 1.00,
+    "sklX": 1.00,
     "description": "Beware the super hot fire of the Mixtape Grumbo!",
     "actives": ["show_me_your_mixtape", "disco_inferno", "final_track"],
     "prebattle": [
       "show_me_your_mixtape"
     ],
-		"preresults": [],
+		"preresults": [
+      "disco_inferno"
+    ],
 		"postresults": [
       "disco_inferno",
       "final_track"
@@ -53,28 +61,32 @@
     "victory": "$name dropped an even hotter album than Mixtape Grumbo!",
 		"loss": "Mixtape Grumbo's mixtape was too fire for $name!",
     "firstTime": "safety_boots",
-    "lootchance": [95, 55, 15, 5],
-    "loot": ["", "medicine", "bandages", "adrenaline", "class_ticket", "academy_jacket", "angel_wings"],
-    "weights": [15, 54, 29, 14, 5, 18, 9]
+    "lootchance": [95, 55, 40, 15, 5],
+    "loot": ["", "old_coin", "boss_ticket", "medicine", "bandages", "adrenaline", "class_ticket", "academy_jacket", "angel_wings", "merchants_tophat"],
+    "weights": [15, 10, 5, 54, 30, 14, 5, 13, 8, 6]
   },
   "crimson_grumbo": {
     "gameId": 901,
     "id": "crimson_grumbo",
     "name": "Crimson Grumbo",
     "level": 60,
-    "hp": 620,
-    "max_hp": 620,
-    "base_chance": 38,
-    "powBase": 116,
-    "wisBase": 130,
+    "hp": 770,
+    "max_hp": 770,
+    "base_chance": 36,
+    "powBase": 120,
+    "wisBase": 132,
+    "sklBase": 88,
     "powX": 1.00,
 		"wisX": 1.00,
+    "sklX": 1.00,
     "description": "The red-eyed Crimson Grumbo. His crimson eyes make for some scary effects!",
     "actives": ["red_eye", "rock_smash", "crimson_blood"],
     "prebattle": [
       "red_eye"
     ],
-		"preresults": [],
+		"preresults": [
+      "rock_smash"
+    ],
 		"postresults": [
       "rock_smash",
       "crimson_blood"
@@ -82,37 +94,75 @@
     "victory": "Crimson Grumbo was vanquished by $name!",
 		"loss": "$name was smashed to bits by the Crimson Grumbo!",
     "firstTime": "crimson_dagger",
-    "lootchance": [90, 50, 10],
-    "loot": ["", "battle_potion", "feather_stone", "battle_ticket", "blood_potion", "crimson_staff", "crimson_scepter"],
-    "weights": [15, 52, 25, 10, 10, 11, 11]
+    "lootchance": [90, 60, 50, 30, 10],
+    "loot": ["", "old_coin", "boss_ticket", "battle_potion", "feather_stone", "battle_ticket", "blood_potion", "crimson_staff", "crimson_scepter", "chained_boots", "iron_pendant"],
+    "weights": [15, 10, 5, 62, 28, 9, 10, 8, 8, 7, 2]
   },
   "master_grumbo": {
     "gameId": 903,
     "id": "master_grumbo",
     "name": "Master Grumbo",
     "level": 100,
-    "hp": 1000,
-    "max_hp": 1000,
-    "base_chance": 50,
-    "powBase": 160,
-    "wisBase": 185,
+    "hp": 1437,
+    "max_hp": 1437,
+    "base_chance": 46,
+    "powBase": 175,
+    "wisBase": 195,
+    "sklBase": 130,
     "powX": 1.00,
 		"wisX": 1.00,
+    "sklX": 1.00,
     "description": "The Master of many Grumbos. Only those who are acknowledged by the Master Grumbo have a chance at beating him!",
-    "actives": ["teaching", "strategize", "evaluation", "gate_of_grumbo"],
+    "actives": ["teaching", "strategize", "evaluation", "gate_of_grumbo", "mastercraft"],
     "prebattle": [],
-		"preresults": [],
+		"preresults": [
+      "teaching"
+    ],
 		"postresults": [
       "teaching",
       "strategize",
       "evaluation",
-      "gate_of_grumbo"
+      "gate_of_grumbo",
+      "mastercraft"
     ],
     "victory": "$name taught Master Grumbo the true way of the Grumbo!",
 		"loss": "It's 100 years too early for $name to take on Master Grumbo.",
     "firstTime": "master_cloak",
-    "lootchance": [65, 35, 10],
-    "loot": ["", "medicine", "battle_potion", "class_ticket", "adventurers_spellbook", "grumbot_miner", "grumbo_whistle", "master_grumbos_blessing"],
-    "weights": [15, 45, 50, 16, 16, 6, 4, 1]
+    "lootchance": [65, 55, 35, 30, 15],
+    "loot": ["", "coin_pouch", "boss_ticket", "medicine_ex", "battle_potion", "class_ticket", "adventurers_spellbook", "adventurers_mantle", "grumbot_miner", "grumbo_whistle", "master_grumbos_blessing"],
+    "weights": [15, 6, 5, 55, 55, 16, 8, 8, 4, 4, 1]
+  },
+  "demonblade_grumbo": {
+    "gameId": 904,
+    "id": "demonblade_grumbo",
+    "name": "Demonblade Grumbo",
+    "level": 135,
+    "hp": 2100,
+    "max_hp": 3000,
+    "base_chance": 66,
+    "powBase": 225,
+    "wisBase": 185,
+    "sklBase": 195,
+    "powX": 1.00,
+		"wisX": 1.00,
+    "sklX": 1.00,
+    "description": "An expert in the blade and he also happens to be a demon. His blade is also a demon. Can you match the skill of the Demonblade Grumbo?",
+    "actives": ["slice", "one_with_the_blade", "siphon", "unleash"],
+    "prebattle": [
+      "unleash"
+    ],
+		"preresults": [
+      "slice"
+    ],
+		"postresults": [
+      "one_with_the_blade",
+      "siphon"
+    ],
+    "victory": "$name is more demon and more blade than the Demonblade Grumbo!",
+		"loss": "$name was sliced up by the Demonblade!",
+    "firstTime": "demon_helmet",
+    "lootchance": [50, 40, 40, 30, 30],
+    "loot": ["", "coin_pouch", "boss_ticket", "medicine_ex", "stimulus", "blood_potion", "scissors", "growth_pill", "demonblade", "demon_mask", "cursed_hat"],
+    "weights": [15, 8, 5, 55, 20, 10, 20, 8, 7, 5, 5]
   }
 }

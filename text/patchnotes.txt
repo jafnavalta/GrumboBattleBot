@@ -1,23 +1,30 @@
 GRUMBO PATCH NOTES
 Most recent from the top
 
-- Sep 25: Nerfed Holy activation rate.
-- Sep 25: Nerfed Miracle activation rate to RES*1.5 from *2. Damage reduction to 7 from 12.
-- Sep 25: Fixed long equip/item list bug.
+|||| GAME IS LIKELY INCREDIBLY UNBALANCED ||||
 
-- Sep 23: Added Boss timer. Bosses now only require 2 battle stock instead of 3.
-- Sep 23: Added 2 Bosses, 1 Grumbo, 6 Items, 12 Equips.
-- Sep 23: Adventurer Lv 6. Gets nothing new except the stat boost.
-- Sep 23: Increased the drop rate of boss exclusive drops.
-- Sep 23: Recoil now scales off difference between WIS/DEF instead of POW/DEF.
-- Sep 23: Small buff to Revenge's activation rate from missing HP/2 to missing HP/1.5.
-- Sep 23: Crimson nerfed so max chance and regular chance increase is now 4 instead of 5.
-- Sep 23: Buffed Vision, Stand Your Ground, Dodge, Safety Hat so that their calculations happen at the very end.
-- Sep 21: Hotfixed Flimsy Rope.
+## OCT 13 ##
 
-- Sep 15: Added Cleric and Knight classes. All classes now go to class level 5.
-- Sep 15: Added boss command and boss loot. 2 Bosses added to start.
-
-Consult help/guide for more information
-!grumbo help
-!grumbo guide
+- Content: 3 Raids, 1 Boss, 3 Grumbos, 11 Items, 24 Equips
+- Equip class reassignment + Rework of most equip stats
+- Updated all Classes to Lv 7.
+- New Archer class.
+- Added a class active for Raids within the first 5 levels of a class.
+- Added Initial Turn Speed and Aggro stats for raids. These are hidden values.
+- Added Raid command.
+- Added another active to Master Grumbo.
+- Duplicated loot is now converted into gold.
+- Added a bit more loot to existing bosses.
+- Increased maximum amount of loot chances for bosses. Adjusted loot drop chance accordingly.
+- Minor change to current Boss stats.
+- Damage reduction on boss phase loss now scales off SKL.
+- Added SKL stat.
+- Added Max HP stat.
+- Capped SPD at 50.
+- Increased class exp required to level to 30 from 25.
+- Increased gold challenge maximum to 1000 from 500.
+- Equips in Shop no longer have stock.
+- Increased price of Battle Ticket to 800. Adjusted Specials accordingly.
+- Experience is reduced to 0 when HP is reduced to 0 in a battle (not boss).
+- Nerfed RES chance of avoiding enemy effects to RES*0.8 from just RES %.
+- Nerfed overall experience gain. I've been stealth nerfing experience gain over the past two weeks.

@@ -1,8 +1,10 @@
 {
 	"adventurer": {
 		"gameId": 100,
+		"hp": "B",
     "pow": "B",
     "wis": "B",
+		"skl": "B",
     "def": "B",
     "res": "B",
     "spd": "B",
@@ -16,13 +18,16 @@
 				"POW/WIS/DEF +2 and RES/SPD/LUK +1 when classed as an Adventurer.",
 				"RES +4 / LUK +5 when classed as an Adventurer.",
 				"Try your chances for a small reward with the Adventurer's Grab Bag.",
-				"The Adventurer gets no perks at class level 6 except the permanent stat boost."
+				"The Adventurer gets no perks at class level 6 except the permanent stat boost.",
+				"Increase raid gold for allies with Profit. POW/WIS/DEF +2 and RES/SPD/LUK +1 when classed as an Adventurer."
 		]
 	},
   "warrior": {
 		"gameId": 101,
+		"hp": "A-",
     "pow": "A+",
     "wis": "D+",
+		"skl": "C",
     "def": "C+",
     "res": "C+",
     "spd": "B",
@@ -33,15 +38,19 @@
 		"perks": [
 		    "A novice Warrior only knows the Wild Swing active.",
 				"POW +10 when classed as a Warrior.",
-				"POW +4 / DEF +2 / SPD +2 when classed as a Warrior.",
+				"Increase your allies' battle strength with Warcry. POW +4 / DEF +2 / SPD +2 when classed as a Warrior.",
 				"The Warrior can reduce damage taken with Lifesteal.",
-				"Use Revenge as your HP lowers."
+				"Use Revenge as your HP lowers.",
+				"Rampage strengthens a Warrior in drawn out fights. POW +2 / SPD +2 / SKL +1 when classed as a Warrior.",
+				"POW +5 / SKL +5 when classed as a Warrior."
 		]
 	},
   "magician": {
 		"gameId": 102,
+		"hp": "C+",
     "pow": "C",
     "wis": "S+",
+		"skl": "B+",
     "def": "C-",
     "res": "A-",
     "spd": "B",
@@ -52,15 +61,19 @@
 		"perks": [
 		    "The Magician can Outsmart his enemies.",
 				"WIS +15 when classed as a Magician.",
-				"WIS +6 / RES +2 when classed as a Magician",
+				"Increase an ally's damage dealt with Rune Cast. WIS +6 / RES +2 when classed as a Magician",
 				"Increase your damage dealt with Explosion.",
-				"Decrease your damage received with Barrier."
+				"Decrease your damage received with Barrier.",
+				"WIS +8 / SKL +2 when classed as a Magician.",
+				"The Magician's Multi Cast active amplifies their battle strength! WIS +5 / DEF +2 when classed as a Magician."
 		]
 	},
   "rogue": {
 		"gameId": 103,
-    "pow": "B-",
+		"hp": "B-",
+    "pow": "B+",
     "wis": "B+",
+		"skl": "S-",
     "def": "C",
     "res": "A-",
     "spd": "A",
@@ -69,17 +82,21 @@
 		"className": "Rogue",
     "description": "The quick and slippery rogue. Gain a permanent +1 boost to SPD every class level.",
 		"perks": [
-		    "The Rogue very rarely gets a second chance when losing.",
+		    "The Rogue very rarely gets a Second Chance when losing. When classed as Rogue, will often go first in raids.",
 				"SPD +2 / LUK +2 when classed as a Rogue.",
 				"Quick Step your way to victory.",
 				"The Rogue can show enemies the Power of Wealth.",
-				"SPD +2 / POW +4 / RES +1 when classed as a Rogue."
+				"Speed up your allies with Haste. SPD +2 / POW +4 / RES +1 when classed as a Rogue.",
+				"Rogue can trigger a Double Attack. SPD +2 / LUK +2 when classed as a Rogue.",
+				"SPD +1 / SKL +2 / LUK +5 / POW +4 when classed as a Rogue."
 		]
 	},
   "cleric": {
 		"gameId": 104,
+		"hp": "C",
     "pow": "D+",
     "wis": "A",
+		"skl": "C+",
     "def": "D+",
     "res": "S++",
     "spd": "B+",
@@ -92,26 +109,55 @@
 				"RES +3 when classed as a Cleric.",
 				"The Cleric can further reduce damage received with the Miracle active.",
 				"Increase your battle strength with Holy.",
-				"RES +1 / WIS +8 when classed as a Cleric."
+				"Heal allies in need. RES +1 / WIS +8 when classed as a Cleric.",
+				"RES +1 / WIS +6 / SKL +2 when classed as a Cleric.",
+				"Protect your allies and counter attack with Reflect. DEF +2 when classed as a Cleric."
 		]
 	},
   "knight": {
 		"gameId": 105,
-    "pow": "C+",
+		"hp": "A",
+    "pow": "B-",
     "wis": "D",
-    "def": "A+",
-    "res": "D-",
+		"skl": "A+",
+    "def": "A",
+    "res": "D",
     "spd": "F",
     "luk": "C",
 		"classId": "knight",
 		"className": "Knight",
     "description": "The Knight is a sturdy fellow. Gain a permanent +2 boost to DEF every class level.",
 		"perks": [
-		    "The Knight can make full use of their Armory.",
+		    "The Knight can make full use of their Armory. When classed as Knight, your Aggro is about double that of any other class.",
 				"DEF +4 when classed as a Knight.",
 				"Recoil can activate against enemies.",
-				"SPD +5 / RES +4 / POW +4 when classed as a Knight.",
-				"Stand Your Ground against weaker enemies."
+				"Bolster your allies' defense with Guardian. SPD +5 / RES +4 / POW +4 when classed as a Knight.",
+				"Stand Your Ground against weaker enemies and hard hitting attacks.",
+				"Knight gains the For Honor active. SPD +5 / RES +4 / POW +4 / SKL +1 / DEF +1 when classed as a Knight.",
+				"POW +6 / SKL +2 / DEF +2 when classed as a Knight."
+		]
+	},
+  "archer": {
+		"gameId": 106,
+		"hp": "B-",
+    "pow": "B-",
+    "wis": "C+",
+		"skl": "S+",
+    "def": "C",
+    "res": "B",
+    "spd": "B",
+    "luk": "C",
+		"classId": "archer",
+		"className": "Archer",
+    "description": "The Archer rarely misses their shot. Gain a permanent +1 boost to SKL every odd class level and +2 every even class level.",
+		"perks": [
+		    "The Archer can Roll out of potential damage with every successful attack.",
+				"POW +5 / SKL +2 / SPD +1 when classed as an Archer.",
+				"Become more accurate with the Sureshot active.",
+				"Help your allies land successful hits with Mark. DEF +2 / SKL +2 / SPD +1 when classed as an Archer.",
+				"Defeat enemies with the Headshot active.",
+				"POW +5 / SKL +1 / RES +1 / LUK +1 when classed as an Archer.",
+				"Pierce enemies for extra damage. SKL +2 / SPD +1"
 		]
 	}
 }

@@ -8,8 +8,14 @@ let config = require('../config.js');
 //Character.js for new characters and migrations
 let charfunc = require('../character/character.js');
 
+//For class migrations
+let classes = require('../character/classes.js').classes;
+let classactivefunc = require('../character/class_active.js');
+
 //For old character file
 const fs = require("fs");
+let equipList = JSON.parse(fs.readFileSync("./values/equips.json", "utf8"));
+let activesList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 
 var db;
 
@@ -38,7 +44,7 @@ exports.connectToServer = function(callback){
 		else{
 
 			//Unlock characters
-			db.collection("characters").updateMany({}, {$set: {"battleLock": false}}, {upsert: true}, function (err, result){
+			db.collection("characters").updateMany({}, {$set: {"battleLock": false, "raidLock": false}}, {upsert: true}, function (err, result){
 
 				checkVersion(callback);
 			});
@@ -59,21 +65,32 @@ exports.createNewCharacter = function(message, callback){
 	//The 'active' table for active effects is a separate table
 	var newCharacter = {
 
-		level: 1,
+		level: 5,
 		experience: 0,
 		_id: message.author.id,
-		powMod: 0, //Permanent mods to stats. Base is calculated below. When switching classes/leveling up these factor in last in calculations
+		server: message.guild.id,
+		serverareyousure: false,
+		servertime: 0, //Last time they changed servers
+		hpMod: 0, //Permanent mods to stats. Base is calculated below. When switching classes/leveling up these factor in last in calculations
+		powMod: 0,
 		wisMod: 0,
+		sklMod: 0,
 		defMod: 0,
 		resMod: 0,
 		spdMod: 0,
 		lukMod: 0,
-		powEq: 0, //Equip/Temp mods to stats. When switching classes/leveling up these factor in second last in calculations
+		turnMod:0,
+		aggroMod: 0,
+		hpEq: 0, //Equip/Temp mods to stats. When switching classes/leveling up these factor in second last in calculations
+		powEq: 0,
 		wisEq: 0,
+		sklEq: 0,
 		defEq: 0,
 		resEq: 0,
 		spdEq: 0,
 		lukEq: 0,
+		turnEq: 0,
+		aggroEq: 0,
 		wins: 0,
 		losses: 0,
 		winrate: 0,
@@ -81,13 +98,15 @@ exports.createNewCharacter = function(message, callback){
 		battletime: 9999999999999,
 		battleLock: false,
 		bosstime: 0,
+		raidtime: 0,
+		raidLock: false,
 		challengeWins: 0,
 		challengeLosses: 0,
 		challengeWinrate: 0,
 		challengesLeft: 3,
 		challengetime: 9999999999999,
-		gold: 700,
-		items: ['battle_ticket', 'challenge_ticket', 'battle_potion', 'battle_potion'],
+		gold: 750,
+		items: ['medicine', 'medicine', 'medicine', 'battle_ticket', 'challenge_ticket', 'battle_potion', 'battle_potion'],
 		prebattle: [],
 		preresults: [],
 		postresults: [],
@@ -153,13 +172,13 @@ exports.removeActive = function(active){
 }
 
 //Update the rotation and special shops
-exports.updateRotationSpecialEquip = function(rotation, special, equip, callback){
+exports.updateRotationSpecialEquip = function(message, rotation, special, equip, callback){
 
-	db.collection("shop_rotation").insertMany(rotation, function (err, result){
+	db.collection("shop_rotation" + message.guild.id).insertMany(rotation, function (err, result){
 
-		db.collection("shop_special").insertMany(special, function (err, result){
+		db.collection("shop_special" + message.guild.id).insertMany(special, function (err, result){
 
-			db.collection("shop_equip").insertMany(equip, function (err, result){
+			db.collection("shop_equip" + message.guild.id).insertMany(equip, function (err, result){
 
 				callback();
 			});
@@ -168,9 +187,9 @@ exports.updateRotationSpecialEquip = function(rotation, special, equip, callback
 }
 
 //Update a rotation item
-exports.updateRotationItem = function(item){
+exports.updateRotationItem = function(message, item){
 
-	db.collection("shop_rotation").updateOne(
+	db.collection("shop_rotation" + message.guild.id).updateOne(
 		{"shop": "rotation", "id": item.id},
 		{$set: item},
 		{upsert: true}
@@ -178,9 +197,9 @@ exports.updateRotationItem = function(item){
 }
 
 //Update a rotation item
-exports.updateSpecialItem = function(item){
+exports.updateSpecialItem = function(message, item){
 
-	db.collection("shop_special").updateOne(
+	db.collection("shop_special" + message.guild.id).updateOne(
 		{"shop": "special", "id": item.id},
 		{$set: item},
 		{upsert: true}
@@ -188,9 +207,9 @@ exports.updateSpecialItem = function(item){
 }
 
 //Update an equip item
-exports.updateEquipItem = function(item){
+exports.updateEquipItem = function(message, item){
 
-	db.collection("shop_equip").updateOne(
+	db.collection("shop_equip" + message.guild.id).updateOne(
 		{"shop": "equip", "id": item.id},
 		{$set: item},
 		{upsert: true}
@@ -216,6 +235,7 @@ exports.pushToState = function(character, eventId, event, eventStates, amount){
 		id: eventId,
 		battleStates: event.battleStates,
 		name: event.name,
+		value: event.value,
 		duration: totalDuration
 	}
 
@@ -560,6 +580,422 @@ function runMigrations(version, callback){
 						function(){
 
 							version.version = 8;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
+
+	//Migration 8 to 9: raids
+	else if(version.version <= 8){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+
+				var character = characters[i];
+				character.raidtime = 0;
+				character.raidLock = false;
+
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 9;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
+
+	//Migration 9 to 11: HP
+	if(version.version <= 10){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+
+				var character = characters[i];
+				character.hpMod = 0;
+				character.hpEq = 0;
+
+				for(var key in equipList){
+
+					var equip = equipList[key];
+					if(character[equip.type] == key){
+
+						character.hpEq += equip.hp;
+					}
+				}
+
+				charfunc.calculateStats(character);
+
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 11;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
+
+	//Migration 11 to 12: SKL
+	if(version.version <= 11){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+
+				var character = characters[i];
+				character.sklMod = 0;
+				character.sklEq = 0;
+
+				for(var key in equipList){
+
+					var equip = equipList[key];
+					if(character[equip.type] == key){
+
+						character.sklEq += equip.skl;
+					}
+				}
+
+				charfunc.calculateStats(character);
+
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 12;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
+
+	//Migration 12 to 14: Equip reassignment and master cloak
+	if(version.version <= 13){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+
+				var character = characters[i];
+
+				for(var key in equipList){
+
+					var equip = equipList[key];
+					//Character has it equipped
+					if(character[equip.type] == key){
+
+						//Reworked stats of equips from version 12 to 13
+						if(equip.id == 'master_cloak'){
+
+							character.defEq -= 1;
+							character.powEq -= 5;
+							character.wisEq -= 5;
+						}
+						if(equip.id == 'crimson_dagger'){
+
+							character.powEq -= 6;
+						}
+						if(equip.id == 'mikes'){
+
+							character.spdEq += 3;
+						}
+						if(equip.id == 'monocle'){
+
+							character.wisEq += 1;
+						}
+						if(equip.id == 'water_staff'){
+
+							character.wisEq -= 6;
+						}
+						if(equip.id == 'baseball_bat'){
+
+							character.wisEq += 4;
+						}
+						if(equip.id == 'grumbo_poncho'){
+
+							character.defEq -= 3;
+						}
+						if(equip.id == 'a_tip'){
+
+							character.powEq -= 4;
+							character.spdEq -= 1;
+						}
+						if(equip.id == 'grumdeagle'){
+
+							character.powEq -= 7;
+						}
+						if(equip.id == 'mighty_shirt'){
+
+							character.defEq -= 2;
+							character.spdEq -= 1;
+						}
+						if(equip.id == 'venom_mask'){
+
+							character.defEq -= 2;
+							character.wisEq -= 4;
+						}
+						if(equip.id == 'venom_mask_ex'){
+
+							character.defEq -= 3;
+							character.wisEq -= 6;
+							character.resEq -= 1;
+						}
+						if(equip.id == 'venom_plate'){
+
+							character.defEq -= 2;
+							character.resEq += 3;
+							character.spdEq -= 2;
+						}
+						if(equip.id == 'gold_sneakers'){
+
+							character.defEq -= 4;
+						}
+						if(equip.id == 'academy_jacket'){
+
+							character.lukEq -= 25;
+						}
+						if(equip.id == 'knights_shield'){
+
+							character.defEq -= 1;
+							character.spdEq -= 1;
+						}
+						if(equip.id == 'tank_top'){
+
+							character.powEq += 6;
+							character.wisEq += 6;
+							character.defEq -= 3;
+							character.resEq -= 1;
+						}
+						if(equip.id == 'safety_boots'){
+
+							character.defEq -= 2;
+							character.resEq += 1;
+						}
+						if(equip.id == 'angel_wings'){
+
+							character.defEq -= 2;
+							character.wisEq -= 1;
+						}
+						if(equip.id == 'battle_greaves'){
+
+							character.defEq -= 3;
+							character.powEq -= 1;
+						}
+						if(equip.id == 'pointy_shoes'){
+
+							character.defEq -= 1;
+							character.wisEq -= 1;
+							character.spdEq -= 2;
+						}
+						if(equip.id == 'white_boots'){
+
+							character.defEq -= 2;
+						}
+						if(equip.id == 'wartorn_headpiece'){
+
+							character.defEq -= 4;
+							character.spdEq -= 2;
+							character.resEq -= 2;
+							character.lukEq -= 2;
+						}
+						if(equip.id == 'concealed_knife'){
+
+							character.defEq -= 1;
+							character.wisEq -= 8;
+						}
+						if(equip.id == 'ox_headband'){
+
+							character.defEq -= 1;
+						}
+						if(equip.id == 'adventurers_spellbook'){
+
+							character.wisEq -= 5;
+							character.powEq += 1;
+						}
+						//Last one, remove equip if wrong class
+						if(equip.classId != character.classId && equip.classId != null){
+
+							character.hpEq -= equip.hp;
+							character.powEq -= equip.pow;
+							character.wisEq -= equip.wis;
+							character.sklEq -= equip.skl;
+							character.defEq -= equip.def;
+							character.resEq -= equip.res;
+							character.spdEq -= equip.spd;
+							character.lukEq -= equip.luk;
+
+							if(equip.active != null){
+
+								var active = activesList[equip.active];
+								active._id = character._id + equip.active;
+							  active.character = character._id;
+								exports.spliceFromState(character, active.id, active, active.battleStates, active);
+							}
+
+							character[equip.type] = "";
+						}
+					}
+				}
+
+				charfunc.calculateStats(character);
+
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 14;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
+
+	//Migration 14 to 15: Turn Speed and Aggro
+	if(version.version <= 14){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+
+				var character = characters[i];
+				character.turnMod = 0;
+				character.turnEq = classes[character.classId].BASE_TURN_EQ;
+				character.aggroMod = 0;
+				character.aggroEq = classes[character.classId].BASE_AGGRO_EQ;;
+
+				for(var key in equipList){
+
+					var equip = equipList[key];
+					if(character[equip.type] == key){
+
+						character.turnEq += equip.turn;
+						character.aggroEq += equip.aggro;
+					}
+				}
+
+				charfunc.calculateStats(character);
+
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 15;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
+
+	//Migration 15 to 20: Class Raid actives
+	if(version.version <= 20){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+
+				var character = characters[i];
+
+				if(character.classId == 'cleric' && character.classLevel >= 5){
+
+					var active = classactivefunc.getActive(character, 'heal');
+				  exports.pushToState(character, active.id, active, active.battleStates, 1);
+				}
+				if(character.classId == 'knight' && character.classLevel >= 4){
+
+					var active = classactivefunc.getActive(character, 'guardian');
+				  exports.pushToState(character, active.id, active, active.battleStates, 1);
+				}
+				if(character.classId == 'rogue' && character.classLevel >= 5){
+
+					var active = classactivefunc.getActive(character, 'haste');
+				  exports.pushToState(character, active.id, active, active.battleStates, 1);
+				}
+				if(character.classId == 'warrior' && character.classLevel >= 3){
+
+					var active = classactivefunc.getActive(character, 'warcry');
+				  exports.pushToState(character, active.id, active, active.battleStates, 1);
+				}
+				if(character.classId == 'archer' && character.classLevel >= 4){
+
+					var active = classactivefunc.getActive(character, 'mark');
+				  exports.pushToState(character, active.id, active, active.battleStates, 1);
+				}
+				if(character.classId == 'magician' && character.classLevel >= 3){
+
+					var active = classactivefunc.getActive(character, 'rune_cast');
+				  exports.pushToState(character, active.id, active, active.battleStates, 1);
+				}
+
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 21;
 							runMigrations(version, callback);
 					});
 				}

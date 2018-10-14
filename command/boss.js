@@ -5,7 +5,8 @@ let dbfunc = require('../data/db.js');
 const fs = require("fs");
 
 //Initialize functions
-let state = require('../state.js');
+let state = require('../state/state_boss.js');
+let statefunc = require('../state/state.js');
 let charfunc = require('../character/character.js');
 let classfunc = require('../character/class.js');
 
@@ -21,13 +22,24 @@ const BOSS_WAIT_TIME = 14400000; //4 hours
 exports.BOSS_WAIT_TIME = BOSS_WAIT_TIME;
 
 /**
-* Battle command
+* Boss command
 */
 exports.commandBoss = function(message, args, character){
 
   //For testing
-  //character.hp = 100;
+  //character.level = 135;
+  //charfunc.calculateStats(character);
+  //character.hp = character.maxHP;
   //character.battlesLeft = 5;
+  //TODO this
+  //TODO this but in raid.js
+  //TODO boss wait time
+  //TODO boss level
+  //TODO class change time
+  //TODO class exp needed to level
+  //TODO raid min members
+  //TODO raid wait time
+  //TODO fix power of wealth
 
   if(args[2] == 'info' && (args.length == 4 || (args.length == 5 && args[4] == '-d'))){
 
@@ -45,7 +57,7 @@ exports.commandBoss = function(message, args, character){
       var firstTime = itemList[boss.firstTime];
       if(firstTime == null) firstTime = equipList[boss.firstTime];
       var bossString = boss.name + "  |  Lv Req: " + boss.level + "  |  Command: " + boss.id + "\n"
-        + "HP " + boss.hp + "  |  POW " + boss.powBase + "  |  WIS " + boss.wisBase + "\n"
+        + "HP " + boss.hp + "  |  POW " + boss.powBase + "  |  WIS " + boss.wisBase + "  |  SKL " + boss.sklBase + "\n"
         + "Base Phase Victory Chance: " + boss.base_chance + "%\n"
         + boss.description + "\n"
         + "Actives: ";
@@ -127,7 +139,7 @@ exports.commandBoss = function(message, args, character){
   		//Character is already in a battle
   		if(character.battleLock){
 
-  			message.channel.send("You are already in battle " + message.member.displayName + "!");
+  			message.channel.send("You are currently locked from battle " + message.member.displayName + "!");
   		}
       else if(character.hp <= 0){
 
@@ -165,7 +177,6 @@ exports.commandBoss = function(message, args, character){
 
       message.channel.send(bossId + " is not a correct boss command.");
     }
-
 	}
 	else{
 
@@ -208,22 +219,17 @@ function doBoss(message, args, character, currentTime, actives, boss){
 			{$set: {"battleLock": character.battleLock}},
 		function(error, result){
 
-    character.bosstime = currentTime;
-    if(character.battlesLeft == 5){
-
-  		character.battletime = currentTime;
-  	}
-
     //Initialize boss stats
     boss.pow = boss.powBase;
     boss.wis = boss.wisBase;
+    boss.skl = boss.sklBase;
 
 		//Prebattle determinations
 		var battleState = {};
-		battleState.isBoss = true;
-    battleState.enemyLevel = args[3];
+		battleState.state = statefunc.BOSS;
     battleState.phase = 0;
 
+    character.bosstime = currentTime;
 		if(character.battlesLeft == 5){
 
 			character.battletime = currentTime;
@@ -336,7 +342,7 @@ function recursiveBossPhase2(battleState, message, args, character, currentTime,
 
       character.hp -= battleState.hpLoss;
       if(character.hp < 0) character.hp = 0;
-      else if(character.hp > charfunc.MAX_HP) character.hp = charfunc.MAX_HP;
+      else if(character.hp > character.maxHP) character.hp = character.maxHP;
       boss.hp -= battleState.dmgMod;
       if(boss.hp < 0) boss.hp = 0;
       else if(boss.hp > boss.max_hp) boss.hp = boss.max_hp;
@@ -346,10 +352,9 @@ function recursiveBossPhase2(battleState, message, args, character, currentTime,
 
       //Wait a bit before next phase
       if(character.hp > 0 && boss.hp > 0){
-		  
-		  
-		//Save battle results
-		dbfunc.updateCharacter(character);
+
+        //Save battle results
+        dbfunc.updateCharacter(character);
         message.channel.send(endMessageString);
         recursiveBossPhase(battleState, message, args, character, currentTime, actives2, boss);
       }
@@ -423,7 +428,8 @@ function finishBoss(battleState, message, args, character, currentTime, actives,
               lootedItem = equipList[lootedId];
               if(character.equips.includes(lootedItem.id)){
 
-                winString += "You tried to loot " + lootedItem.name + " but you already own it!\n";
+                character.gold += lootedItem.value;
+                winString += lootedItem.name + " yielded " + lootedItem.value + " gold!\n";
               }
               else{
 
@@ -444,7 +450,8 @@ function finishBoss(battleState, message, args, character, currentTime, actives,
                 }
                 if(hasCount >= lootedItem.max){
 
-                  winString += "You tried to loot " + lootedItem.name + " but you have too many in your items!\n";
+                  character.gold += lootedItem.value;
+                  winString += lootedItem.name + " yielded " + lootedItem.value + " gold!\n";
                 }
                 else{
 
@@ -604,6 +611,7 @@ exports.calculateCharacterMods = function(message, args, character, battleState,
 	exports.calculateHPMod(character, battleState);
 	exports.calculatePOWMod(character, grumbo, battleState);
 	exports.calculateWISMod(character, grumbo, battleState);
+  exports.calculateSKLMod(character, grumbo, battleState);
 }
 
 /**
@@ -611,7 +619,7 @@ exports.calculateCharacterMods = function(message, args, character, battleState,
 */
 exports.calculateHPMod = function(character, battleState){
 
-	if(character.hp >= charfunc.MAX_HP - 5){
+  if(character.hp >= character.maxHP * 0.95){
 
 		battleState.hpMod += 5;
 	}
@@ -619,15 +627,15 @@ exports.calculateHPMod = function(character, battleState){
 
 		battleState.hpMod -= 50;
 	}
-	else if(character.hp <= 5){
+	else if(character.hp <= character.maxHP * 0.05){
 
 		battleState.hpMod -= 25;
 	}
-	else if(character.hp <= 20){
+	else if(character.hp <= character.maxHP * 0.20){
 
 		battleState.hpMod -= 10;
 	}
-	else if(character.hp <= 45){
+	else if(character.hp <= character.maxHP * 0.45){
 
 		battleState.hpMod -= 5;
 	}
@@ -638,8 +646,8 @@ exports.calculateHPMod = function(character, battleState){
 */
 exports.calculatePOWMod = function(character, grumbo, battleState){
 
-	battleState.powMod += Math.ceil((character.pow - grumbo.pow)/4);
-	if(battleState.powMod > 10)	battleState.powMod = 10;
+	battleState.powMod += Math.ceil((character.pow - grumbo.pow)/5);
+	if(battleState.powMod > 15)	battleState.powMod = 15;
 }
 
 /**
@@ -647,8 +655,17 @@ exports.calculatePOWMod = function(character, grumbo, battleState){
 */
 exports.calculateWISMod = function(character, grumbo, battleState){
 
-	battleState.wisMod += Math.ceil((character.wis - grumbo.wis)/6);
-	if(battleState.wisMod > 10) battleState.wisMod = 10;
+	battleState.wisMod += Math.ceil((character.wis - grumbo.wis)/7.5);
+	if(battleState.wisMod > 15) battleState.wisMod = 15;
+}
+
+/**
+* Calculates the skl chance mod. Max 25 before actives.
+*/
+exports.calculateSKLMod = function(character, grumbo, battleState){
+
+	battleState.sklMod += Math.ceil((character.skl - grumbo.skl)/1.25);
+	if(battleState.sklMod > 35) battleState.sklMod = 35;
 }
 
 /**
@@ -663,29 +680,6 @@ exports.calculateHPLoss = function(message, character, battleState, actives, gru
 		battleState.hpLoss += dmg;
 	}
 }
-
-/**
-* Randomize Grumbo.
-*/
-function getRandomGrumbo(grumboLevel){
-
-	var random = Math.floor(Math.random() * (weighedGrumbos.length - 1));
-	var grumboId = weighedGrumbos[random];
-	var grumbo = grumboList[grumboId];
-	calculateGrumboStats(grumbo, grumboLevel);
-
-	return grumbo;
-}
-
-/**
-* Calculate Grumbo stats.
-*/
-function calculateGrumboStats(grumbo, grumboLevel){
-
-	grumbo.pow = Math.ceil((grumbo.powBase + (grumboLevel*1)) * grumbo.powX) + Math.floor(Math.random() * 4) - 2;
-	grumbo.wis = Math.ceil((grumbo.wisBase + (grumboLevel*1)) * grumbo.wisX) + Math.floor(Math.random() * 4) - 2;
-}
-
 
 /**
 * Determines if x is an integer.

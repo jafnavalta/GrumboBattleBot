@@ -5,9 +5,9 @@
 		"name": "Battle Ticket Special",
 		"items": ["battle_ticket"],
 		"description": "A discounted Battle Ticket",
-		"price": 400,
+		"price": 700,
 		"stock": 2,
-		"weight": 20
+		"weight": 14
 	},
 	"special_2": {
 		"gameId": 30001,
@@ -17,7 +17,7 @@
 		"description": "A discounted Challenge Ticket",
 		"price": 250,
 		"stock": 2,
-		"weight": 20
+		"weight": 14
 	},
 	"special_3": {
 		"gameId": 30002,
@@ -25,9 +25,9 @@
 		"name": "Bundle o' Battle Pot",
 		"items": ["battle_potion", "battle_potion", "battle_potion"],
 		"description": "Tis' a bundle o' 3 Battle Pots",
-		"price": 325,
+		"price": 400,
 		"stock": 3,
-		"weight": 20
+		"weight": 15
 	},
 	"special_4": {
 		"gameId": 30003,
@@ -57,7 +57,7 @@
 		"description": "This charm prevents a certain purple bad active effect. Perhaps food poisoning by grapes?",
 		"price": 2850,
 		"stock": 1,
-		"weight": 3
+		"weight": 2
 	},
 	"special_8": {
 		"gameId": 30007,
@@ -65,7 +65,7 @@
 		"name": "Master Grumbo's Blessing",
 		"items": ["master_grumbos_blessing"],
 		"description": "For those that want to receive Master Grumbo's Blessing. Well here it is.",
-		"price": 1994,
+		"price": 4242,
 		"stock": 1,
 		"weight": 1
 	},
@@ -75,9 +75,9 @@
 		"name": "First Aid Kit",
 		"items": ["medicine", "antidote", "bandages"],
 		"description": "For all your healing needs.",
-		"price": 299,
+		"price": 240,
 		"stock": 2,
-		"weight": 12
+		"weight": 15
 	},
 	"special_9": {
 		"gameId": 30008,
@@ -85,9 +85,9 @@
 		"name": "Pot of Grumbo",
 		"items": ["battle_ticket", "battle_ticket"],
 		"description": "Pot of Grumbo lets me battle two MORE times!",
-		"price": 700,
+		"price": 1300,
 		"stock": 1,
-		"weight": 8
+		"weight": 5
 	},
 	"special_10": {
 		"gameId": 30009,
@@ -95,9 +95,9 @@
 		"name": "Grumbot Miner",
 		"items": ["grumbot_miner"],
 		"description": "Spend gold to make gold! That's what the Grumbot Miner will do for you!",
-		"price": 1000,
+		"price": 1100,
 		"stock": 1,
-		"weight": 4
+		"weight": 3
 	},
 	"special_11": {
 		"gameId": 30010,
@@ -115,7 +115,7 @@
 		"name": "Grumbo Whistle",
 		"items": ["grumbo_whistle"],
 		"description": "Whistle in your friendly Grumbos... for a price...!",
-		"price": 1737,
+		"price": 1437,
 		"stock": 1,
 		"weight": 3
 	},
@@ -127,6 +127,56 @@
 		"description": "A couple of your staple injection shots.",
 		"price": 900,
 		"stock": 1,
+		"weight": 7
+	},
+	"special_14": {
+		"gameId": 300013,
+		"id": "special_14",
+		"name": "Restoration Package",
+		"items": ["shock_tablet", "eyedrops", "scissors"],
+		"description": "For all your restoring needs.",
+		"price": 825,
+		"stock": 2,
+		"weight": 10
+	},
+	"special_15": {
+		"gameId": 300014,
+		"id": "special_15",
+		"name": "Discounted Class Ticket",
+		"items": ["class_ticket"],
+		"description": "A discounted Class Ticket.",
+		"price": 900,
+		"stock": 2,
+		"weight": 3
+	},
+	"special_16": {
+		"gameId": 300015,
+		"id": "special_16",
+		"name": "Discounted Boss Ticket",
+		"items": ["boss_ticket"],
+		"description": "A discounted Boss Ticket.",
+		"price": 800,
+		"stock": 2,
 		"weight": 5
+	},
+	"special_17": {
+		"gameId": 300016,
+		"id": "special_17",
+		"name": "Growth Pill",
+		"items": ["growth_pill"],
+		"description": "A mysterious pill that supposedly makes you grow...",
+		"price": 660,
+		"stock": 3,
+		"weight": 6
+	},
+	"special_18": {
+		"gameId": 300017,
+		"id": "special_18",
+		"name": "AlphaV",
+		"items": ["alphav"],
+		"description": "Achoo! *****!",
+		"price": 2007,
+		"stock": 1,
+		"weight": 1
 	}
 }

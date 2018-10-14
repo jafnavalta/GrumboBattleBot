@@ -2,13 +2,14 @@ GRUMBO BATTLE BOT GUIDE
 |
 CHARACTER
 Your Grumbo character. These are the stats and what they affect:
-HP: Max HP of 100. +5% battle chance boost at 100 HP. Chance decreases when below 45 HP, going down to -50% when at 0 HP.
-POW: Power. Affects battle chance. Chance is proportionate to enemy POW difference.
-WIS: Wisdom. Affects battle chance, but slightly less than POW. Chance is proportionate to enemy WIS difference.
-DEF: Defense. Lowers damage taken after a battle. Damage taken is proportionate to the difference between enemy POW and character DEF.
-RES: Resistance. % chance of avoiding negative enemy active effects.
-SPD: Speed. Each speed point above or below 10 increases or decreases the battle/challenge wait time by 1 minute.
-LUK: Luck. % extra gold gained in battle. Increases chance of getting more loot from boss battles.
+HP: +5% battle chance boost near max HP. Chance decreases when below 45% HP, going down to -50% when at 0 HP.
+POW: Power. Affects battle chance and damage. Chance is proportionate to enemy POW difference.
+WIS: Wisdom. Affects battle chance and damage, but slightly less than POW. Chance is proportionate to enemy WIS difference.
+SKL: Skill. Affects non-battle/challenge chance (boss phase, etc.), much more than POW and WIS. Also affects how much your damage is reduced by when you lose a phase. Chance is proportionate to enemy SKL difference.
+DEF: Defense. Lowers damage taken after a battle/phase/etc. Damage taken is proportionate to the difference between enemy POW and character DEF.
+RES: Resistance. RES*0.8% chance of avoiding negative enemy active effects.
+SPD: Speed. Each speed point above or below 10 increases or decreases the battle/challenge wait time by 1 minute. Also affects how fast your turn comes in Raids.
+LUK: Luck. % extra gold gained in battle/raids. Increases chance of getting more loot from bosses/raids.
 Your character can also be affected by active effects through items, battle, etc. which affect the outcomes of battles, some being based on the stats above.
 |
 CLASS

@@ -1,8 +1,17 @@
 BOSS
 <boss_command> is always the name of the boss in lowercase with the spaces replaced with underscores. E.g. Venom Grumbo = venom_grumbo
-!grumbo boss -d  |  See the current list of bosses
+!grumbo boss -d  |  See the current list of bosses.
 !grumbo boss <boss_command>  |  Fight the boss!
 !grumbo boss info <boss_command> -d  |  See the info of a particular boss.
+|
+RAID
+<raid_command> is always the name of the raid in lowercase with the spaces replaced with underscores. E.g. Dumbo = dumbo
+!grumbo raid -d  |  See the current list of raids.
+!grumbo raid <raid_command>  |  Begin the raid if you are a raid leader if raid requirements are met.
+!grumbo raid info <raid_command> -d  |  See the info of a particular raid.
+!grumbo raid assemble  |  Begin assembling a raid group as the leader.
+!grumbo raid join @mention  |  Join a mentionned user's raid group if exists.
+!grumbo raid cancel  |  Leave your raid group. Leadership is passed on if you were the raid leader.
 |
 ITEMS
 <item_command> is always the name of the item in lowercase with the spaces replaced with underscores. E.g. Charm of Wumbo = charm_of_wumbo
@@ -17,12 +26,3 @@ EQUIPS
 !grumbo equip <equip_command>  |  Equip. Will unequip equip if you already have an equip of that type on.
 !grumbo unequip <equip_command>  |  Unequip. Removes equip active affects as well.
 |
-SHOP
-!grumbo shop -d  |  Display the shop.
-!grumbo shop buy <shop_item_command> [amount]  |  Buy the specified item [amount] times if possible.
-!grumbo shop sell <shop_item_command> [amount]  |  Sell a specified item [amount] times if possible.
-|
-INFORMATION
-!grumbo help -d  |  Show this help menu
-!grumbo guide -d  |  Show guide about game mechanics like battles, experience and gold scaling, etc.
-!grumbo patchnotes -d  |  Show the recent patch notes

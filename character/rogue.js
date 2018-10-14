@@ -14,30 +14,42 @@ let activesList = JSON.parse(fs.readFileSync("./values/actives.json", "utf8"));
 //ALL classes should have these.
 exports.className = "Rogue";
 
-exports.CLASS_LEVEL_MAX = 5;
+exports.CLASS_LEVEL_MAX = 7;
 
 //Actives
 const LEVEL_1_ACTIVE = 'second_chance';
 const LEVEL_3_ACTIVE = 'quick_step';
 const LEVEL_4_ACTIVE = 'power_of_wealth';
+const LEVEL_5_ACTIVE = 'haste';
+const LEVEL_6_ACTIVE = 'double_attack';
 
+const BASE_HP_EQ = 0;
 const BASE_POW_EQ = -2;
 const BASE_WIS_EQ = 2;
+const BASE_SKL_EQ = 0;
 const BASE_DEF_EQ = -2;
 const BASE_RES_EQ = 2;
 const BASE_SPD_EQ = 5;
 const BASE_LUK_EQ = 10;
+const BASE_TURN_EQ = 100;
+const BASE_AGGRO_EQ = -2;
 
+exports.BASE_HP_EQ = BASE_HP_EQ;
 exports.BASE_POW_EQ = BASE_POW_EQ;
 exports.BASE_WIS_EQ = BASE_WIS_EQ;
+exports.BASE_SKL_EQ = BASE_SKL_EQ;
 exports.BASE_DEF_EQ = BASE_DEF_EQ;
 exports.BASE_RES_EQ = BASE_RES_EQ;
 exports.BASE_SPD_EQ = BASE_SPD_EQ;
 exports.BASE_LUK_EQ = BASE_LUK_EQ;
+exports.BASE_TURN_EQ = BASE_TURN_EQ;
+exports.BASE_AGGRO_EQ = BASE_AGGRO_EQ;
 
-exports.powX = 0.94;
-exports.wisX = 1.06;
-exports.defX = 0.86;
+exports.hpX = 0.95;
+exports.powX = 1.05;
+exports.wisX = 1.03;
+exports.sklX = 1.23;
+exports.defX = 0.85;
 exports.resX = 1.01;
 exports.spdX = 1;
 exports.lukX = 1;
@@ -138,6 +150,8 @@ exports.setClassLevelFunc.rogue4 = function(character){
 
 exports.setClassLevelFunc.rogue5 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_5_ACTIVE);
+  dbfunc.pushToState(character, active.id, active, active.battleStates, 1);
   character.spdEq += 2;
   character.powEq += 4;
   character.resEq += 1;
@@ -145,10 +159,18 @@ exports.setClassLevelFunc.rogue5 = function(character){
 
 exports.setClassLevelFunc.rogue6 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_6_ACTIVE);
+  dbfunc.pushToState(character, active.id, active, active.battleStates, 1);
+  character.spdEq += 2;
+  character.lukEq += 2;
 }
 
 exports.setClassLevelFunc.rogue7 = function(character){
 
+  character.spdEq += 1;
+  character.sklEq += 2;
+  character.lukEq += 5;
+  character.powEq += 4;
 }
 
 exports.setClassLevelFunc.rogue8 = function(character){
@@ -192,6 +214,8 @@ exports.removeClassLevelFunc.rogue4 = function(character){
 
 exports.removeClassLevelFunc.rogue5 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_5_ACTIVE);
+  dbfunc.spliceFromState(character, active.id, active, active.battleStates, active);
   character.spdEq -= 2;
   character.powEq -= 4;
   character.resEq -= 1;
@@ -199,10 +223,18 @@ exports.removeClassLevelFunc.rogue5 = function(character){
 
 exports.removeClassLevelFunc.rogue6 = function(character){
 
+  var active = classactivefunc.getActive(character, LEVEL_6_ACTIVE);
+  dbfunc.spliceFromState(character, active.id, active, active.battleStates, active);
+  character.spdEq -= 2;
+  character.lukEq -= 2;
 }
 
 exports.removeClassLevelFunc.rogue7 = function(character){
 
+  character.spdEq -= 1;
+  character.sklEq -= 2;
+  character.lukEq -= 5;
+  character.powEq -= 4;
 }
 
 exports.removeClassLevelFunc.rogue8 = function(character){

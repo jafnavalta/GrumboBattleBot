@@ -78,7 +78,15 @@ exports.commandClass = function(character, message, args){
   //Class change
   else if(args[2] == 'change' && args.length == 4){
 
-    classfunc.classChange(message, args, character);
+
+		if(character.battleLock){
+
+			message.channel.send("You are currently locked " + message.member.displayName + "!");
+		}
+		else{
+
+	    classfunc.classChange(message, args, character);
+		}
   }
 
 	//Check class info
@@ -97,8 +105,8 @@ exports.commandClass = function(character, message, args){
 		if(details != null){
 
 			detailsString = details.className + "\n" + details.description + "\n"
-        + "POW  " + details.pow + "  |  WIS  " + details.wis + "\n"
-        + "DEF    " + details.def + "  |  RES  " + details.res + "\n"
+        + "HP      " + details.hp + "  |  POW  " + details.pow + "  |  WIS  " + details.wis + "\n"
+        + "SKL    " + details.skl + "  |  DEF  " + details.def + "  |  RES  " + details.res + "\n"
         + "SPD    " + details.spd + "  |  LUK  " + details.luk + "\n\n";
 
 				detailsString += "Max Lv:  " + classesjs[classId].CLASS_LEVEL_MAX + "\n";
