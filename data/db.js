@@ -1060,14 +1060,13 @@ function runMigrations(version, callback){
 
 		db.collection("characters").find().toArray(function(error, characters){
 
-			for(var i = 0; i < characters.length; i++){
-
+			var character = characters[i];
 				if(character.postresults.includes("haste")){
 
 					var count = 0;
-					for(var i = 0; i < character.postresults.length; i++){
+					for(var k = 0; k < character.postresults.length; k++){
 
-						if(character.postresults[i] == "haste") count++;
+						if(character.postresults[k] == "haste") count++;
 					}
 					if(character.classId == "rogue") count -= 1;
 					for(var j = 0; j < count; j++){
