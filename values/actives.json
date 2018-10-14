@@ -892,7 +892,7 @@
 		"description": "When taking lethal damage, 10% chance to revive with HP equal to your RES. Can activate multiple times.",
 		"duration": null
 	},
-	"egize": {
+	"strategize": {
 		"gameId": 70042,
 		"id": "strategize",
 		"name": "Strategize",
