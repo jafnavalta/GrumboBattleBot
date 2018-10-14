@@ -13,6 +13,6 @@ LUK: Luck. % extra gold gained in battle/raids. Increases chance of getting more
 Your character can also be affected by active effects through items, battle, etc. which affect the outcomes of battles, some being based on the stats above.
 |
 CLASS
-Class change to your preferred class. The starting class is a level 1 adventurer. Each class has different stat scaling, unique actives and boost your character in different ways. Classes level up independently of your character up to that class' max class level. Each class level can give new stats or active effects, some permanent and some unique to the class. 1 class experience is gained per battle, win or lose, and classes level up at 25 class experience.
+Class change to your preferred class. The starting class is a level 1 adventurer. Each class has different stat scaling, unique actives and boost your character in different ways. Classes level up independently of your character up to that class' max class level. Each class level can give new stats or active effects, some permanent and some unique to the class. 1 class experience is gained per battle, win or lose, and classes level up at 30 class experience.
 You can only class change once every 12 hours.
 |

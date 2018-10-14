@@ -3,6 +3,13 @@ Most recent from the top
 
 |||| GAME IS LIKELY INCREDIBLY UNBALANCED ||||
 
+## OCT 14 ##
+
+- Tuned down some boss/raid stats just a bit.
+- Shock Tablet helps against Shock Trap.
+- Added !grumbo raid group command.
+- Buffed Heal activation rate.
+
 ## OCT 13 ##
 
 - Content: 3 Raids, 1 Boss, 3 Grumbos, 11 Items, 24 Equips

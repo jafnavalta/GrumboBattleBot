@@ -682,40 +682,58 @@ exports.postresults.shock_trap = function(message, character, battleState, event
 		if(random > character.res){
 
 			var random2 = Math.random() * 100;
-			if(random2 > character.spd * 1.5){
+			if(random2 > character.spd){
 
-				if(character.postresults.includes("paralyze")){
+				if(!character.items.includes("shock_tablet")){
 
-					for(var i = 0; i < actives.length; i++){
+					if(character.postresults.includes("paralyze")){
 
-						if(actives[i].id == "paralyze"){
+						for(var i = 0; i < actives.length; i++){
 
-							active = actives[i];
-							active.duration += activesList["paralyze"].duration;
-							if(active.duration > 10) active.duration = 10;
-							dbfunc.updateActive(active);
-							break;
+							if(actives[i].id == "paralyze"){
+
+								active = actives[i];
+								active.duration += activesList["paralyze"].duration;
+								if(active.duration > 10) active.duration = 10;
+								dbfunc.updateActive(active);
+								break;
+							}
 						}
 					}
+					else{
+
+						active = activesList["paralyze"];
+						active.value = character.res;
+						character.resEq -= character.res;
+						dbfunc.pushToState(character, "paralyze", active, active.battleStates, 1);
+					}
+					charfunc.calculateStats(character);
+					battleState.endMessages.push("You've been paralyzed!");
 				}
 				else{
 
-					active = activesList["paralyze"];
-					active.value = character.res;
-					character.resEq -= character.res;
-					dbfunc.pushToState(character, "paralyze", active, active.battleStates, 1);
+					var shockMessage = "You consumed a shock tablet to avoid the Paralyze!";
+					var random3 = Math.random() * 100;
+					if(random3 < 20){
+
+						shockMessage = "You avoided the Paralyze without using a Shock Tablet!";
+					}
+					else{
+
+						var index = character.items.indexOf('shock_tablet');
+						character.items.splice(index, 1);
+					}
+					battleState.endMessages.push(shockMessage);
 				}
-				charfunc.calculateStats(character);
-				battleState.endMessages.push("You've been paralyzed!");
 			}
 			else{
 
-				battleState.endMessages.push("You avoided the shock trap!");
+				battleState.endMessages.push("You dodged the shock trap!");
 			}
 		}
 		else{
 
-			battleState.endMessages.push("You avoided the shock trap!");
+			battleState.endMessages.push("You resisted the shock trap!");
 		}
 	}
 }

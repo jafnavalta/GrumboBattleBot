@@ -1169,7 +1169,7 @@
     "turn_preresults": "",
     "turn_postresults": "character",
     "turn_final": "",
-		"description": "Raid only. On your turn, RES/3 % chance to heal the ally with the lowest % HP for 15% of their max HP. Can not heal yourself or dead allies.",
+		"description": "Raid only. On your turn, RES/1.5 % chance to heal the ally with the lowest % HP for 15% of their max HP. Can not heal yourself or dead allies.",
 		"duration": null
 	},
 	"guardian": {
@@ -1404,7 +1404,7 @@
 		"gameId": 70074,
 		"id": "mastercraft",
 		"name": "Mastercraft",
-		"effect": "good",
+		"effect": "neutral",
 		"battleStates": [
 			"postresults"
 		],
@@ -1598,7 +1598,7 @@
     "turn_preresults": "",
     "turn_postresults": "boss",
     "turn_final": "",
-		"description": "Ninja Grumbo will activate Shock Trap on all raid members every 5 turns. Deals 15 damage and inflicts Paralyze. The Paralyze can be resisted. If not resisted, SPD*1.5 % chance to avoid it.",
+		"description": "Ninja Grumbo will activate Shock Trap on all raid members every 5 turns. Deals 15 damage and inflicts Paralyze. The Paralyze can be resisted. If not resisted, SPD % chance to avoid it. If not resisted or dodged but you have a Shock Tablet, you will not be Paralyzed. 20% chance to keep the Shock Tablet.",
 		"duration": null
 	},
 	"curse": {

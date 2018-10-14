@@ -11,6 +11,7 @@ RAID
 !grumbo raid info <raid_command> -d  |  See the info of a particular raid.
 !grumbo raid assemble  |  Begin assembling a raid group as the leader.
 !grumbo raid join @mention  |  Join a mentionned user's raid group if exists.
+!grumbo raid group  |  Check who is in your raid group.
 !grumbo raid cancel  |  Leave your raid group. Leadership is passed on if you were the raid leader.
 |
 ITEMS

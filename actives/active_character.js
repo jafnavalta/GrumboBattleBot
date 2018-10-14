@@ -756,7 +756,7 @@ exports.postresults.heal = function(message, character, battleState, eventId, ac
 	if(battleState.state == statefunc.RAID){
 
 		var random = Math.random() * 100;
-		if(random < character.res/3){
+		if(random < character.res/1.5){
 
 			var index = -1;
 			var lowestPercent = 1;

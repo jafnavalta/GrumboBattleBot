@@ -233,6 +233,42 @@ exports.commandRaid = function(message, args, character){
       message.channel.send("You cannot cancel a raid in progress " + message.member.displayName + "!");
     }
   }
+  
+  //GROUP
+  else if(args[2] == 'group' && args.length == 3){
+
+    //Not part of a raid
+    if(raids[character._id] == null){
+
+      message.channel.send("You are not part of a raid " + message.member.displayName + "!");
+    }
+    else{
+
+      var raidGroup = [];
+      if(!raids[character._id].includes(character._id)){
+
+        var raidLead = raids[character._id][0];
+        raidGroup = raids[raidLead];
+      }
+      else{
+
+        raidGroup = raids[character._id];
+      }
+
+      var groupString = "Raid Group: ";
+      for(var i = 0; i < raidGroup.length; i++){
+
+        var id = raidGroup[i];
+        groupString += message.guild.members.get(id).displayName;
+        if(i != raidGroup.length - 1){
+
+          groupString += ",";
+        }
+        groupString += " ";
+      }
+      message.channel.send(groupString);
+    }
+  }
 
   //JOIN
   else if(args[2] == 'join' && args.length == 4){
