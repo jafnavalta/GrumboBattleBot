@@ -350,7 +350,7 @@ function displayStats(character, message, args){
 		//Determine how many challenges they should have left
 		challengefunc.restockChallenges(currentTime, character);
 
-		var username = message.member.displayName;
+		var username = character.turn + " " + character.aggro;
 		var head = equipList[character.head];
 		if(head != null) head = head.name;
 		else head = "-----";
