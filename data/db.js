@@ -1060,6 +1060,8 @@ function runMigrations(version, callback){
 
 		db.collection("characters").find().toArray(function(error, characters){
 
+			for(var i = 0; i < characters.length; i++){
+		
 			var character = characters[i];
 				if(character.postresults.includes("haste")){
 
