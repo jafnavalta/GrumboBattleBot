@@ -1072,7 +1072,7 @@ function runMigrations(version, callback){
 					if(character.classId == "rogue") count -= 1;
 					for(var j = 0; j < count; j++){
 
-						character.postresults.splice(character.postresults.indexOf("haste"));
+						character.postresults.splice(character.postresults.indexOf("haste"), 1);
 					}
 				}
 
