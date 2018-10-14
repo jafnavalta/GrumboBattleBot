@@ -1007,8 +1007,8 @@ function runMigrations(version, callback){
 		});
 	}
 	
-	//Migration 21 to 23: SKL
-	if(version.version <= 22){
+	//Migration 21 to 24: SKL
+	if(version.version <= 23){
 
 		db.collection("characters").find().toArray(function(error, characters){
 
@@ -1019,6 +1019,18 @@ function runMigrations(version, callback){
 				character.skl = 0;
 				character.turn = 0;
 				character.aggro = 0;
+				character.hpEq = 0;
+				character.sklEq = 0;
+
+				for(var key in equipList){
+
+					var equip = equipList[key];
+					if(character[equip.type] == key){
+
+						character.sklEq += equip.skl;
+						character.hpEq += equip.hp;
+					}
+				}
 
 				charfunc.calculateStats(character);
 
@@ -1031,7 +1043,7 @@ function runMigrations(version, callback){
 						{upsert: true},
 						function(){
 
-							version.version = 23;
+							version.version = 24;
 							runMigrations(version, callback);
 					});
 				}
