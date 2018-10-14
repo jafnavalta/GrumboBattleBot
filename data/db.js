@@ -1054,6 +1054,48 @@ function runMigrations(version, callback){
 			};
 		});
 	}
+	
+	//Migration 24 to 25: Haste bug
+	if(version.version <= 24){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+
+				if(character.postresults.includes("haste")){
+
+					var count = 0;
+					for(var i = 0; i < character.postresults.length; i++){
+
+						if(character.postresults[i] == "haste") count++;
+					}
+					if(character.classId == "rogue") count -= 1;
+					for(var j = 0; j < count; j++){
+
+						character.postresults.splice(character.postresults.indexOf("haste"));
+					}
+				}
+
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 25;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
 
 	//Add more migrations before this with else if
 	//If gets to else, DB is up to date
