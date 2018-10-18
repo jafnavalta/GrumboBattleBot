@@ -1131,6 +1131,67 @@ function runMigrations(version, callback){
 			};
 		});
 	}
+	
+	//Migration 26 to 27: Warcry bug + character fixes
+	if(version.version <= 26){
+
+		db.collection("characters").find().toArray(function(error, characters){
+
+			for(var i = 0; i < characters.length; i++){
+		
+			var character = characters[i];
+				if(character.postresults.includes("warcry")){
+
+					var count = 0;
+					for(var k = 0; k < character.postresults.length; k++){
+
+						if(character.postresults[k] == "warcry") count++;
+					}
+					if(character.classId == "warrior") count -= 1;
+					for(var j = 0; j < count; j++){
+
+						character.postresults.splice(character.postresults.indexOf("warcry"), 1);
+					}
+				}
+				
+				if(character.wis < 0){ //Frankie
+					
+					character.wisEq += 100;
+					if(character.postresults.includes('dumb_down')){
+						
+						character.postresults.splice(character.postresults.indexOf("dumb_down"), 1);
+					}
+				}
+				
+				if(character.level >= 175 && character.classId == 'archer'){ //Chau
+					
+					character.items.push('boss_ticket');
+					character.items.push('battle_ticket');
+					character.items.push('battle_ticket');
+				}
+				
+				charfunc.calculateStats(character);
+
+				if(i == characters.length - 1){
+
+					//final character to update, finish this migration
+					db.collection("characters").updateOne(
+						{"_id": character._id},
+						{$set: character},
+						{upsert: true},
+						function(){
+
+							version.version = 27;
+							runMigrations(version, callback);
+					});
+				}
+				else{
+
+					module.exports.updateCharacter(character);
+				}
+			};
+		});
+	}
 
 	//Add more migrations before this with else if
 	//If gets to else, DB is up to date
